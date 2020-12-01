@@ -4,6 +4,8 @@ html, body {
     padding: 0;
     margin: 0;
     box-sizing: content-box;
+    background-color: #14191e;
+    background-attachment: fixed;
 }
 
 .container {
@@ -23,12 +25,13 @@ html, body {
     top: 48px;
     bottom: 0;
     background-color: #14191e;
-    overflow-y: inherit;
+    margin-right: calc(100% - 100vw)
 }
 
 .bed-item {
     position: relative;
-    width: 50%;
+    float: left;
+    width: calc(50% - 4px);
     border: 2px solid rgb(86, 95, 108);
     height: 280px;
     border-top-width: 0;
