@@ -11,19 +11,22 @@ var patient = [
             unit: '(bmp)',
             min: 50,
             max: 100,
-            value: 60
+            value: 60,
+            key:'HR'
         },
         Resp: {
             unit: '(rpm)',
             min: 6,
             max: 35,
-            value: 12
+            value: 12,
+            key:'Resp'
         },
         spo2: {
             unit: '(%)',
             min: 85,
             max: 100,
-            value: 99
+            value: 99,
+            key:'SpO2'
         },
         nibp: {
             unit: '(mmHg)',
@@ -31,27 +34,32 @@ var patient = [
             max1: 180,
             min2: 50,
             max2: 110,
-            value1: '135/95',
+            value1: '128/95',
             value2: '108',
-            time: '2020-12-01 17:41:00'
+            time: '2020-12-01 17:41:00',
+            key:'NIBP'
         },
         pr: {
             unit: '(bpm)',
             min: 50,
             max: 100,
-            value: 60
+            value: 60,
+            key:'PR'
         },
         t1: {
             unit: '(℃)',
-            value: ''
+            value: '',
+            key:'T1'
         },
         t2: {
             unit: '(℃)',
-            value: ''
+            value: '',
+            key:'T2'
         },
         td: {
             unit: '',
-            value: '0.0'
+            value: '0.0',
+            key:'TD'
         }
     },
     {
@@ -66,19 +74,22 @@ var patient = [
             unit: '(bmp)',
             min: 50,
             max: 100,
-            value: 60
+            value: 60,
+            key:'HR'
         },
         Resp: {
             unit: '(rpm)',
             min: 6,
             max: 35,
-            value: 12
+            value: 12,
+            key:'Resp'
         },
         spo2: {
             unit: '(%)',
             min: 85,
             max: 100,
-            value: 99
+            value: 99,
+            key:'SpO2'
         },
         nibp: {
             unit: '(mmHg)',
@@ -86,27 +97,32 @@ var patient = [
             max1: 180,
             min2: 50,
             max2: 110,
-            value1: '135/95',
+            value1: '122/90',
             value2: '108',
-            time: '2020-12-01 17:41:00'
+            time: '2020-12-01 17:41:00',
+            key:'NIBP'
         },
         pr: {
             unit: '(bpm)',
             min: 50,
             max: 100,
-            value: 60
+            value: 60,
+            key:'PR'
         },
         t1: {
             unit: '(℃)',
-            value: ''
+            value: '',
+            key:'T1'
         },
         t2: {
             unit: '(℃)',
-            value: ''
+            value: '',
+            key:'T2'
         },
         td: {
             unit: '',
-            value: '0.0'
+            value: '0.0',
+            key:'TD'
         }
     },
     {
@@ -121,19 +137,22 @@ var patient = [
             unit: '(bmp)',
             min: 50,
             max: 100,
-            value: 60
+            value: 60,
+            key:'HR'
         },
         Resp: {
             unit: '(rpm)',
             min: 6,
             max: 35,
-            value: 12
+            value: 12,
+            key:'Resp'
         },
         spo2: {
             unit: '(%)',
             min: 85,
             max: 100,
-            value: 99
+            value: 99,
+            key:'SpO2'
         },
         nibp: {
             unit: '(mmHg)',
@@ -141,27 +160,32 @@ var patient = [
             max1: 180,
             min2: 50,
             max2: 110,
-            value1: '135/95',
+            value1: '110/84',
             value2: '108',
-            time: '2020-12-01 17:41:00'
+            time: '2020-12-01 17:41:00',
+            key:'NIBP'
         },
         pr: {
             unit: '(bpm)',
             min: 50,
             max: 100,
-            value: 60
+            value: 60,
+            key:'PR'
         },
         t1: {
             unit: '(℃)',
-            value: ''
+            value: '',
+            key:'T1'
         },
         t2: {
             unit: '(℃)',
-            value: ''
+            value: '',
+            key:'T2'
         },
         td: {
             unit: '',
-            value: '0.0'
+            value: '0.0',
+            key:'TD'
         }
     },
     {
@@ -176,19 +200,22 @@ var patient = [
             unit: '(bmp)',
             min: 50,
             max: 100,
-            value: 60
+            value: 60,
+            key:'HR'
         },
         Resp: {
             unit: '(rpm)',
             min: 6,
             max: 35,
-            value: 12
+            value: 12,
+            key:'Resp'
         },
         spo2: {
             unit: '(%)',
             min: 85,
             max: 100,
-            value: 99
+            value: 99,
+            key:'SpO2'
         },
         nibp: {
             unit: '(mmHg)',
@@ -196,27 +223,32 @@ var patient = [
             max1: 180,
             min2: 50,
             max2: 110,
-            value1: '135/95',
+            value1: '140/88',
             value2: '108',
-            time: '2020-12-01 17:41:00'
+            time: '2020-12-01 17:41:00',
+            key:'NIBP'
         },
         pr: {
             unit: '(bpm)',
             min: 50,
             max: 100,
-            value: 60
+            value: 60,
+            key:'PR'
         },
         t1: {
             unit: '(℃)',
-            value: ''
+            value: '',
+            key:'T1'
         },
         t2: {
             unit: '(℃)',
-            value: ''
+            value: '',
+            key:'T2'
         },
         td: {
             unit: '',
-            value: '0.0'
+            value: '0.0',
+            key:'TD'
         }
     },
     {
@@ -231,19 +263,22 @@ var patient = [
             unit: '(bmp)',
             min: 50,
             max: 100,
-            value: 60
+            value: 60,
+            key:'HR'
         },
         Resp: {
             unit: '(rpm)',
             min: 6,
             max: 35,
-            value: 12
+            value: 12,
+            key:'Resp'
         },
         spo2: {
             unit: '(%)',
             min: 85,
             max: 100,
-            value: 99
+            value: 99,
+            key:'SpO2'
         },
         nibp: {
             unit: '(mmHg)',
@@ -251,27 +286,32 @@ var patient = [
             max1: 180,
             min2: 50,
             max2: 110,
-            value1: '135/95',
+            value1: '112/80',
             value2: '108',
-            time: '2020-12-01 17:41:00'
+            time: '2020-12-01 17:41:00',
+            key:'NIBP'
         },
         pr: {
             unit: '(bpm)',
             min: 50,
             max: 100,
-            value: 60
+            value: 60,
+            key:'PR'
         },
         t1: {
             unit: '(℃)',
-            value: ''
+            value: '',
+            key:'T1'
         },
         t2: {
             unit: '(℃)',
-            value: ''
+            value: '',
+            key:'T2'
         },
         td: {
             unit: '',
-            value: '0.0'
+            value: '0.0',
+            key:'TD'
         }
     },
     {
@@ -286,19 +326,22 @@ var patient = [
             unit: '(bmp)',
             min: 50,
             max: 100,
-            value: 60
+            value: 60,
+            key:'HR'
         },
         Resp: {
             unit: '(rpm)',
             min: 6,
             max: 35,
-            value: 12
+            value: 12,
+            key:'Resp'
         },
         spo2: {
             unit: '(%)',
             min: 85,
             max: 100,
-            value: 99
+            value: 99,
+            key:'SpO2'
         },
         nibp: {
             unit: '(mmHg)',
@@ -306,27 +349,32 @@ var patient = [
             max1: 180,
             min2: 50,
             max2: 110,
-            value1: '135/95',
+            value1: '123/67',
             value2: '108',
-            time: '2020-12-01 17:41:00'
+            time: '2020-12-01 17:41:00',
+            key:'NIBP'
         },
         pr: {
             unit: '(bpm)',
             min: 50,
             max: 100,
-            value: 60
+            value: 60,
+            key:'PR'
         },
         t1: {
             unit: '(℃)',
-            value: ''
+            value: '',
+            key:'T1'
         },
         t2: {
             unit: '(℃)',
-            value: ''
+            value: '',
+            key:'T2'
         },
         td: {
             unit: '',
-            value: '0.0'
+            value: '0.0',
+            key:'TD'
         }
     },
     {
@@ -341,19 +389,22 @@ var patient = [
             unit: '(bmp)',
             min: 50,
             max: 100,
-            value: 60
+            value: 60,
+            key:'HR'
         },
         Resp: {
             unit: '(rpm)',
             min: 6,
             max: 35,
-            value: 12
+            value: 12,
+            key:'Resp'
         },
         spo2: {
             unit: '(%)',
             min: 85,
             max: 100,
-            value: 99
+            value: 99,
+            key:'SpO2'
         },
         nibp: {
             unit: '(mmHg)',
@@ -361,27 +412,46 @@ var patient = [
             max1: 180,
             min2: 50,
             max2: 110,
-            value1: '135/95',
+            value1: '117/87',
             value2: '108',
-            time: '2020-12-01 17:41:00'
+            time: '2020-12-01 17:41:00',
+            key:'NIBP'
         },
         pr: {
             unit: '(bpm)',
             min: 50,
             max: 100,
-            value: 60
+            value: 60,
+            key:'PR'
         },
         t1: {
             unit: '(℃)',
-            value: ''
+            value: '',
+            key:'T1'
         },
         t2: {
             unit: '(℃)',
-            value: ''
+            value: '',
+            key:'T2'
         },
         td: {
             unit: '',
-            value: '0.0'
+            value: '0.0',
+            key:'TD'
         }
     }
 ];
+
+function getCurrentDate(date) {
+    if (!date) {
+        date = new Date();
+    }
+    var y = date.getFullYear();
+    var m = (date.getMonth() + 1) < 10 ? ("0" + (date.getMonth() + 1)) : (date.getMonth() + 1);
+    var d = date.getDate() < 10 ? ("0" + date.getDate()) : date.getDate();
+    var h = date.getHours() < 10 ? ('0' + date.getHours()) : date.getHours();
+    var f = date.getMinutes() < 10 ? ('0' + date.getMinutes()) : date.getMinutes();
+    var s = date.getSeconds() < 10 ? ('0' + date.getSeconds()) : date.getSeconds();
+    // var s = "00";
+    return y + '-' + m + '-' + d + " " + h + ":" + f + ":" + s;
+}

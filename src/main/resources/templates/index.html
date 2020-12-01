@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="/static/Style.css">
     <script type="text/javascript" src="/static/const.js"></script>
     <script type="text/javascript" src="/static/color-utils.js"></script>
-    <script type="text/javascript" src="/static/jquery-min.js"></script>
+    <script type="text/javascript" src="/static/jquery-1.8.0.min.js"></script>
     <script type="text/javascript" src="/static/ecg.js"></script>
     <script type="text/javascript" src="/static/view-utils.js"></script>
 
@@ -14,7 +14,20 @@
 <body>
 <div class="container">
     <div class="header">
+        <label style="color: white;font-size:20px;height: 48px;line-height: 48px;margin-left: 16px">选择医院：</label>
+        <select style="height: 32px;font-size: 20px" id="hospital_select">
+        <option>全部医院</option>
+        <option>广西工人医院</option>
+        <option>杭州邵逸夫医院</option>
+        <option>浙江省人民医院</option>
+        </select>
 
+<!--        <label style="color: white;font-size:20px;height: 48px;line-height: 48px;margin-left: 16px">选择曲线：</label>-->
+<!--            <input type="checkbox" value="HR" style="color: white"><label style="color: white">HR</label>-->
+<!--            <input type="checkbox" value="PR"><label style="color: white">PR</label>-->
+<!--            <input type="checkbox" value="Resp"><label style="color: white">Resp</label>-->
+<!--            <input type="checkbox" value="SpO2"><label style="color: white">SpO2</label>-->
+<!--            <input type="checkbox" value="NIBP"><label style="color: white">NIBP</label>-->
     </div>
     <div class="bed-container">
 <!--        <div class="bed-item">-->

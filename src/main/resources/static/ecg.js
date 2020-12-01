@@ -62,7 +62,7 @@ var height = 0;
 /**
  * 曲线项目说明
  */
-var keyText = ["HR", "Resp", "SpO2", "NIBP"];
+var keyText = ["HR", "Resp", "SpO2", "PR"];
 // var keyText = ["HR"];
 var x_start = 40; //曲线x轴坐标
 var y_starts = GetYStarts(keyText.length); //曲线y轴坐标集合
@@ -279,11 +279,16 @@ function ecg() {
     // }
     setInterval(function () {
         loop(0);
+        sleep(10);
         loop(1);
+        sleep(10);
         loop(2);
+        sleep(10);
         loop(3);
         loop(4);
+        sleep(10);
         loop(5);
+        sleep(10);
         loop(6);
     },62)
     // loop(0);
@@ -439,6 +444,7 @@ function draw(yStartArray, B, P, samplingRate, G, pointsOneTimes, lineCtx, keys,
     // console.log(bed,da);
     lineCtx.beginPath();
     for (var x = 0; x < keys.length; x++) {
+        // sleep(10);
         lineCtx.strokeStyle = getColorByKey(keyText[x]);
         lineCtx.fillStyle = getColorByKey(keyText[x]);
         for (var y = 0; y < data.length; y++) {
