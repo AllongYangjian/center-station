@@ -1,0 +1,210 @@
+html, body {
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    box-sizing: content-box;
+}
+
+.container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.header {
+    width: 100%;
+    height: 48px;
+}
+
+.bed-container {
+    position: absolute;
+    width: 100%;
+    top: 48px;
+    bottom: 0;
+    background-color: #14191e;
+    overflow-y: inherit;
+}
+
+.bed-item {
+    position: relative;
+    width: 50%;
+    border: 2px solid rgb(86, 95, 108);
+    height: 280px;
+    border-top-width: 0;
+    border-left-width: 0;
+}
+
+.item-title {
+    color: whitesmoke;
+    height: 32px;
+
+}
+
+.item-title label {
+    display: inline-block;
+    margin-right: 16px;
+    height: 32px;
+    line-height: 32px;
+    text-align: center;
+}
+
+.item-container {
+    position: absolute;
+    top: 32px;
+    bottom: 0;
+    width: 100%;
+}
+
+.item-container-left {
+    float: left;
+    width: 60%;
+    height: 100%;
+    background: rgb(24, 29, 35);
+}
+
+.item-container-right {
+    float: left;
+    width: 40%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.hr {
+    float: left;
+    color: rgb(107, 228, 59);
+    width: 90px;
+}
+
+.rr {
+    float: left;
+    width: 90px;
+    margin-left: 16px;
+    color: rgb(247, 220, 60);
+}
+
+.spo2 {
+    float: left;
+    width: 90px;
+    color: rgb(110, 251, 252);
+    margin-left: 32px;
+}
+
+.key_title {
+
+}
+
+
+div.key_content {
+    position: relative;
+    width: 100%;
+    height: 42px;
+}
+
+span.key_unit {
+    font-size: 12px;
+    margin-left: 8px;
+}
+
+label.key_threshold {
+    position: absolute;
+    font-size: 14px;
+}
+
+label.key_threshold_max {
+    top: 0;
+    left: 0;
+}
+
+label.key_threshold_min {
+    bottom: 0;
+    left: 0;
+}
+
+label.key_threshold_max2 {
+    top: 0;
+    right: 0;
+}
+
+label.key_threshold_min2 {
+    bottom: 0;
+    right: 0;
+}
+
+label.key_value {
+    position: absolute;
+    font-size: 36px;
+    height: 42px;
+    line-height: 42px;
+    right: 0;
+}
+
+label.key_value2 {
+    display: inline-block;
+    font-size: 36px;
+    width: 100%;
+    text-align: center;
+    height: 42px;
+    line-height: 42px;
+    right: 0;
+}
+
+.nibp {
+    float: left;
+    width: 196px;
+    color: white;
+    margin-top: 32px;
+}
+
+.pr {
+    float: left;
+    width: 90px;
+    margin-top: 32px;
+    color: rgb(110, 251, 252);
+    margin-left: 32px;
+}
+
+/*.pr::after{*/
+/*    content:'';*/
+/*    display:block;*/
+/*    clear:both;*/
+/*    height:0;*/
+/*    visibility:hidden;*/
+/*}*/
+
+.nibp .key_send_value {
+    float: right;
+}
+
+.key_time {
+    font-size: 13.6px;
+}
+
+.t {
+    float: left;
+    height: 32px;
+    line-height: 32px;
+    width: 90px;
+    color: white;
+    margin-top: 16px;
+}
+
+.t2 {
+    margin-left: 16px;
+}
+
+.td {
+    margin-left: 32px;
+}
+
+.key_unit2 {
+    float: right;
+    font-size: 12px;
+    color: gray;
+}
+
+.boack {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
