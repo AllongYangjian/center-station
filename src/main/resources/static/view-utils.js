@@ -32,51 +32,52 @@ function inflateViewByData() {
         bedContainView.append($(getItemView(mData[x])));
     }
     bindViewData();
-    setInterval(startTest,1000);
-    setInterval(startTest2,30*60*1000);
+    setInterval(startTest, 1000);
+    setInterval(startTest2, 30 * 60 * 1000);
 }
 
 function startTest() {
     for (var x = 0; x < mData.length; x++) {
         var prop = mData[x].hr;
-        var value = getRandomValue(prop.min,prop.max);
-        updateValue(mData[x].bed,prop.key, value);
+        var value = getRandomValue(prop.min, prop.max);
+        updateValue(mData[x].bed, prop.key, value);
 
         prop = mData[x].Resp;
-        value = getRandomValue(prop.min,prop.max);
-        updateValue(mData[x].bed,prop.key, value);
+        value = getRandomValue(prop.min, prop.max);
+        updateValue(mData[x].bed, prop.key, value);
 
         prop = mData[x].spo2;
-        value = getRandomValue(prop.min,prop.max);
-        updateValue(mData[x].bed,prop.key, value);
+        value = getRandomValue(prop.min, prop.max);
+        updateValue(mData[x].bed, prop.key, value);
 
         prop = mData[x].pr;
-        value = getRandomValue(prop.min,prop.max);
-        updateValue(mData[x].bed,prop.key, value);
+        value = getRandomValue(prop.min, prop.max);
+        updateValue(mData[x].bed, prop.key, value);
     }
 }
+
 function startTest2() {
     for (var x = 0; x < mData.length; x++) {
-       var prop = mData[x].nibp;
-       var value = getRandomValue(prop.min1,prop.max1);
-        var value1 = getRandomValue(prop.min2,prop.max2);
-        var time = "测量时间:"+getCurrentDate();
+        var prop = mData[x].nibp;
+        var value = getRandomValue(prop.min1, prop.max1);
+        var value1 = getRandomValue(prop.min2, prop.max2);
+        var time = "测量时间:" + getCurrentDate();
 
-        updateValue(mData[x].bed,prop.key, value+"/"+value1);
-        updateValue(mData[x].bed+"_time",prop.key, time);
+        updateValue(mData[x].bed, prop.key, value + "/" + value1);
+        updateValue(mData[x].bed + "_time", prop.key, time);
     }
 }
 
-function updateValue(bed,key,value) {
-    console.log(bed,key,value);
-    var view = document.getElementById(key+"_"+bed);
-    if(view){
+function updateValue(bed, key, value) {
+    // console.log(bed, key, value);
+    var view = document.getElementById(key + "_" + bed);
+    if (view) {
         view.innerHTML = value;
     }
 }
 
-function getRandomValue(min,max) {
-    return Math.floor(Math.random() * (max - min) ) + min;
+function getRandomValue(min, max) {
+    return Math.floor(Math.random() * (max - min)) + min;
 }
 
 function getItemView(patient) {
@@ -114,8 +115,10 @@ function getBedContentLeftView(patient) {
         '        </canvas>' +
         '    </div>' +
         '    <div class="boack">' +
-        '        <canvas id="line_' + patient.bed + '" width="500px" height="248px">' +
-        '        </canvas>' +
+        '        <canvas id="line_key1_' + patient.bed + '" width="500px" height="62px"></canvas>' +
+        '        <canvas id="line_key2_' + patient.bed + '" width="500px" height="62px"></canvas>' +
+        '        <canvas id="line_key3_' + patient.bed + '" width="500px" height="62px"></canvas>' +
+        '        <canvas id="line_key4_' + patient.bed + '" width="500px" height="62px"></canvas>' +
         '    </div>' +
         '</div>'
 }
@@ -137,7 +140,7 @@ function getHRView(patient) {
         '<div class="key_content">' +
         '    <label class="key_threshold key_threshold_max">' + patient.hr.max + '</label>' +
         '    <label class="key_threshold key_threshold_min">' + patient.hr.min + '</label>' +
-        '    <label class="key_value" id="'+patient.hr.key+'_'+patient.bed+'">' + patient.hr.value + '</label>' +
+        '    <label class="key_value" id="' + patient.hr.key + '_' + patient.bed + '">' + patient.hr.value + '</label>' +
         '</div>' +
         '</div>'
 }
@@ -148,7 +151,7 @@ function getRRView(patient) {
         '<div class="key_content">' +
         '    <label class="key_threshold key_threshold_max">' + patient.Resp.max + '</label>' +
         '    <label class="key_threshold key_threshold_min">' + patient.Resp.min + '</label>' +
-        '    <label class="key_value" id="'+patient.Resp.key+'_'+patient.bed+'">' + patient.Resp.value + '</label>' +
+        '    <label class="key_value" id="' + patient.Resp.key + '_' + patient.bed + '">' + patient.Resp.value + '</label>' +
         '</div>' +
         '</div>'
 }
@@ -159,7 +162,7 @@ function getSpO2View(patient) {
         '<div class="key_content">' +
         '    <label class="key_threshold key_threshold_max">' + patient.spo2.max + '</label>' +
         '    <label class="key_threshold key_threshold_min">' + patient.spo2.min + '</label>' +
-        '    <label class="key_value" id="'+patient.spo2.key+'_'+patient.bed+'">' + patient.spo2.value + '</label>' +
+        '    <label class="key_value" id="' + patient.spo2.key + '_' + patient.bed + '">' + patient.spo2.value + '</label>' +
         '</div>' +
         '</div>'
 }
@@ -171,11 +174,11 @@ function getNIBPView(patient) {
         '<div class="key_content">' +
         '    <label class="key_threshold key_threshold_max">' + patient.nibp.max1 + '</label>' +
         '    <label class="key_threshold key_threshold_min">' + patient.nibp.min1 + '</label>' +
-        '    <label class="key_value2" id="'+patient.nibp.key+'_'+patient.bed+'">' + patient.nibp.value1 + '</label>' +
+        '    <label class="key_value2" id="' + patient.nibp.key + '_' + patient.bed + '">' + patient.nibp.value1 + '</label>' +
         '    <label class="key_threshold key_threshold_max2">' + patient.nibp.max2 + '</label>' +
         '    <label class="key_threshold key_threshold_min2">' + patient.nibp.min2 + '</label>' +
         '</div>' +
-        '<div class="key_time" id="'+patient.nibp.key+'_'+patient.bed+'_time">测量时间:' + patient.nibp.time +
+        '<div class="key_time" id="' + patient.nibp.key + '_' + patient.bed + '_time">测量时间:' + patient.nibp.time +
         '</div>' +
         '</div>'
 }
@@ -186,7 +189,7 @@ function getPRView(patient) {
         '<div class="key_content">' +
         '    <label class="key_threshold key_threshold_max">' + patient.pr.max + '</label>' +
         '    <label class="key_threshold key_threshold_min">' + patient.pr.min + '</label>' +
-        '    <label class="key_value" id="'+patient.pr.key+'_'+patient.bed+'">' + patient.pr.value + '</label>' +
+        '    <label class="key_value" id="' + patient.pr.key + '_' + patient.bed + '">' + patient.pr.value + '</label>' +
         '</div>' +
         '<div class="key_time">' +
         '    &nbsp;' +
