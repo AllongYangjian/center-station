@@ -320,7 +320,7 @@ var patient = [
         name: '马*波',
         gender: '男',
         age: '34岁',
-        hospital: '浙江省人民医院',
+        hospital: '上海十院崇明分院',
         dept: 'ICU',
         hr: {
             unit: '(bmp)',
