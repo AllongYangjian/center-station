@@ -34,6 +34,7 @@ function inflateViewByData() {
     bindViewData();
     setInterval(startTest,1000);
     setInterval(startTest2,30*60*1000);
+    startTest2();
 }
 
 function startTest() {
