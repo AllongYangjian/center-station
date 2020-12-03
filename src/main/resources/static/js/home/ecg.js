@@ -242,11 +242,13 @@ function drawGrid(canvasObj) {
  */
 function ecg() {
     initParams();
+    //测试逻辑
     for (let x = 0; x < patient.length; x++) {
         for (let y = 1; y <= 4; y++) {
             let id = `line_key${y}_${patient[x].bed}`;
-            setTimeout(testData, 10 + x * 10 + y * 10, id);
-            // sleep(100);
+            // setTimeout(testData, 10 + x * 10 + y * 10, id);
+            testData(id);
+            sleep(100);
         }
     }
 }

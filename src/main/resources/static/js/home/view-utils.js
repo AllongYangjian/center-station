@@ -102,6 +102,7 @@ function getItemView(patient) {
 
 function getBedItemTitle(patient) {
     return '<div class="item-title">' +
+        '<img src="/static/images/bed.png">'+
         '<label id=' + "BED_" + patient.bed + '>' + patient.bedLabel + '</label>' +
         '<label id=' + "NAME_" + patient.bed + '>' + patient.name + '</label>' +
         '<label id=' + "GENDER_" + patient.bed + '>' + patient.gender + '</label>' +

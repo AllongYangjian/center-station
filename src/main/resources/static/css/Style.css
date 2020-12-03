@@ -42,7 +42,15 @@ html, body {
 .item-title {
     color: whitesmoke;
     height: 32px;
+}
 
+.item-title img {
+    width: 20px;
+    height: 20px;
+    margin: 6px 8px;
+    vertical-align: top;
+    align-items: center;
+    text-align: center;
 }
 
 .item-title label {
