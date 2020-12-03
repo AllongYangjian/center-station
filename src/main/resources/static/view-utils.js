@@ -1,8 +1,14 @@
 var bedContainView;
 var hospitalSelect;
 var mData;
+var id1 = -1;
+var id2 = -1;
 $(function () {
     initView();
+    window.onbeforeunload = function (ev) {
+        clearData();
+        restoreData();
+    };
 });
 
 function initView() {
@@ -14,7 +20,6 @@ function initView() {
     mData = patient;
     inflateViewByData();
 
-
 }
 
 function filterPatient(h) {
@@ -23,7 +28,14 @@ function filterPatient(h) {
     } else {
         mData = patient.filter(item => item.hospital === h);
     }
+    clearData();
+    restoreData();
     inflateViewByData();
+}
+
+function clearData() {
+    clearInterval(id1);
+    clearInterval(id2);
 }
 
 function inflateViewByData() {
@@ -32,8 +44,8 @@ function inflateViewByData() {
         bedContainView.append($(getItemView(mData[x])));
     }
     bindViewData();
-    setInterval(startTest, 1000);
-    setInterval(startTest2, 30 * 60 * 1000);
+    id1 = setInterval(startTest, 1000);
+    id2 = setInterval(startTest2, 30 * 60 * 1000);
 }
 
 function startTest() {

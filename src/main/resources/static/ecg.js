@@ -43,14 +43,6 @@ function Queue() {
     }
 }
 
-//图像区域宽高
-var width = 0;
-var height = 0;
-/**
- * 曲线项目说明
- */
-var keyText = ["ECG", "Ⅰ", "Ⅱ", "Ⅲ"];
-var x_start = 40; //曲线x轴坐标
 
 /**
  * 波形数据
@@ -118,36 +110,64 @@ const waveData2 = [
     "8181828384848586878787888889898A8A8A8A898988888787868585848281817F7E7E7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7E7E7F818182828384848483828281817F7F7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7C7B7A79797E858D949BA0A2979088817B78797A7C7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7E7F8081",
     "8181828384848586878787888889898A8A8A8A898988888787868585848281817F7E7E7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7E7E7F818182828384848483828281817F7F7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7C7B7A79797E858D949BA0A2979088817B78797A7C7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7E7F8081"
 ];
+/**
+ * 每秒画多少个点
+ * @type {number}
+ */
+const one_time_points = 32;
+/**
+ * 存放心背景canvas对象的集合
+ * @type {Map<id, canvas>}
+ */
+const bedBackgroundCanvasMap = new Map();
+/**
+ * 存放每条曲线的集合
+ * @type {Map<id, canvas>}
+ */
+const bedLineMap = new Map();
+/**
+ * 存放 setInterval返回值的map
+ * <p>
+ *  1、界面每次重新加载时需要重置该map,同时清楚id对应的周期函数
+ * </p>
+ * @type {Map<any, any>}
+ */
+const timeIntervalIdsMap = new Map();
 
+/**
+ * 供界面调用的方法
+ */
 function bindViewData() {
     drawEcgBg();
     ecg();
 }
 
-// $(function () {
-//     drawEcg();
-//     ecg();
-// });
+function restoreData() {
+    bedBackgroundCanvasMap.clear();
+    bedLineMap.clear();
+    timeIntervalIdsMap.forEach((value) => {
+        clearInterval(value);
+    })
+}
 
-var bedBackgroundCanvasMap = new Map();
-var bedLineMap = new Map();
-var dataMap = new Map();
-
+/**
+ * 画背景图
+ */
 function drawEcgBg() {
-    for (var x = 0; x < patient.length; x++) {
-        var p = patient[x];
-
-        var canvasObj = new Object(); //创建一个对象用来缓存数据
-        var canvas = document.getElementById("background_" + p.bed);
-        var ctx = canvas.getContext("2d");
-        canvasObj.canvas = canvas;
-        canvasObj.canvasCtx = ctx;
-        canvasObj.width = canvas.width;
-        canvasObj.height = canvas.height;
-        drawGrid(canvasObj);
-        bedBackgroundCanvasMap.set(p.bed, canvasObj);//缓存背景canvas对象
+    for (let x = 0; x < patient.length; x++) {
+        let p = patient[x];
+        const canvas = document.getElementById("background_" + p.bed);
+        if (canvas) {
+            let canvasObj = new Object(); //创建一个对象用来缓存数据
+            const ctx = canvas.getContext("2d");
+            canvasObj.canvas = canvas;
+            canvasObj.canvasCtx = ctx;
+            canvasObj.width = canvas.width;
+            canvasObj.height = canvas.height;
+            drawGrid(canvasObj);
+            bedBackgroundCanvasMap.set(p.bed, canvasObj);//缓存背景canvas对象
+        }
     }
-
 }
 
 /**
@@ -218,81 +238,120 @@ function drawGrid(canvasObj) {
 }
 
 /**
- * 添加填充文本
+ * 画图
  */
-function addFillText(ctx) {
-    // var keyText = ["I", "II", "III", "aVR", "aVL", "aVF", "V1", "V2", "V3", "V4", "V5", "V6"];
-    // var distance = (height-100) / A.length;
-    var distance = 50; //曲线间隔
-    var yStartPosition = 20;//y坐标开始位置
-    for (var index = 0; index < draw_lines_index.length; index++) {
-        ctx.font = "bold 20px 黑体";
-        ctx.fillStyle = getColorByKey(keyText[index]);
-        ctx.fillText("" + keyText[draw_lines_index[index]] + "", 10, yStartPosition);
-        yStartPosition = yStartPosition + distance;
-    }
-}
-
 function ecg() {
     initParams();
-    testData();
+    for (let x = 0; x < patient.length; x++) {
+        for (let y = 1; y <= 4; y++) {
+            let id = `line_key${y}_${patient[x].bed}`;
+            setTimeout(testData, 10 + x * 10 + y * 10, id);
+            // sleep(100);
+        }
+    }
 }
 
-const one_time_points = 32;
+/**
+ * 初始化参数，
+ * <p>
+ *     初始化每条曲线:
+ *          1、起始位置为40，
+ *          2、结束位置为曲线区域宽度
+ *          3、当前频次为0
+ * </p>
+ */
+function initParams() {
+    for (let x = 0; x < patient.length; x++) {
+        let p = patient[x];
 
-function testData() {
-    let id = 'line_key1_1';
+        for (let y = 1; y <= 4; y++) {
+            let id = `line_key${y}_${p.bed}`;
+            let canvasKey = document.getElementById(id);
+            if (canvasKey) {
+                let canvasObj = new Object(); //创建一个对象用来缓存数据
+                let ctx = canvasKey.getContext("2d");
+                //设置初始化属性
+                ctx.fillStyle = "#6BE43B";
+                ctx.strokeStyle = "#6BE43B";
+                ctx.lineWidth = 1;
+
+                canvasObj.startX = 40;
+                canvasObj.endX = canvasKey.width;
+                canvasObj.lineTimes = 0;
+                canvasObj.canvas = canvasKey;
+                canvasObj.ctx = ctx;
+                canvasObj.width = canvasKey.width;
+                canvasObj.height = canvasKey.height;
+
+                bedLineMap.set(id, canvasObj);
+                drawFillText(ctx, `key${y}`);
+            }
+
+        }
+    }
+}
+
+/**
+ * 画文本
+ * @param ctx canvas 对象
+ * @param keyText 文本
+ */
+function drawFillText(ctx, keyText) {
+    ctx.font = "bold 15px 黑体";
+    ctx.fillText(keyText, 1, 31);
+}
+
+/**
+ * 测试方法
+ * @param id
+ */
+function testData(id) {
     let bedLine = bedLineMap.get(id);
-    console.log(bedLine);
-    let ctx = bedLine.ctx;
-
-    ctx.fillStyle = "#6BE43B";
-    ctx.strokeStyle = "#6BE43B";
-    ctx.lineWidth = 1;
-
-    var data = waveData2[0];
-    var array = new Array();
-    for (var y = 0; y < data.length / 2; y++) {
+    if (bedLine === null || bedLine === undefined) {
+        return;
+    }
+    let data = waveData2[0];
+    let array = new Array();
+    for (let y = 0; y < data.length / 2; y++) {
         array.push(parseInt(data.substr(y * 2, 2), 16) / 4);
     }
-    let flag = 1;
     let i = setInterval(() => {
-        console.log('setInterval', array);
         loopData(bedLine, array);
-        flag++;
-        // if (flag > 100) {
-        //     clearInterval(i);
-        // }
     }, 1000);
-
-
-    // let lineTimes = 0;
-    // for (var x = 0; x < waveData2.length; x++) {
-    //     //获取数据的纵坐标
-    //     var data = waveData2[x];
-    //     var array = new Array();
-    //     for (var y = 0; y < data.length; y += 2) {
-    //         array.push(parseInt(data.substr(y * 2, 2), 16) / 4);
-    //     }
-    //     console.log(array);
-    //     if (x === 0) {
-    //         ctx.moveTo(startX, 31);
-    //     }
-    //     for (var y = 0; y < array.length; y++) {
-    //         ctx.lineTo(startX + lineTimes, array[y]);
-    //         lineTimes = lineTimes + 1;
-    //     }
-    //     startX = startX + lineTimes;
-    //
-    // }
-    // ctx.stroke();
+    timeIntervalIdsMap.set(id, i);
 }
 
+/**
+ * 更新数据的方法
+ * @param id id
+ * @param data 数据
+ * @param scale 缩放系数
+ */
+function updateData(id, data, scale) {
+    let bedLine = bedLineMap.get(id);
+    let array = new Array();
+    for (let y = 0; y < data.length / 2; y++) {
+        array.push(parseInt(data.substr(y * 2, 2), 16) / scale);
+    }
+    loopData(bedLine, array);
+}
+
+/**
+ * 循环画曲线
+ * <p>
+ *     该方法需要优化
+ *      存在的问题：
+ *      1、曲线不够圆滑，会存在锯齿现象
+ *      2、画的点太多会导致频率过快，曲线更新频率过快，肉眼难以识别
+ * </p>
+ * @param bedLine 曲线对象
+ * @param array 数据
+ */
 function loopData(bedLine, array) {
     let ctx = bedLine.ctx;
     let count = array.length / one_time_points;
     let time = 1000 / count;//需要间隔多久
-    console.log('loopData', time, new Date().getTime());
+    // console.log('loopData', time, new Date().getTime());
     let startX = bedLine.startX;
     let lineTimes = bedLine.lineTimes;
 
@@ -300,13 +359,6 @@ function loopData(bedLine, array) {
         ctx.beginPath();
         ctx.moveTo(startX, 31);//起始位置
     }
-    // if (lineTimes === 0 ) {
-    //     ctx.clearRect(startX , 0, 100, height)
-    // }else {
-    //     ctx.clearRect(startX - 10, 0, one_time_points + 10, bedLine.height);
-    // }
-
-
     for (var x = 0; x < one_time_points; x++) {
         let index = lineTimes * one_time_points + x;
         startX += 1;
@@ -333,244 +385,5 @@ function loopData(bedLine, array) {
 
     bedLine.lineTimes = (++lineTimes);
     setTimeout(loopData, time, bedLine, array);
-}
-
-function initParams() {
-    for (let x = 0; x < patient.length; x++) {
-        let p = patient[x];
-
-        for (let y = 1; y <= 4; y++) {
-            let canvasObj = new Object(); //创建一个对象用来缓存数据
-            let id = `line_key${y}_${p.bed}`;
-            let canvasKey = document.getElementById(id);
-            let ctx = canvasKey.getContext("2d");
-            canvasObj.startX = 40;
-            canvasObj.endX = canvasKey.width;
-            canvasObj.lineTimes = 0;
-            canvasObj.canvas = canvasKey;
-            canvasObj.ctx = ctx;
-            canvasObj.width = canvasKey.width;
-            canvasObj.height = canvasKey.height;
-
-            bedLineMap.set(id, canvasObj);
-        }
-    }
-}
-
-
-/**
- * 将字符串数据装换成16进制数据
- * @constructor
- */
-function Convert16Scale(patient, x) {
-    console.log('Convert16Scale', x)
-    var queue = new Queue();
-    var length = waveData.length;
-    for (var index = 0; index < length; index++) {
-        var text = waveData[index];
-        addData(text, 1, 8, 128, queue);
-    }
-    dataMap.set(patient.bed, queue);
-
-
-}
-
-// var oQueue = new Queue();
-
-function addData(text, C, E, J, oQueue) {
-    if (text == null || text.length < 4) {
-        return
-    } else {
-        // var arr = new Array();
-        // for(var x = 0;x<text.length;x+=2){
-        //     var t = text.substr(x*2,2);
-        //     // arr.push()
-        //     oQueue.DeQueue(parseInt(t,16));
-        // }
-        var I = new Array(text.length / 2 / C);
-        if (C == 1) {
-            I = text
-        } else {
-            for (var A = 0; A < I.length; A++) {
-                var D = "";
-                var H = text.substr(A * 2 * E * C, 2 * E * C);
-                for (var B = 0; B < C; B++) {
-                    D = parseInt(H.substr(B * 2, 2), 16) + D
-                }
-                I[A] = D
-            }
-        }
-        for (var A = 0; A < I.length / 2 / E; A++) {
-            if (E == 8) {
-                var G = new Array(12);
-                var H = I.substr(A * 16, 16);
-                G[0] = parseInt(H.substr(0, 2), 16);
-                G[1] = parseInt(H.substr(2, 2), 16);
-                G[2] = G[1] - (G[0] - J);
-                G[3] = -(G[0] + G[1]) / 2 + J * 2;
-                G[4] = G[0] - (G[1] - J) / 2;
-                G[5] = G[1] - (G[0] - J) / 2;
-                G[6] = parseInt(H.substr(4, 2), 16);
-                G[7] = parseInt(H.substr(6, 2), 16);
-                G[8] = parseInt(H.substr(8, 2), 16);
-                G[9] = parseInt(H.substr(10, 2), 16);
-                G[10] = parseInt(H.substr(12, 2), 16);
-                G[11] = parseInt(H.substr(14, 2), 16);
-                oQueue.EnQueue(G)
-                // console.log(G);
-            } else {
-                var G = new Array(E);
-                var H = I.substr(A * 16, 16);
-                for (var B = 0; B < E; B++) {
-                    G[B] = parseInt(H.substr(B * 2, 2), 16)
-                }
-                oQueue.EnQueue(G)
-            }
-        }
-    }
-}
-
-var current_time_millis = 0;
-var index = 0;
-
-var timeMap = new Map();
-
-/**
- * 107, 228, 59
- */
-function loop(index) {
-    var p = patient[index];
-    var current_time_millis = timeMap.get(p.bed);
-    if (current_time_millis === undefined || current_time_millis === null) {
-        current_time_millis = new Date().getTime();
-        timeMap.set(p.bed, current_time_millis);
-    }
-    var linectx = bedChartMap.get(p.bed);
-    var queue = dataMap.get(p.bed);
-    // console.log(queue);
-    draw(y_starts, baseineval, adu, samplingRate, max_times, points_one_times, linectx, draw_lines_index, queue, p.bed);
-    if (isstop) {
-        // setTimeout(loop, 1000, index);
-        // var C = new Date().getTime();
-        // var B = C - current_time_millis + 1;
-        // if (B < 62) {
-        //     sleep(62 - B)
-        // }
-    }
-    if (queue.IsEmpty()) {
-        Convert16Scale(p, index)
-    }
-}
-
-var dataTimeMap = new Map();
-var pointMap = new Map();
-
-/**
- *
- * @param yStartArray
- * @param B baseineval
- * @param P adu
- * @param samplingRate  N
- * @param G max_times
- * @param pointsOneTimes H
- * @param lineCtx A
- * @param keys draw_lines_index
- */
-function draw(yStartArray, B, P, samplingRate, G, pointsOneTimes, lineCtx, keys, oQueue, bed) {
-    var current_times = dataTimeMap.get(bed);
-    if (current_times === undefined || current_times === null) {
-        current_times = 0;
-    }
-
-    var last_points = pointMap.get(bed);
-    if (last_points === undefined || last_points === null) {
-        last_points = last_points_m;
-    }
-
-    current_times = current_times % G;
-    if (oQueue.IsEmpty()) {
-        return
-    }
-    if (oQueue.GetSize() < pointsOneTimes) {
-        return
-    }
-    clearcanvans(current_times, pointsOneTimes, samplingRate, lineCtx);
-    var data = new Array();
-    for (var x = 0; x < pointsOneTimes; x++) {
-        data.push(oQueue.DeQueue());
-    }
-    dataMap.set(bed, oQueue);
-    // console.log(bed,da);
-    lineCtx.beginPath();
-    for (var x = 0; x < keys.length; x++) {
-        // sleep(10);
-        lineCtx.strokeStyle = getColorByKey(keyText[x]);
-        lineCtx.fillStyle = getColorByKey(keyText[x]);
-        for (var y = 0; y < data.length; y++) {
-            var O = data[y];
-            var C = O[keys[x]] - B;
-            // var C = O - B;
-            var I = y * parseFloat((gride_width * 5 / samplingRate));
-            var M;
-            if (ecg_scope != 0) {
-                M = parseFloat((Math.abs(C)) * (P / (gride_width * 2)) * ecg_scope)
-            } else {
-                M = parseFloat((Math.abs(C)) * (P / (gride_width * 2)) / 2)
-            }
-            var L = parseFloat(x_start + current_times * pointsOneTimes * (gride_width * 5 / samplingRate));
-            if (y == 0) {
-                if (current_times != 0) {
-                    lineCtx.moveTo(last_points[x][0], last_points[x][1]);
-                    var D = parseFloat(C >= 0 ? yStartArray[x] - M : yStartArray[x] + M);
-                    lineCtx.lineTo(last_points[x][0], D);
-                    last_points[x][0] = last_points[x][0];
-                    last_points[x][1] = D
-                } else {
-                    var D = parseFloat(C >= 0 ? yStartArray[x] - M : yStartArray[x] + M);
-                    lineCtx.moveTo(x_start, D);
-                    last_points[x][0] = x_start;
-                    last_points[x][1] = D
-                }
-            } else {
-                var D = parseFloat(C >= 0 ? yStartArray[x] - M : yStartArray[x] + M);
-                lineCtx.lineTo(L + I, D);
-                // console.log(bed,L + I, D);
-                last_points[x][0] = L + I;
-                last_points[x][1] = D
-            }
-        }
-        // lineCtx.stroke();
-    }
-    lineCtx.stroke();
-    current_times++;
-    dataTimeMap.set(bed, current_times);
-    pointMap.set(bed, last_points);
-}
-
-function clearcanvans(B, F, C, D) {
-    var A = parseFloat(F * (gride_width * 5 / C));
-    var E = x_start + B * A;
-    if (B != 0) {
-        D.clearRect(E, 0, 20, height)
-    } else {
-        D.clearRect(E - 10, 0, E + 20, height)
-    }
-};
-
-/**
- * 模拟休眠
- * @param B
- */
-function sleep(B) {
-    var A = new Date().getTime();
-    for (var C = 0; C < 10000000; C++) {
-        if ((new Date().getTime() - A) > B) {
-            break
-        }
-    }
-}
-
-function Yt() {
-
 }
 

@@ -1,6 +1,5 @@
 server:
   port: 10010
-#thymeleaf ≈‰÷√
 spring:
   thymeleaf:
     cache: false
