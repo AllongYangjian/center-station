@@ -445,7 +445,7 @@ var patient2 = [
 function getPatient(number) {
 
     let arr = new Array();
-    for(var x =0;x<number;x++){
+    for(var x =1;x<=number;x++){
 
         var patient = {
             bed: '1',
@@ -518,7 +518,7 @@ function getPatient(number) {
     console.log(arr);
     return arr;
 }
-const patient = getPatient(10);
+const patient = getPatient(1);
 
 function getCurrentDate(date) {
     if (!date) {

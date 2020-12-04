@@ -110,6 +110,8 @@ const waveData2 = [
     "8181828384848586878787888889898A8A8A8A898988888787868585848281817F7E7E7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7E7E7F818182828384848483828281817F7F7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7C7B7A79797E858D949BA0A2979088817B78797A7C7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7E7F8081",
     "8181828384848586878787888889898A8A8A8A898988888787868585848281817F7E7E7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7E7E7F818182828384848483828281817F7F7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7C7B7A79797E858D949BA0A2979088817B78797A7C7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7E7F8081"
 ];
+
+const waveData3 = [[-48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -40, -32, -32, -32, -24, -16, 0, 16, 16, 16, 24, 32, 32, 32, 40, 48, 56, 64, 64, 64, 64, 64, 64, 56, 48, 40, 32, 32, 32, 24, 16, 16, 16, 0, -16, -16, -16, -32, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -56, -64, -72, -80, -88, -96, -104, -112, -104, -96, -32, 32, 88, 144, 208, 272, 328, 384, 440, 496, 520, 544, 488, 432, 376, 320, 256, 192, 136, 80, 24, -32, -80, -128, -120, -112, -104, -96, -88, -80, -64, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -40, -32, -24, -16, -16, -16, 0, 16, 16, 16, 24, 32, 40, 48, 56, 64, 64, 64, 72, 80, 88, 96, 104, 112, 112, 112, 112, 112, 120, 128, 128, 128, 136, 144, 144, 144, 144, 152, 160, 160, 160, 160, 160, 160, 160, 152, 144, 144, 144, 136, 128, 128, 128, 120, 112, 112, 112, 96, 80, 80, 80, 80, 80, 64, 48, 40, 32, 24, 16, 16, 16, 0, -16, -24, -32, -32, -32, -40, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48]];
 /**
  * 每秒画多少个点
  * @type {number}
@@ -133,6 +135,10 @@ const bedLineMap = new Map();
  * @type {Map<any, any>}
  */
 const timeIntervalIdsMap = new Map();
+
+const testMode = true;
+const LINE_START_X = 40;
+const ONE_POINT_PIXEL=1;
 
 /**
  * 供界面调用的方法
@@ -243,14 +249,17 @@ function drawGrid(canvasObj) {
 function ecg() {
     initParams();
     //测试逻辑
-    for (let x = 0; x < patient.length; x++) {
-        for (let y = 1; y <= 4; y++) {
-            let id = `line_key${y}_${patient[x].bed}`;
-            setTimeout(testData, 10 + x * 10 + y * 10, id);
-            // testData(id);
-            // sleep(100);
+    if(testMode){
+        for (let x = 0; x < patient.length; x++) {
+            for (let y = 1; y <= 4; y++) {
+                let id = `line_key${y}_${patient[x].bed}`;
+                setTimeout(testData, 10 + x * 10 + y * 10, id);
+                // testData(id);
+                // sleep(100);
+            }
         }
     }
+
 }
 
 /**
@@ -276,8 +285,11 @@ function initParams() {
                 ctx.fillStyle = "#6BE43B";
                 ctx.strokeStyle = "#6BE43B";
                 ctx.lineWidth = 1;
+                ctx.lineJoin='round';
 
-                canvasObj.startX = 40;
+                ctx.translate(0, canvasKey.height / 2);//平移坐标
+
+                canvasObj.startX = LINE_START_X;
                 canvasObj.endX = canvasKey.width;
                 canvasObj.lineTimes = 0;
                 canvasObj.canvas = canvasKey;
@@ -301,7 +313,7 @@ function initParams() {
  */
 function drawFillText(ctx, keyText) {
     ctx.font = "bold 15px 黑体";
-    ctx.fillText(keyText, 1, 31);
+    ctx.fillText(keyText, 1, 0);
 }
 
 /**
@@ -313,13 +325,14 @@ function testData(id) {
     if (bedLine === null || bedLine === undefined) {
         return;
     }
-    let data = waveData2[0];
-    let array = new Array();
-    for (let y = 0; y < data.length ; y+=2) {
-        //将值装换成负数，然后加上上限，这样就可以将数据倒转，不会导致波峰波谷颠倒
-        array.push(-parseInt(data.substr(y, 2), 16)+bedLine.maxHeight);
-    }
-    console.log('ss',array,bedLine.maxHeight);
+    let data = waveData[0];
+    // let array = new Array();
+    let array = waveData3[0].map(item => -item / 20);
+    // for (let y = 0; y < data.length ; y+=2) {
+    //     //将值装换成负数，然后加上上限，这样就可以将数据倒转，不会导致波峰波谷颠倒
+    //     array.push(-parseInt(data.substr(y, 2), 16)+bedLine.maxHeight);
+    // }
+    console.log('ss', array);
     let i = setInterval(() => {
         loopData(bedLine, array);
     }, 1000);
@@ -328,16 +341,20 @@ function testData(id) {
 
 /**
  * 更新数据的方法
- * @param id id
+ * @param bed 床位
+ * @param key 关键字
  * @param data 数据
  * @param scale 缩放系数
  */
-function updateData(id, data, scale) {
+function updateWaveData(bed, key, data, scale) {
+    let id = `line_${key}_${bed}`;
     let bedLine = bedLineMap.get(id);
-    let array = new Array();
-    for (let y = 0; y < data.length / 2; y++) {
-        array.push(-parseInt(data.substr(y * 2, 2), 16) +bedLine.maxHeight);
+    if (bedLine === null || bedLine === undefined) {
+        console.error('updateWaveData',id);
+        return;
     }
+    let array = data.map(item => -item / scale);
+
     loopData(bedLine, array);
 }
 
@@ -360,31 +377,38 @@ function loopData(bedLine, array) {
     let startX = bedLine.startX;
     let lineTimes = bedLine.lineTimes;
 
-    if (lineTimes === 0 && startX === 40) {
+    if (lineTimes === 0 && startX === LINE_START_X) {
         ctx.beginPath();
-        ctx.moveTo(startX, 31);//起始位置
+        // ctx.moveTo(startX, bedLine.height/2);//起始位置
     }
     for (var x = 0; x < one_time_points; x++) {
         let index = lineTimes * one_time_points + x;
-        startX += 1;
-        if (startX > bedLine.endX) {//说明到终点
-            startX = 40;
-            ctx.stroke();
-            ctx.beginPath();
-            ctx.moveTo(startX, array[index]);
-            bedLine.startX = startX;
-            //去除旧的点
-        } else {
-            bedLine.startX = startX;
-            if (index < array.length) {
-                ctx.lineTo(startX, array[index]);
-            } else {
+        if (lineTimes === 0 && startX === LINE_START_X) {
+            ctx.moveTo(startX,  array[index]);//起始位置
+            // bedLine.lastX = startX;
+            // bedLine.lastY = array[index];
+        }else {
+            startX += ONE_POINT_PIXEL;
+            if (startX > bedLine.endX) {//说明到终点
+                startX = LINE_START_X;
                 ctx.stroke();
-                bedLine.lineTimes = 0;
-                return;
+                ctx.beginPath();
+                ctx.moveTo(startX, array[index]);
+                bedLine.startX = startX;
+            } else {
+                bedLine.startX = startX;
+                if (index < array.length) {
+                    ctx.lineTo(startX, array[index]);
+                    // bedLine.lastX = startX;
+                    // bedLine.lastY = array[index];
+                } else {
+                    ctx.stroke();
+                    bedLine.lineTimes = 0;
+                    return;
+                }
             }
         }
-        ctx.clearRect(startX - 10, 0, 20, bedLine.height);
+        ctx.clearRect(startX - 10, -100, 20, 1000);
     }
     ctx.stroke();
 

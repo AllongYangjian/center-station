@@ -8,7 +8,9 @@ $(function () {
     window.onbeforeunload = function (ev) {
         clearData();
         restoreData();
+        close();
     };
+    // connectServer();
 });
 
 function initView() {
@@ -19,7 +21,6 @@ function initView() {
     });
     mData = patient;
     inflateViewByData();
-
 }
 
 function filterPatient(h) {
