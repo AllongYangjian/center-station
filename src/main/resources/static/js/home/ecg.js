@@ -43,48 +43,7 @@ function Queue() {
     }
 }
 
-/**
- * 背景canvas,用来画背景
- */
-var canvas = null;
-/**
- * 曲线canvas 用来画曲线
- */
-var canvasLine = null;
-//图像区域宽高
-var width = 0;
-var height = 0;
-/**
- *画图对象
- */
-// var ctx = null;
-// var lineCtx = null;
-/**
- * 曲线项目说明
- */
-var keyText = ["HR", "Resp", "SpO2", "PR"];
-// var keyText = ["HR"];
-var x_start = 40; //曲线x轴坐标
-var y_starts = GetYStarts(keyText.length); //曲线y轴坐标集合
 
-/**
- * 曲线项目索引
- */
-var draw_lines_index = getDrawLineIndex();
-/**
- * 曲线项目个数
- */
-var count = draw_lines_index.length;
-
-var last_points_m = [[25, 100], [25, 200], [25, 300], [25, 400], [25, 500], [25, 600], [25, 700], [25, 800], [25, 900], [25, 1000], [25, 1100], [25, 1200]];
-var max_times = 135;
-var points_one_times = 8;
-var gride_width = 25;
-/**
- * 采样率
- */
-var samplingRate = 256;
-var gx = points_one_times * (gride_width * 5 / samplingRate);
 /**
  * 波形数据
  */
@@ -139,129 +98,97 @@ var waveData = ["85898388888784D385878389888784AF868A848D8D8B8705868C848D8D8B87F
     "868A848D8D8B87B58589838B8A89853885898389888884908587838988878467858882868585826C84868183838380E88384818282827F35848681807F807EAD8382807F7F7E7D778383807F7F7F7D448283807E7E7F7DDE8281807E7E7F7D3A82837F7E7E7E7DA28281807E7E7F7D8C82827F7E7E7E7C4582837F7E7E7F7DCC8281807E7E7F7D4382837F7E7E7F7D8E8282807E7E7F7DA282817F7E7E7F7D3982837F7E7E7F7DC88281807E7E7F7D5382837F7E7E7F7D798282807E7E7F7DB58281807E7E7F7D3382837F7E7E7E7DBF8281807F7E7F7D6282827F7E7E7F7D6482827F7E7E7F7DC68281807E7E7F7D3382837F7E7E7F7DB18281807E7E7F7D7E82827F7E7E7F7D5082837F7E7E7F7DCC8281807E7E7F7D3A82837F7E7E7F7D9E8282807F7E7F7D9282827F7E7E7F7D4182837F7E7E7F7DCC8281807F7E7F7D4682837F7E7E7F7D8A8282807F7E7F7DA58282807E7E7F7D3882837F7E7E7F7DC68281807E7E7F7D5682837F7E7E7F7D758282807E7E7F7DB98281807E7E7F7D3282837F7E7E7F7DBC8281807F7E7F7D6A82827F7E7E7F7D608283807E7E7F7DC68281807E7E7F7D3682837F7E7E7F7DAD8281807F7E7F7D8082827F7E7E7F7D4D82837F7E7E7F7DCC8281807F7E7F7D3C82837F7E7E7F7D9A8282807F7E7F7D96",
     "8282807E7E7F7D3F83837F7E7E7F7DCC8281807F7E7F7D2082837F7E7E7F7D878282807F7E7F7DAA8382807F7E7F7D4E83837F7E7E7F7DC88281807E7E7F7D5B82837F7E7E7F7D708383807F7F7F7DB88382807F7F7F7D2B83837F7E7E7E7DC38281807F7E7F7D738383807F7F807D448384807F7F807ED98384818080807F388486818080807EA98484818383838088838581838383804A84868183838380CE84848183838380408588828584848298848581838383809D838581838383803D8486818080817FCD8383807F7F807E4E82837F7E7E7F7D808282807E7E7F7DAF8282807E7E7F7D3482837F7E7E7F7DC58281807E7E7F7D5F82837F7E7E7F7D6B82837C7B7B7C7BC082817C7B7B7C7B328385808080807EB785888B8B9D8A86788A94919E9D9A94628EA0847978AFA5D891A66F585DB9AC498C9D5E4659A89DB2848758626587828C7E776A79786C6D3E7C727776756165C47D74797878686B3A807C7C7B7B72738D817F7E7D7D79789E8282807F7E7C7B398283807F7E7C7BC98281807F7F7E7C528283807F7E7F7D7C8282807F7F7F7DB38384818080807E348486818080807EC28484828080817F65838581838383806884858184838380C4838481848383803584868184838380B4848481848383807A8485818483838055",
     "85898387868683CE858783898887843D8589828888878384858783888887848F8587838888878341868B848D8C8B87F38689848D8D8B874B868B848D8D8B8787878B858E8E8C88A58589848B8A89854285898288878783D28587838888878457858882858585827A84858183838380B88384818282827F358385807F7F7F7DBF8281807E7E7E7C688383807F7E7F7D4B8383807F7E7F7DD18281807E7E7F7D3682837F7E7E7E7DAF8281807F7E7F7D7E82827F7E7E7E7C5282837F7E7E7F7DCC8281807E7E7F7D3B82837F7E7E7F7D9C8282807F7E7F7D928282807E7E7E7D4182837F7E7E7F7DCC8281807F7E7F7D4883837F7E7E7F7D888282807E7E7F7DA88281807E7E7F7D3683837F7E7E7F7DC68281807E7E7F7D5882827F7E7E7F7D728282807E7E7F7DBB8281807E7E7F7D3282837F7E7E7F7DB98281807E7E7F7D6D82827F7E7E7F7D5E82837F7E7E7F7DC78281807E7E7F7D3582837F7E7E7F7DAA8281807E7E7F7D8282827F7E7E7F7D4B82837F7E7E7F7DCD8281807E7E7F7D3E82837F7E7E7F7D988282807F7E7F7D9882827F7E7E7F7D3E82837F7E7E7F7DCB8281807F7E7F7D4B82837F7E7E7F7D848282807E7E7F7DAD8281807E7E7F7D3582837F7E7E7F7DC48281807F7E7F7D5D82837F7E7E7F7D6D8282807E7E7F7DBE"];
-var waveData2=[
-  "8181828384848586878787888889898A8A8A8A898988888787868585848281817F7E7E7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7E7E7F818182828384848483828281817F7F7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7C7B7A79797E858D949BA0A2979088817B78797A7C7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7E7F8081",
-  "8181828384848586878787888889898A8A8A8A898988888787868585848281817F7E7E7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7E7E7F818182828384848483828281817F7F7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7C7B7A79797E858D949BA0A2979088817B78797A7C7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7E7F8081",
-  "8181828384848586878787888889898A8A8A8A898988888787868585848281817F7E7E7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7E7E7F818182828384848483828281817F7F7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7C7B7A79797E858D949BA0A2979088817B78797A7C7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7E7F8081",
-  "8181828384848586878787888889898A8A8A8A898988888787868585848281817F7E7E7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7E7E7F818182828384848483828281817F7F7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7C7B7A79797E858D949BA0A2979088817B78797A7C7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7E7F8081",
-  "8181828384848586878787888889898A8A8A8A898988888787868585848281817F7E7E7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7E7E7F818182828384848483828281817F7F7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7C7B7A79797E858D949BA0A2979088817B78797A7C7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7E7F8081",
-  "8181828384848586878787888889898A8A8A8A898988888787868585848281817F7E7E7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7E7E7F818182828384848483828281817F7F7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7C7B7A79797E858D949BA0A2979088817B78797A7C7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7E7F8081",
-  "8181828384848586878787888889898A8A8A8A898988888787868585848281817F7E7E7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7E7E7F818182828384848483828281817F7F7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7C7B7A79797E858D949BA0A2979088817B78797A7C7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7E7F8081",
-  "8181828384848586878787888889898A8A8A8A898988888787868585848281817F7E7E7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7E7E7F818182828384848483828281817F7F7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7C7B7A79797E858D949BA0A2979088817B78797A7C7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7E7F8081",
-  "8181828384848586878787888889898A8A8A8A898988888787868585848281817F7E7E7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7E7E7F818182828384848483828281817F7F7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7C7B7A79797E858D949BA0A2979088817B78797A7C7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7E7F8081",
-  "8181828384848586878787888889898A8A8A8A898988888787868585848281817F7E7E7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7E7E7F818182828384848483828281817F7F7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7C7B7A79797E858D949BA0A2979088817B78797A7C7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7E7F8081"
+const waveData2 = [
+    "8181828384848586878787888889898A8A8A8A898988888787868585848281817F7E7E7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7E7E7F818182828384848483828281817F7F7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7C7B7A79797E858D949BA0A2979088817B78797A7C7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7E7F8081",
+    "8181828384848586878787888889898A8A8A8A898988888787868585848281817F7E7E7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7E7E7F818182828384848483828281817F7F7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7C7B7A79797E858D949BA0A2979088817B78797A7C7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7E7F8081",
+    "8181828384848586878787888889898A8A8A8A898988888787868585848281817F7E7E7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7E7E7F818182828384848483828281817F7F7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7C7B7A79797E858D949BA0A2979088817B78797A7C7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7E7F8081",
+    "8181828384848586878787888889898A8A8A8A898988888787868585848281817F7E7E7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7E7E7F818182828384848483828281817F7F7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7C7B7A79797E858D949BA0A2979088817B78797A7C7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7E7F8081",
+    "8181828384848586878787888889898A8A8A8A898988888787868585848281817F7E7E7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7E7E7F818182828384848483828281817F7F7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7C7B7A79797E858D949BA0A2979088817B78797A7C7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7E7F8081",
+    "8181828384848586878787888889898A8A8A8A898988888787868585848281817F7E7E7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7E7E7F818182828384848483828281817F7F7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7C7B7A79797E858D949BA0A2979088817B78797A7C7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7E7F8081",
+    "8181828384848586878787888889898A8A8A8A898988888787868585848281817F7E7E7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7E7E7F818182828384848483828281817F7F7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7C7B7A79797E858D949BA0A2979088817B78797A7C7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7E7F8081",
+    "8181828384848586878787888889898A8A8A8A898988888787868585848281817F7E7E7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7E7E7F818182828384848483828281817F7F7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7C7B7A79797E858D949BA0A2979088817B78797A7C7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7E7F8081",
+    "8181828384848586878787888889898A8A8A8A898988888787868585848281817F7E7E7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7E7E7F818182828384848483828281817F7F7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7C7B7A79797E858D949BA0A2979088817B78797A7C7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7E7F8081",
+    "8181828384848586878787888889898A8A8A8A898988888787868585848281817F7E7E7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7E7E7F818182828384848483828281817F7F7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7C7B7A79797E858D949BA0A2979088817B78797A7C7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7E7F8081"
 ];
-var current_times = 0;
-
-var ecg_scope = 1;
-var baseineval = 128;
-var adu = 52;
-var isstop = true;
+/**
+ * 每秒画多少个点
+ * @type {number}
+ */
+const one_time_points = 32;
+/**
+ * 存放心背景canvas对象的集合
+ * @type {Map<id, canvas>}
+ */
+const bedBackgroundCanvasMap = new Map();
+/**
+ * 存放每条曲线的集合
+ * @type {Map<id, canvas>}
+ */
+const bedLineMap = new Map();
+/**
+ * 存放 setInterval返回值的map
+ * <p>
+ *  1、界面每次重新加载时需要重置该map,同时清楚id对应的周期函数
+ * </p>
+ * @type {Map<any, any>}
+ */
+const timeIntervalIdsMap = new Map();
 
 /**
- * 获取关键字对应的索引
+ * 供界面调用的方法
  */
-function getDrawLineIndex() {
-    var arr = new Array();
-    for (var x = 0; x < keyText.length; x++) {
-        arr.push(x);
-    }
-    return arr;
-}
-
-/**
- * 获取曲线开始的 Y坐标
- * @param keySize 曲线个数
- * @returns {any[]|null}
- * @constructor
- */
-function GetYStarts(keySize) {
-    var yPositionArray = new Array();
-    if (keySize >= 2) {
-        for (var index = 0; index < keySize; index++) {
-            if (height < 480) {
-                yPositionArray[index] = 20 + index * 60
-            } else {
-                yPositionArray[index] = 20 + index * 60
-            }
-        }
-    } else {
-        // if (keySize === 2) {
-        //     if (height < 480) {
-        //         yPositionArray[0] = 130;
-        //         yPositionArray[1] = 300
-        //     } else {
-        //         yPositionArray[0] = 130;
-        //         yPositionArray[1] = 370
-        //     }
-        // } else {
-        //     if (keySize === 1) {
-        //         yPositionArray[0] = 20
-        //     } else {
-        //         return null
-        //     }
-        // }
-        if (keySize === 1) {
-            yPositionArray[0] = 20
-        } else {
-            return null
-        }
-    }
-    console.error(yPositionArray);
-    return yPositionArray
-}
-
 function bindViewData() {
-    drawEcg();
+    drawEcgBg();
     ecg();
 }
 
-// $(function () {
-//     drawEcg();
-//     ecg();
-// });
-
-var bedLineMap = new Map();
-var bedChartMap = new Map();
-var dataMap = new Map();
-
-function drawEcg() {
-    for (var x = 0; x < patient.length; x++) {
-        var p = patient[x];
-        var canvas = document.getElementById("background_" + p.bed);
-        var canvasLine = document.getElementById("line_" + p.bed);
-
-        var view = document.getElementById("size-of-chart");
-        width = canvas.width;
-        height = canvas.height;
-
-        var ctx = canvas.getContext("2d");
-        var lineCtx = canvasLine.getContext("2d");
-        bedLineMap.set(p.bed, ctx);
-        bedChartMap.set(p.bed, lineCtx);
-        drawGrid(ctx);
-        addFillText(ctx);
-    }
-
+function restoreData() {
+    bedBackgroundCanvasMap.clear();
+    bedLineMap.clear();
+    timeIntervalIdsMap.forEach((value) => {
+        clearInterval(value);
+    })
 }
 
-/**77, 76, 97
- * 画网格
+/**
+ * 画背景图
  */
-function drawGrid(ctx) {
-    var w = 25;//大网格宽度
-    var h = 25;//大网格高度
-    var left = 0; //七点坐标
-    var top = 0; //终点坐标
-    var right = width;
-    var bottom = height;
+function drawEcgBg() {
+    for (let x = 0; x < patient.length; x++) {
+        let p = patient[x];
+        const canvas = document.getElementById("background_" + p.bed);
+        if (canvas) {
+            let canvasObj = new Object(); //创建一个对象用来缓存数据
+            const ctx = canvas.getContext("2d");
+            canvasObj.canvas = canvas;
+            canvasObj.canvasCtx = ctx;
+            canvasObj.width = canvas.width;
+            canvasObj.height = canvas.height;
+            drawGrid(canvasObj);
+            bedBackgroundCanvasMap.set(p.bed, canvasObj);//缓存背景canvas对象
+        }
+    }
+}
 
+/**
+ * 画网格
+ * @param canvasObj
+ */
+function drawGrid(canvasObj) {
+    let w = 25;//大网格宽度
+    let h = 25;//大网格高度
+    let left = 0; //七点坐标
+    let top = 0; //终点坐标
+    let right = canvasObj.width;
+    let bottom = canvasObj.height;
+
+    let ctx = canvasObj.canvasCtx;
     ctx.lineWidth = 1;
     ctx.strokeStyle = "#4d4c61";
     ctx.moveTo(left, top);
     ctx.lineTo(right, top);
     ctx.stroke();
-    var F = w / 5;//小网格间距
+    let F = w / 5;//小网格间距
     //画横线
     while (top < bottom) {
         top = top + h;
@@ -284,8 +211,8 @@ function drawGrid(ctx) {
     ctx.strokeStyle = "#4d4c61";
     left = 0;
     top = 0;
-    right = width;
-    bottom = height;
+    right = canvasObj.width;
+    bottom = canvasObj.height;
     ////画小网格横线
     while (top < bottom) {
         for (var A = 0; A < 4; A++) {
@@ -297,8 +224,8 @@ function drawGrid(ctx) {
     }
     left = 0;
     top = 0;
-    right = width;
-    bottom = height;
+    right = canvasObj.width;
+    bottom = canvasObj.height;
     ////画小网格竖线
     while (left < right) {
         for (var A = 0; A < 4; A++) {
@@ -311,274 +238,157 @@ function drawGrid(ctx) {
 }
 
 /**
- * 添加填充文本
+ * 画图
  */
-function addFillText(ctx) {
-    // var keyText = ["I", "II", "III", "aVR", "aVL", "aVF", "V1", "V2", "V3", "V4", "V5", "V6"];
-    // var distance = (height-100) / A.length;
-    var distance = 50; //曲线间隔
-    var yStartPosition = 20;//y坐标开始位置
-    for (var index = 0; index < draw_lines_index.length; index++) {
-        ctx.font = "bold 20px 黑体";
-        ctx.fillStyle = getColorByKey(keyText[index]);
-        ctx.fillText("" + keyText[draw_lines_index[index]] + "", 10, yStartPosition);
-        yStartPosition = yStartPosition + distance;
-    }
-}
-
-var waveDatas = new Array();
-
 function ecg() {
-    initParam();
-
-    for (var x = 0; x < patient.length; x++) {
-        Convert16Scale(patient[x], x);
+    initParams();
+    //测试逻辑
+    for (let x = 0; x < patient.length; x++) {
+        for (let y = 1; y <= 4; y++) {
+            let id = `line_key${y}_${patient[x].bed}`;
+            setTimeout(testData, 10 + x * 10 + y * 10, id);
+            // testData(id);
+            // sleep(100);
+        }
     }
-
-    // for (var x = 0; x < patient.length; x++) {
-    //     setTimeout(loop,x,x);
-    // }
-    setInterval(function () {
-        loop(0);
-        sleep(10);
-        loop(1);
-        sleep(10);
-        loop(2);
-        sleep(10);
-        loop(3);
-        loop(4);
-        sleep(10);
-        loop(5);
-        sleep(10);
-        loop(6);
-    },62)
-    // loop(0);
-    // loop(1);
-    // loop(2);
-    // loop1(1);
-}
-
-function initParam() {
-    if (width < 150) {
-        alert("最小宽度不能低于150")
-    } else {
-        max_times = parseInt((width - 50) / gx)
-    }
-    // lineCtx.strokeStyle = "#2bff30"
 }
 
 /**
- * 将字符串数据装换成16进制数据
- * @constructor
+ * 初始化参数，
+ * <p>
+ *     初始化每条曲线:
+ *          1、起始位置为40，
+ *          2、结束位置为曲线区域宽度
+ *          3、当前频次为0
+ * </p>
  */
-function Convert16Scale(patient, x) {
-    console.log('Convert16Scale', x)
-    var queue = new Queue();
-    var length = waveData.length;
-    for (var index = 0; index < length; index++) {
-        var text = waveData[index];
-        addData(text, 1, 8, 128, queue);
-    }
-    dataMap.set(patient.bed, queue);
+function initParams() {
+    for (let x = 0; x < patient.length; x++) {
+        let p = patient[x];
 
+        for (let y = 1; y <= 4; y++) {
+            let id = `line_key${y}_${p.bed}`;
+            let canvasKey = document.getElementById(id);
+            if (canvasKey) {
+                let canvasObj = new Object(); //创建一个对象用来缓存数据
+                let ctx = canvasKey.getContext("2d");
+                //设置初始化属性
+                ctx.fillStyle = "#6BE43B";
+                ctx.strokeStyle = "#6BE43B";
+                ctx.lineWidth = 1;
+
+                canvasObj.startX = 40;
+                canvasObj.endX = canvasKey.width;
+                canvasObj.lineTimes = 0;
+                canvasObj.canvas = canvasKey;
+                canvasObj.ctx = ctx;
+                canvasObj.width = canvasKey.width;
+                canvasObj.height = canvasKey.height;
+                canvasObj.maxHeight = 160;
+
+                bedLineMap.set(id, canvasObj);
+                drawFillText(ctx, `key${y}`);
+            }
+
+        }
+    }
 }
 
-// var oQueue = new Queue();
+/**
+ * 画文本
+ * @param ctx canvas 对象
+ * @param keyText 文本
+ */
+function drawFillText(ctx, keyText) {
+    ctx.font = "bold 15px 黑体";
+    ctx.fillText(keyText, 1, 31);
+}
 
-function addData(text, C, E, J, oQueue) {
-    if (text == null || text.length < 4) {
-        return
-    } else {
-        // var arr = new Array();
-        // for(var x = 0;x<text.length;x+=2){
-        //     var t = text.substr(x*2,2);
-        //     // arr.push()
-        //     oQueue.DeQueue(parseInt(t,16));
-        // }
-        var I = new Array(text.length / 2 / C);
-        if (C == 1) {
-            I = text
+/**
+ * 测试方法
+ * @param id
+ */
+function testData(id) {
+    let bedLine = bedLineMap.get(id);
+    if (bedLine === null || bedLine === undefined) {
+        return;
+    }
+    let data = waveData2[0];
+    let array = new Array();
+    for (let y = 0; y < data.length ; y+=2) {
+        //将值装换成负数，然后加上上限，这样就可以将数据倒转，不会导致波峰波谷颠倒
+        array.push(-parseInt(data.substr(y, 2), 16)+bedLine.maxHeight);
+    }
+    console.log('ss',array,bedLine.maxHeight);
+    let i = setInterval(() => {
+        loopData(bedLine, array);
+    }, 1000);
+    timeIntervalIdsMap.set(id, i);
+}
+
+/**
+ * 更新数据的方法
+ * @param id id
+ * @param data 数据
+ * @param scale 缩放系数
+ */
+function updateData(id, data, scale) {
+    let bedLine = bedLineMap.get(id);
+    let array = new Array();
+    for (let y = 0; y < data.length / 2; y++) {
+        array.push(-parseInt(data.substr(y * 2, 2), 16) +bedLine.maxHeight);
+    }
+    loopData(bedLine, array);
+}
+
+/**
+ * 循环画曲线
+ * <p>
+ *     该方法需要优化
+ *      存在的问题：
+ *      1、曲线不够圆滑，会存在锯齿现象
+ *      2、画的点太多会导致频率过快，曲线更新频率过快，肉眼难以识别
+ * </p>
+ * @param bedLine 曲线对象
+ * @param array 数据
+ */
+function loopData(bedLine, array) {
+    let ctx = bedLine.ctx;
+    let count = array.length / one_time_points;
+    let time = 1000 / count;//需要间隔多久
+    // console.log('loopData', time, new Date().getTime());
+    let startX = bedLine.startX;
+    let lineTimes = bedLine.lineTimes;
+
+    if (lineTimes === 0 && startX === 40) {
+        ctx.beginPath();
+        ctx.moveTo(startX, 31);//起始位置
+    }
+    for (var x = 0; x < one_time_points; x++) {
+        let index = lineTimes * one_time_points + x;
+        startX += 1;
+        if (startX > bedLine.endX) {//说明到终点
+            startX = 40;
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.moveTo(startX, array[index]);
+            bedLine.startX = startX;
+            //去除旧的点
         } else {
-            for (var A = 0; A < I.length; A++) {
-                var D = "";
-                var H = text.substr(A * 2 * E * C, 2 * E * C);
-                for (var B = 0; B < C; B++) {
-                    D = parseInt(H.substr(B * 2, 2), 16) + D
-                }
-                I[A] = D
-            }
-        }
-        for (var A = 0; A < I.length / 2 / E; A++) {
-            if (E == 8) {
-                var G = new Array(12);
-                var H = I.substr(A * 16, 16);
-                G[0] = parseInt(H.substr(0, 2), 16);
-                G[1] = parseInt(H.substr(2, 2), 16);
-                G[2] = G[1] - (G[0] - J);
-                G[3] = -(G[0] + G[1]) / 2 + J * 2;
-                G[4] = G[0] - (G[1] - J) / 2;
-                G[5] = G[1] - (G[0] - J) / 2;
-                G[6] = parseInt(H.substr(4, 2), 16);
-                G[7] = parseInt(H.substr(6, 2), 16);
-                G[8] = parseInt(H.substr(8, 2), 16);
-                G[9] = parseInt(H.substr(10, 2), 16);
-                G[10] = parseInt(H.substr(12, 2), 16);
-                G[11] = parseInt(H.substr(14, 2), 16);
-                oQueue.EnQueue(G)
-                // console.log(G);
+            bedLine.startX = startX;
+            if (index < array.length) {
+                ctx.lineTo(startX, array[index]);
             } else {
-                var G = new Array(E);
-                var H = I.substr(A * 16, 16);
-                for (var B = 0; B < E; B++) {
-                    G[B] = parseInt(H.substr(B * 2, 2), 16)
-                }
-                oQueue.EnQueue(G)
+                ctx.stroke();
+                bedLine.lineTimes = 0;
+                return;
             }
         }
+        ctx.clearRect(startX - 10, 0, 20, bedLine.height);
     }
-}
+    ctx.stroke();
 
-var current_time_millis = 0;
-var index = 0;
-
-var timeMap = new Map();
-
-/**
- * 107, 228, 59
- */
-function loop(index) {
-    var p = patient[index];
-    var current_time_millis = timeMap.get(p.bed);
-    if (current_time_millis === undefined || current_time_millis === null) {
-        current_time_millis = new Date().getTime();
-        timeMap.set(p.bed, current_time_millis);
-    }
-    var linectx = bedChartMap.get(p.bed);
-    var queue = dataMap.get(p.bed);
-    // console.log(queue);
-    draw(y_starts, baseineval, adu, samplingRate, max_times, points_one_times, linectx, draw_lines_index, queue, p.bed);
-    if (isstop) {
-        // setTimeout(loop, 1000, index);
-        // var C = new Date().getTime();
-        // var B = C - current_time_millis + 1;
-        // if (B < 62) {
-        //     sleep(62 - B)
-        // }
-    }
-    if (queue.IsEmpty()) {
-        Convert16Scale(p, index)
-    }
-}
-
-var dataTimeMap = new Map();
-var pointMap = new Map();
-
-/**
- *
- * @param yStartArray
- * @param B baseineval
- * @param P adu
- * @param samplingRate  N
- * @param G max_times
- * @param pointsOneTimes H
- * @param lineCtx A
- * @param keys draw_lines_index
- */
-function draw(yStartArray, B, P, samplingRate, G, pointsOneTimes, lineCtx, keys, oQueue, bed) {
-    var current_times = dataTimeMap.get(bed);
-    if (current_times === undefined || current_times === null) {
-        current_times = 0;
-    }
-
-    var last_points = pointMap.get(bed);
-    if (last_points === undefined || last_points === null) {
-        last_points = last_points_m;
-    }
-
-    current_times = current_times % G;
-    if (oQueue.IsEmpty()) {
-        return
-    }
-    if (oQueue.GetSize() < pointsOneTimes) {
-        return
-    }
-    clearcanvans(current_times, pointsOneTimes, samplingRate, lineCtx);
-    var data = new Array();
-    for (var x = 0; x < pointsOneTimes; x++) {
-        data.push(oQueue.DeQueue());
-    }
-    dataMap.set(bed, oQueue);
-    // console.log(bed,da);
-    lineCtx.beginPath();
-    for (var x = 0; x < keys.length; x++) {
-        // sleep(10);
-        lineCtx.strokeStyle = getColorByKey(keyText[x]);
-        lineCtx.fillStyle = getColorByKey(keyText[x]);
-        for (var y = 0; y < data.length; y++) {
-            var O = data[y];
-            var C = O[keys[x]] - B;
-            // var C = O - B;
-            var I = y * parseFloat((gride_width * 5 / samplingRate));
-            var M;
-            if (ecg_scope != 0) {
-                M = parseFloat((Math.abs(C)) * (P / (gride_width * 2)) * ecg_scope)
-            } else {
-                M = parseFloat((Math.abs(C)) * (P / (gride_width * 2)) / 2)
-            }
-            var L = parseFloat(x_start + current_times * pointsOneTimes * (gride_width * 5 / samplingRate));
-            if (y == 0) {
-                if (current_times != 0) {
-                    lineCtx.moveTo(last_points[x][0], last_points[x][1]);
-                    var D = parseFloat(C >= 0 ? yStartArray[x] - M : yStartArray[x] + M);
-                    lineCtx.lineTo(last_points[x][0], D);
-                    last_points[x][0] = last_points[x][0];
-                    last_points[x][1] = D
-                } else {
-                    var D = parseFloat(C >= 0 ? yStartArray[x] - M : yStartArray[x] + M);
-                    lineCtx.moveTo(x_start, D);
-                    last_points[x][0] = x_start;
-                    last_points[x][1] = D
-                }
-            } else {
-                var D = parseFloat(C >= 0 ? yStartArray[x] - M : yStartArray[x] + M);
-                lineCtx.lineTo(L + I, D);
-                // console.log(bed,L + I, D);
-                last_points[x][0] = L + I;
-                last_points[x][1] = D
-            }
-        }
-        // lineCtx.stroke();
-    }
-    lineCtx.stroke();
-    current_times++;
-    dataTimeMap.set(bed, current_times);
-    pointMap.set(bed, last_points);
-}
-
-function clearcanvans(B, F, C, D) {
-    var A = parseFloat(F * (gride_width * 5 / C));
-    var E = x_start + B * A;
-    if (B != 0) {
-        D.clearRect(E, 0, 20, height)
-    } else {
-        D.clearRect(E - 10, 0, E + 20, height)
-    }
-};
-
-/**
- * 模拟休眠
- * @param B
- */
-function sleep(B) {
-    var A = new Date().getTime();
-    for (var C = 0; C < 10000000; C++) {
-        if ((new Date().getTime() - A) > B) {
-            break
-        }
-    }
-}
-
-function Yt() {
-
+    bedLine.lineTimes = (++lineTimes);
+    setTimeout(loopData, time, bedLine, array);
 }
 
