@@ -46,6 +46,7 @@ function inflateViewByData() {
     bindViewData();
     id1 = setInterval(startTest, 1000);
     id2 = setInterval(startTest2, 30 * 60 * 1000);
+    startTest2();
 }
 
 function startTest() {
@@ -102,7 +103,7 @@ function getItemView(patient) {
 
 function getBedItemTitle(patient) {
     return '<div class="item-title">' +
-        '<img src="/static/images/bed.png">'+
+        '<img src="/static/images/bed.png">' +
         '<label id=' + "BED_" + patient.bed + '>' + patient.bedLabel + '</label>' +
         '<label id=' + "NAME_" + patient.bed + '>' + patient.name + '</label>' +
         '<label id=' + "GENDER_" + patient.bed + '>' + patient.gender + '</label>' +
