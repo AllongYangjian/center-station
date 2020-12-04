@@ -1,4 +1,4 @@
-var patient = [
+var patient2 = [
     {
         bed: '1',
         bedLabel: '1床',
@@ -441,6 +441,84 @@ var patient = [
         }
     }
 ];
+
+function getPatient(number) {
+
+    let arr = new Array();
+    for(var x =0;x<number;x++){
+
+        var patient = {
+            bed: '1',
+            bedLabel: '1床',
+            name: '诸*花',
+            gender: '男',
+            age: '37岁',
+            hospital: '广西工人医院',
+            dept: '老年医院科',
+            hr: {
+                unit: '(bmp)',
+                min: 50,
+                max: 100,
+                value: 60,
+                key: 'HR'
+            },
+            Resp: {
+                unit: '(rpm)',
+                min: 6,
+                max: 35,
+                value: 12,
+                key: 'Resp'
+            },
+            spo2: {
+                unit: '(%)',
+                min: 85,
+                max: 100,
+                value: 99,
+                key: 'SpO2'
+            },
+            nibp: {
+                unit: '(mmHg)',
+                min1: 80,
+                max1: 180,
+                min2: 50,
+                max2: 110,
+                value1: '128/95',
+                value2: '108',
+                time: '2020-12-01 17:41:00',
+                key: 'NIBP'
+            },
+            pr: {
+                unit: '(bpm)',
+                min: 50,
+                max: 100,
+                value: 60,
+                key: 'PR'
+            },
+            t1: {
+                unit: '(℃)',
+                value: '',
+                key: 'T1'
+            },
+            t2: {
+                unit: '(℃)',
+                value: '',
+                key: 'T2'
+            },
+            td: {
+                unit: '',
+                value: '0.0',
+                key: 'TD'
+            }
+        };
+
+        patient.bed = x+'';
+        patient.bedLabel = x+'床';
+        arr.push(patient);
+    }
+    console.log(arr);
+    return arr;
+}
+const patient = getPatient(10);
 
 function getCurrentDate(date) {
     if (!date) {

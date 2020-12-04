@@ -246,9 +246,9 @@ function ecg() {
     for (let x = 0; x < patient.length; x++) {
         for (let y = 1; y <= 4; y++) {
             let id = `line_key${y}_${patient[x].bed}`;
-            // setTimeout(testData, 10 + x * 10 + y * 10, id);
-            testData(id);
-            sleep(100);
+            setTimeout(testData, 10 + x * 10 + y * 10, id);
+            // testData(id);
+            // sleep(100);
         }
     }
 }
@@ -284,6 +284,7 @@ function initParams() {
                 canvasObj.ctx = ctx;
                 canvasObj.width = canvasKey.width;
                 canvasObj.height = canvasKey.height;
+                canvasObj.maxHeight = 160;
 
                 bedLineMap.set(id, canvasObj);
                 drawFillText(ctx, `key${y}`);
@@ -314,9 +315,11 @@ function testData(id) {
     }
     let data = waveData2[0];
     let array = new Array();
-    for (let y = 0; y < data.length / 2; y++) {
-        array.push(parseInt(data.substr(y * 2, 2), 16) / 4);
+    for (let y = 0; y < data.length ; y+=2) {
+        //将值装换成负数，然后加上上限，这样就可以将数据倒转，不会导致波峰波谷颠倒
+        array.push(-parseInt(data.substr(y, 2), 16)+bedLine.maxHeight);
     }
+    console.log('ss',array,bedLine.maxHeight);
     let i = setInterval(() => {
         loopData(bedLine, array);
     }, 1000);
@@ -333,7 +336,7 @@ function updateData(id, data, scale) {
     let bedLine = bedLineMap.get(id);
     let array = new Array();
     for (let y = 0; y < data.length / 2; y++) {
-        array.push(parseInt(data.substr(y * 2, 2), 16) / scale);
+        array.push(-parseInt(data.substr(y * 2, 2), 16) +bedLine.maxHeight);
     }
     loopData(bedLine, array);
 }
