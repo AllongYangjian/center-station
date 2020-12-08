@@ -3,7 +3,17 @@ server:
 spring:
   thymeleaf:
     cache: false
-
   mvc:
     static-path-pattern: /**
+  datasource:
+    url: jdbc:mysql:///center_station?serverTimezone=UTC
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: allong
+logging:
+  level:
+    com.allong.centerstation: debug
 
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true

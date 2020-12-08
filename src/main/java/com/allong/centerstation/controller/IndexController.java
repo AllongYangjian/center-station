@@ -17,13 +17,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class IndexController {
 
     @RequestMapping("/")
-    public String index() {
-        return "index";
+    public String home() {
+        return "login";
     }
 
-
-    @RequestMapping("/index")
-    public String index2() {
-        return "index";
-    }
 }

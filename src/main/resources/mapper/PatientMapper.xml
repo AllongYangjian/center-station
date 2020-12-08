@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.allong.centerstation.mapper.PatientMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.allong.centerstation.domain.Patient">
+        <id column="id" property="id" />
+        <result column="bed" property="bed" />
+        <result column="pid" property="pid" />
+        <result column="zyh" property="zyh" />
+        <result column="name" property="name" />
+        <result column="gender" property="gender" />
+        <result column="age" property="age" />
+        <result column="complaint" property="complaint" />
+        <result column="record_time" property="recordTime" />
+        <result column="record_user" property="recordUser" />
+        <result column="status" property="status" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, bed, pid, zyh, name, gender, age, complaint, record_time, record_user, status
+    </sql>
+
+</mapper>

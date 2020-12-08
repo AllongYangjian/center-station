@@ -41,7 +41,9 @@ public class TestGenerator {
                 .setDateType(DateType.ONLY_DATE)
                 .setServiceName("%sService")
                 .setServiceImplName("%sServiceImpl")
-                .setIdType(IdType.AUTO);
+                .setIdType(IdType.AUTO)
+                .setBaseResultMap(true)
+                .setBaseColumnList(true);
         //配置数据源
         DataSourceConfig dataSourceConfig = new DataSourceConfig();
         dataSourceConfig.setUrl("jdbc:mysql:///center_station?serverTimezone=UTC")

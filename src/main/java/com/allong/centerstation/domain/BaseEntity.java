@@ -1,5 +1,7 @@
 package com.allong.centerstation.domain;
 
+import com.baomidou.mybatisplus.extension.activerecord.Model;
+
 import java.io.Serializable;
 
 /**
@@ -12,5 +14,5 @@ import java.io.Serializable;
  * <author>          <time>          <version>          <desc>
  * YJ       2020/12/7 16:21        1.0              描述
  */
-public class BaseEntity implements Serializable {
+public class BaseEntity<T extends Model<?>> extends Model<T> implements Serializable {
 }
