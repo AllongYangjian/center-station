@@ -1,0 +1,95 @@
+/* Logo 字体 */
+
+.container{
+    background: #00bbee;
+}
+.login {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 600px;
+    height: 350px;
+    margin-left: -300px;
+    margin-top: -175px;
+    background: #3554dc;
+    border-radius: 5px;
+    font-size: 0;
+}
+
+.login .left {
+    display: inline-block;
+    width: 30%;
+    line-height: 350px;
+    background: #4e4e4e;
+    text-align: center;
+    font-size: 72px;
+    color: white;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    border-width: 0;
+    vertical-align: top;
+}
+
+.login .right {
+    display: inline-block;
+    width: 70%;
+    line-height: 350px;
+    border-width: 0;
+    vertical-align: top;
+    background: whitesmoke;
+    font-size: 16px;
+}
+
+.login .right h3 {
+    width: 100%;
+    height: 32px;
+    line-height: 32px;
+    text-align: center;
+    margin: 16px 0;
+    color: black;
+    font-size: 22px;
+}
+
+
+.form {
+    height: 286px;
+    overflow: hidden;
+}
+
+.form-item {
+    height: 48px;
+    line-height: 48px;
+    margin-top: 16px;
+}
+
+.form-item label{
+    display: inline-block;
+    width: 80px;
+    text-align: right;
+    margin-right: 16px;
+    font-size: 32px;
+    color: #00111e;
+}
+
+.form-item input {
+    width: 286px;
+    height: 48px;
+    line-height: 48px;
+    border-radius: 5px;
+    padding-left: 8px;
+    color: black;
+    font-size: 18px;
+    border: 1px solid #3554dc;
+    vertical-align: top;
+}
+
+.form-item input[type='submit'] {
+    background: #00bbee;
+    color: white;
+}
+
+.form-item input[type='submit']:hover{
+    background: #3554dc;
+    cursor: pointer;
+}
+
