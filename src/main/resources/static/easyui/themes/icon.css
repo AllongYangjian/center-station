@@ -94,3 +94,18 @@
 .icon-large-chart{
 	background:url('icons/large_chart.png') no-repeat center center;
 }
+.icon-setting{
+	background:url('icons/setting.png') no-repeat center center;
+}
+
+.icon-operation{
+	background:url('icons/operation.png') no-repeat center center;
+}
+
+.icon-config{
+	background:url('icons/config.png') no-repeat center center;
+}
+
+.icon-wave{
+	background:url('icons/wave.png') no-repeat center center;
+}

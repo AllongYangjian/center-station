@@ -71,17 +71,50 @@ ul.user_event li {
     border-bottom: 1px solid whitesmoke;
 }
 
-ul.user_event li:hover{
+ul.user_event li:hover {
     background: grey;
 }
 
-ul.user_event li label:first-child{
+ul.user_event li label:first-child {
     float: left;
 }
 
-ul.user_event li a{
+ul.user_event li a {
     vertical-align: top;
     color: whitesmoke;
+}
+
+.content {
+    position: absolute;
+    width: 100%;
+    top: 64px;
+    bottom: 0;
+    background: whitesmoke;
+}
+
+.content .nav {
+    display: inline-block;
+    width: 200px;
+    height: 100%;
+    border-right: 1px solid lightgray;
+}
+
+.content .data {
+    display: inline-block;
+    position: absolute;
+    left: 200px;
+    right: 0;
+    height: 100%;
+    /*background: pink;*/
+}
+
+.panel-title {
+    font-size: 24px;
+
+}
+
+.tree-title {
+    font-size: 20px;
 }
 
 
