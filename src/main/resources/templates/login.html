@@ -5,6 +5,7 @@
     <title>登录</title>
     <script type="text/javascript" src="/static/js/common/title.js"></script>
     <link rel="stylesheet" href="/static/css/login.css">
+    <script type="text/javascript" src="/static/js/login/login.js"></script>
 </head>
 <body>
 <div class="container">
@@ -13,18 +14,22 @@
             EC
         </div>
         <div class="right">
-            <h3>用户登录</h3>
-            <form class="form">
+            <div class="title">用户登录</div>
+            <div class="login_error"></div>
+            <form id="loginForm" class="form" action="/login" method="post">
                 <div class="form-item">
                     <label class="iconfont">&#xe805;</label>
-                    <input type="text" name="name"/>
+                    <input type="text" id="username" name="username" placeholder="请输入用户名"/>
                 </div>
                 <div class="form-item">
                     <label class="iconfont">&#xe848;</label>
-                    <input type="password"/>
+                    <input type="password" id="password" name="password" placeholder="请输入密码" onkeydown="keyup_submit(event);"/>
                 </div>
-                <div  class="form-item">
-                    <label class="iconfont"> </label> <input type="submit" value="登录">
+                <div class="form-item">
+                    <label class="iconfont"> </label> <input id="user_login" type="button" value="登录">
+                </div>
+                <div class="form-item">
+                    <label class="iconfont"> </label> <a href="">用户注册</a>
                 </div>
             </form>
         </div>

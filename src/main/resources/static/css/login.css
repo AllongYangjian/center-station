@@ -1,8 +1,9 @@
 /* Logo 字体 */
 
-.container{
+.container {
     background: #00bbee;
 }
+
 .login {
     position: absolute;
     left: 50%;
@@ -33,36 +34,40 @@
 .login .right {
     display: inline-block;
     width: 70%;
+    height: 100%;
     line-height: 350px;
     border-width: 0;
     vertical-align: top;
     background: whitesmoke;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
     font-size: 16px;
 }
 
-.login .right h3 {
+.login .right div.title {
     width: 100%;
     height: 32px;
     line-height: 32px;
     text-align: center;
-    margin: 16px 0;
+    margin-top: 16px;
     color: black;
     font-size: 22px;
+    /*background: pink;*/
+    font-weight: 700;
 }
 
 
 .form {
-    height: 286px;
     overflow: hidden;
 }
 
 .form-item {
     height: 48px;
     line-height: 48px;
-    margin-top: 16px;
+    margin-top: 12px;
 }
 
-.form-item label{
+.form-item label {
     display: inline-block;
     width: 80px;
     text-align: right;
@@ -83,13 +88,39 @@
     vertical-align: top;
 }
 
-.form-item input[type='submit'] {
+.form-item input[type='button'] {
     background: #00bbee;
     color: white;
 }
 
-.form-item input[type='submit']:hover{
+.form-item input[type='button']:hover {
     background: #3554dc;
     cursor: pointer;
+}
+
+.form-item a {
+    float: right;
+    margin-right: 32px;
+    font-size: 18px;
+    color: #00bbee;
+}
+
+.form-item a:hover {
+    color: orangered;
+}
+
+.login_error {
+    height: 32px;
+    line-height: 32px;
+    margin-top: 8px;
+    /*background: #00bbee;*/
+    text-align: center;
+    color: red;
+    margin-left: 32px;
+    margin-right: 32px;
+    /*border: 1px solid orangered;*/
+    border-radius: 5px;
+    font-size: 18px;
+    display: none;
 }
 

@@ -4,15 +4,24 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.allong.centerstation.domain.User">
-        <id column="id" property="id" />
-        <result column="username" property="username" />
-        <result column="password" property="password" />
-        <result column="status" property="status" />
+        <id column="id" property="id"/>
+        <result column="username" property="username"/>
+        <result column="password" property="password"/>
+        <result column="status" property="status"/>
+        <collection property="roles" column="id" javaType="ArrayList" ofType="com.allong.centerstation.domain.Role"
+                    select="com.allong.centerstation.mapper.RoleMapper.selectAllByUserId">
+            <id column="id" property="id"/>
+            <result column="role_name" property="roleName"/>
+            <result column="role_desc" property="roleDesc"/>
+        </collection>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id, username, password, status
     </sql>
+    <select id="queryByUsername" resultMap="BaseResultMap">
+        select * from sys_user where username = #{username};
+    </select>
 
 </mapper>

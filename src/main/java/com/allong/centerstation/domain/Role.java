@@ -5,9 +5,13 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.allong.centerstation.domain.BaseEntity;
+
 import java.io.Serializable;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.springframework.security.core.GrantedAuthority;
 
 /**
  * <p>
@@ -15,12 +19,12 @@ import lombok.EqualsAndHashCode;
  * </p>
  *
  * @author 杨建
- * @since 2020-12-08
+ * @since 2020-12-09
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
 @TableName("sys_role")
-public class Role extends BaseEntity<Role> {
+public class Role extends BaseEntity<Role> implements GrantedAuthority {
 
     private static final long serialVersionUID = 1L;
 
@@ -46,4 +50,9 @@ public class Role extends BaseEntity<Role> {
         return this.id;
     }
 
+    @JsonIgnore
+    @Override
+    public String getAuthority() {
+        return roleName;
+    }
 }

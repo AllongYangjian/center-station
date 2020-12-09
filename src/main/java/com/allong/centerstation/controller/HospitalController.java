@@ -3,7 +3,7 @@ package com.allong.centerstation.controller;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * <p>
@@ -11,9 +11,9 @@ import org.springframework.stereotype.Controller;
  * </p>
  *
  * @author 杨建
- * @since 2020-12-08
+ * @since 2020-12-09
  */
-@Controller
+@RestController
 @RequestMapping("/hospital")
 public class HospitalController {
 

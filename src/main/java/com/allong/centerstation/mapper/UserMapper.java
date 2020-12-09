@@ -9,8 +9,10 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * </p>
  *
  * @author 杨建
- * @since 2020-12-08
+ * @since 2020-12-09
  */
 public interface UserMapper extends BaseMapper<User> {
+
+    User queryByUsername(String username);
 
 }

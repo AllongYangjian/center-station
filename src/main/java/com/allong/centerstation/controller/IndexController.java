@@ -17,8 +17,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class IndexController {
 
     @RequestMapping("/")
-    public String home() {
+    public String index() {
         return "login";
     }
 
+
+    @RequestMapping("/home")
+    public String home() {
+        return "home";
+    }
 }

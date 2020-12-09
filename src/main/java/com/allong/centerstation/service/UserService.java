@@ -2,6 +2,8 @@ package com.allong.centerstation.service;
 
 import com.allong.centerstation.domain.User;
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
 /**
  * <p>
@@ -9,8 +11,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * </p>
  *
  * @author 杨建
- * @since 2020-12-08
+ * @since 2020-12-09
  */
-public interface UserService extends IService<User> {
+public interface UserService extends IService<User> , UserDetailsService {
 
 }

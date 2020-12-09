@@ -58,7 +58,8 @@ public class TestGenerator {
                 .setColumnNaming(NamingStrategy.underline_to_camel)
                 .setTablePrefix("sys_")
                 .setEntityLombokModel(true)
-                .setSuperEntityClass(BaseEntity.class);
+                .setSuperEntityClass(BaseEntity.class)
+                .setRestControllerStyle(true);
 
         PackageConfig packageConfig = new PackageConfig();
         packageConfig.setParent("com.allong.centerstation")
