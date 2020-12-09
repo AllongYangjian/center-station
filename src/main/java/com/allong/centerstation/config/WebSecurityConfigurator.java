@@ -2,6 +2,7 @@ package com.allong.centerstation.config;
 
 import com.allong.centerstation.handler.LoginFailureHandler;
 import com.allong.centerstation.handler.LoginSuccessHandler;
+import com.allong.centerstation.handler.LogoutSuccessHandler;
 import com.allong.centerstation.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -48,6 +49,9 @@ public class WebSecurityConfigurator extends WebSecurityConfigurerAdapter {
     @Resource
     private LoginFailureHandler loginFailureHandler;
 
+    @Resource
+    private LogoutSuccessHandler logoutSuccessHandler;
+
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -88,6 +92,9 @@ public class WebSecurityConfigurator extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 .and()
                 .logout()
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/login")
+                .logoutSuccessHandler(logoutSuccessHandler)
                 .permitAll();
     }
 

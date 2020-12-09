@@ -1,0 +1,90 @@
+.header {
+    width: 100%;
+    height: 64px;
+    background: #071a1e;
+}
+
+.header .title {
+    display: inline-block;
+    height: 64px;
+    line-height: 64px;
+    color: white;
+    font-weight: 700;
+    font-size: 32px;
+    margin-left: 16px;
+}
+
+.header .user {
+    float: right;
+    height: 64px;
+    line-height: 64px;
+    margin-right: 16px;
+}
+
+.header .user label.iconfont {
+    font-size: 36px;
+    color: pink;
+}
+
+.header .user label#username {
+    display: inline-block;
+    height: 64px;
+    line-height: 64px;
+    color: white;
+    vertical-align: top;
+    font-size: 24px;
+    margin-left: 8px;
+}
+
+
+.header .user:hover label#username {
+    color: #00ee00;
+}
+
+.header .user:hover ul.user_event {
+    display: block !important;
+}
+
+
+ul.user_event {
+    position: absolute;
+    display: none;
+    top: 64px;
+    right: 0;
+    width: 200px;
+    height: 300px;
+    margin: 0;
+    z-index: 1;
+    padding: 0;
+    background: #071a1e
+}
+
+ul.user_event li {
+    width: 100%;
+    height: 48px;
+    line-height: 48px;
+    text-align: right;
+    font-size: 18px;
+    margin: 0;
+    color: white;
+    padding-right: 16px;
+    border-bottom: 1px solid whitesmoke;
+}
+
+ul.user_event li:hover{
+    background: grey;
+}
+
+ul.user_event li label:first-child{
+    float: left;
+}
+
+ul.user_event li a{
+    vertical-align: top;
+    color: whitesmoke;
+}
+
+
+
+
+

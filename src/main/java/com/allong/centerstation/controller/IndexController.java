@@ -26,4 +26,9 @@ public class IndexController {
     public String home() {
         return "home";
     }
+
+    @RequestMapping("/login")
+    public String loginPage() {
+        return "login";
+    }
 }
