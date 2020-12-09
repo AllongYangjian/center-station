@@ -18,11 +18,10 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class MyWebMvcConfig implements WebMvcConfigurer {
 
-//    @Override
-//    public void addViewControllers(ViewControllerRegistry registry) {
-//        registry.addViewController("/").setViewName("/index");
-//        registry.addViewController("/index").setViewName("/index");
-//    }
+    @Override
+    public void addViewControllers(ViewControllerRegistry registry) {
+        registry.addViewController("/system/hospital").setViewName("/system/hospital");
+    }
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {

@@ -43,7 +43,7 @@ var data = [
             },
             {
                 text: '医院',
-                url: '/hospital'
+                url: '/system/hospital'
             },
             {
                 text: '用户',
@@ -208,6 +208,7 @@ function onSideMenuSelect(item) {
         $('#tt').tabs('add', {
             title: item.text,
             content: '<iframe scrolling="auto" frameborder="0"  src="' + item.url + '" style="width:100%;height:99%;"></iframe>',
+            // href: item.url,
             closable: true,
             // icon: item.iconCls,
             id: item.id
