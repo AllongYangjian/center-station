@@ -6,3 +6,29 @@ document.write('<script src="/static/js/utils/utils.js"></script>');
 document.write('<link rel="stylesheet" type="text/css" href="/static/easyui/themes/icon.css"/>');
 document.write('<link rel="stylesheet" type="text/css" href="/static/easyui/themes/default/easyui.css"/>');
 document.write('<script type="text/javascript" src="/static/easyui/locale/easyui-lang-zh_CN.js"></script>');
+
+function showToast(title, msg, time) {
+    if (!time) {
+        time = 500;
+    }
+    $.messager.show({
+        title: title,
+        msg: msg,
+        timeout: time,
+        showSpeed: 500,
+        showType: 'slide',
+        style: {
+            right: '',
+            top: document.body.scrollTop + document.documentElement.scrollTop,
+            bottom: ''
+        }
+    });
+}
+
+function showDeleteToast(callback) {
+    $.messager.confirm('危险操作', '确定删除吗?', function (ok) {
+        if (ok) {
+            callback();
+        }
+    })
+}
