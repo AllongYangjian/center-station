@@ -14,5 +14,11 @@ import java.util.List;
  * @since 2020-12-09
  */
 public interface RoleService extends IService<Role> {
+    /**
+     * 获取用户授权的角色列表
+     *
+     * @param uid
+     * @return
+     */
     List<Role> selectAllByUserId(Integer uid);
 }

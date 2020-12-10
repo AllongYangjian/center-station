@@ -4,13 +4,16 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.allong.centerstation.domain.UserRole">
-        <result column="rid" property="rid" />
-        <result column="uid" property="uid" />
+        <result column="rid" property="rid"/>
+        <result column="uid" property="uid"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         rid, uid
     </sql>
+    <delete id="deleteByUid">
+        delete from sys_user_role where uid = #{uid};
+    </delete>
 
 </mapper>

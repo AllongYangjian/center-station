@@ -17,4 +17,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserRoleServiceImpl extends ServiceImpl<UserRoleMapper, UserRole> implements UserRoleService {
 
+    @Override
+    public Integer removeByUid(Integer uid) {
+        return baseMapper.deleteByUid(uid);
+    }
 }

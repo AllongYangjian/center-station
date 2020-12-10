@@ -26,14 +26,27 @@
     </style>
 </head>
 <body>
-<div id="user_list" class="easyui-datagrid" fit="true" toolbar="#user_list_toolbar">
+<div class="easyui-layout" fit="true">
+    <div id="user_list" class="easyui-datagrid" data-options="region:'west'" style="width: 70%;height: 100%"
+         toolbar="#user_list_toolbar">
 
+    </div>
+    <div id="role_list" class="easyui-datagrid" data-options="region:'east'" style="width: 30%;height: 100%"
+         toolbar="#role_list_toolbar">
+
+    </div>
 </div>
+
 <div id="user_list_toolbar" style="padding: 5px;height: auto">
     <a class="easyui-linkbutton" id="add" data-options="iconCls:'icon-add'" disabled="true">新增</a>
     <a class="easyui-linkbutton" id="edit" data-options="iconCls:'icon-edit'">修改</a>
     <a class="easyui-linkbutton" id="delete" data-options="iconCls:'icon-remove'" disabled="true">删除</a>
     <a class="easyui-linkbutton" id="query" data-options="iconCls:'icon-reload'">刷新</a>
+</div>
+
+<div id="role_list_toolbar" style="padding: 5px;height: auto">
+    <a class="easyui-linkbutton" id="role_query" data-options="iconCls:'icon-reload'">刷新</a>
+    <a class="easyui-linkbutton" id="role_save" data-options="iconCls:'icon-save'">保存</a>
 </div>
 
 <div id="user_dialog" class="easyui-dialog" title="医院信息"
