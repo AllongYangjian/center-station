@@ -39,7 +39,8 @@ var data = [
         iconCls: 'icon-setting',
         children: [
             {
-                text: '设备'
+                text: '设备',
+                url: '/system/device'
             },
             {
                 text: '医院',
@@ -47,9 +48,11 @@ var data = [
             },
             {
                 text: '用户',
+                url: '/system/user'
             },
             {
-                text: '角色'
+                text: '角色',
+                url: '/system/role'
             }
         ]
     }

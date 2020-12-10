@@ -10,40 +10,34 @@ var columns = [[
         width: 1
     },
     {
-        title: '代码',
-        field: 'code',
+        title: '角色名称',
+        field: 'roleName',
         align: 'center',
         width: 1
     },
     {
-        title: '名称',
-        field: 'name',
-        align: 'center',
-        width: 1
-    },
-    {
-        title: '地址',
-        field: 'address',
+        title: '角色描述',
+        field: 'roleDesc',
         align: 'center',
         width: 1
     }
 ]];
 
-var $hospitalTable;
+var $roleTable;
 var currentItem;
 
 $(function () {
-    initHospitalTable();
+    initRoleTable();
 
     $("#add").on('click', () => {
         currentItem = undefined;
-        $hospitalTable.datagrid('uncheckAll');
-        showHospitalDialog();
+        $roleTable.datagrid('uncheckAll');
+        showRoleDialog();
     });
 
     $("#edit").on('click', () => {
         if (currentItem) {
-            showHospitalDialog();
+            showRoleDialog();
         } else {
             showToast('提示', '请选择要修改的数据');
         }
@@ -51,56 +45,54 @@ $(function () {
 
     $("#delete").on('click', () => {
         if (currentItem) {
-            showDeleteToast(doDeleteHospitalRecord);
+            showDeleteToast(doDeleteRoleRecord);
         } else {
             showToast('提示', '请选择要删除的数据');
         }
     });
 
     $("#query").on('click', () => {
-        loadHospitalData();
+        loadRoleData();
     });
 
-    $("#hospital_save").on('click', () => {
-        saveHospitalInfo();
+    $("#role_save").on('click', () => {
+        saveRoleInfo();
     });
 
-    loadHospitalData();
+    loadRoleData();
 });
 
-function bindHospitalFormData() {
+function bindRoleFormData() {
     if (currentItem) {
         $("#id").textbox('setValue', currentItem.id);
-        $("#code").textbox('setValue', currentItem.code);
-        $("#name").textbox('setValue', currentItem.name);
-        $("#address").textbox('setValue', currentItem.address);
+        $("#roleName").textbox('setValue', currentItem.roleName);
+        $("#roleDesc").textbox('setValue', currentItem.roleDesc);
     }
 }
 
-function resortHospitalFormData() {
+function resortRoleFormData() {
     // $("#ff")[0].reset(); //并没有删除原来的值
     $("#id").textbox('setValue', '');
-    $("#code").textbox('setValue', '');
-    $("#name").textbox('setValue', '');
-    $("#address").textbox('setValue', '');
+    $("#roleName").textbox('setValue', '');
+    $("#roleDesc").textbox('setValue', '');
 }
 
-function showHospitalDialog() {
-    $("#hospital_dialog").dialog({
+function showRoleDialog() {
+    $("#role_dialog").dialog({
         onOpen: () => {
-            bindHospitalFormData();
+            bindRoleFormData();
         },
         onClose: () => {
-            resortHospitalFormData();
+            resortRoleFormData();
         }
     });
-    $("#hospital_dialog").dialog('open');
+    $("#role_dialog").dialog('open');
 }
 
 
-function initHospitalTable() {
-    $hospitalTable = $("#hospital_list");
-    $hospitalTable.datagrid({
+function initRoleTable() {
+    $roleTable = $("#role_list");
+    $roleTable.datagrid({
         rownumbers: true,
         showFooter: true,
         fitColumns: true,
@@ -121,28 +113,28 @@ function initHospitalTable() {
 }
 
 
-function loadHospitalData() {
+function loadRoleData() {
     $.ajax({
-        url: "/api/hospital",
+        url: "/api/role",
         type: 'get',
         dataType: 'json',
         success: data => {
             if (data.code === 200) {
-                $hospitalTable.datagrid({data: data.data});
+                $roleTable.datagrid({data: data.data});
             }
         }
     })
 }
 
-function saveHospitalInfo() {
+function saveRoleInfo() {
     let form = $("#ff");
     if (form.form('validate')) {
         let data = form.serializeObject();
         // console.log(data);
         if (data.id) {
-            doSaveOrUpdateHospitalInfo(data, 'PUT');
+            doSaveOrUpdateRoleInfo(data, 'PUT');
         } else {
-            doSaveOrUpdateHospitalInfo(data, 'POST');
+            doSaveOrUpdateRoleInfo(data, 'POST');
         }
 
     } else {
@@ -150,9 +142,9 @@ function saveHospitalInfo() {
     }
 }
 
-function doSaveOrUpdateHospitalInfo(data, method) {
+function doSaveOrUpdateRoleInfo(data, method) {
     $.ajax({
-        url: '/api/hospital',
+        url: '/api/role',
         type: method,
         data: JSON.stringify(data),
         dataType: 'json',
@@ -160,23 +152,23 @@ function doSaveOrUpdateHospitalInfo(data, method) {
         success: (data) => {
             showToast('提示', data.message);
             if (data.code === 200) {
-                loadHospitalData();
-                resortHospitalFormData();
+                loadRoleData();
+                resortRoleFormData();
             }
         }
     })
 }
 
-function doDeleteHospitalRecord() {
+function doDeleteRoleRecord() {
     $.ajax({
-        url: '/api/hospital/' + currentItem.id,
+        url: '/api/role/' + currentItem.id,
         type: 'DELETE',
         dataType: 'json',
         contentType: 'application/json',
         success: (data) => {
             showToast('提示', data.message);
             if (data.code === 200) {
-                loadHospitalData();
+                loadRoleData();
             }
         }
     })
