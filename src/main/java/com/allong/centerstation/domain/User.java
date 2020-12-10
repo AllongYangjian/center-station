@@ -1,5 +1,6 @@
 package com.allong.centerstation.domain;
 
+import com.allong.centerstation.common.enums.UserStatus;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
@@ -50,9 +51,9 @@ public class User extends BaseEntity<User> implements UserDetails {
     private String password;
 
     /**
-     * 状态
+     * 状态 1-正常 2-无效 3-锁定 4-过期
      */
-    private Boolean status;
+    private Integer status;
 
     @TableField(exist = false)
     private List<Role> roles;
@@ -71,24 +72,24 @@ public class User extends BaseEntity<User> implements UserDetails {
     @JsonIgnore
     @Override
     public boolean isAccountNonExpired() {
-        return true;
+        return !status.equals(UserStatus.AccountExpired.getCode());
     }
 
     @JsonIgnore
     @Override
     public boolean isAccountNonLocked() {
-        return true;
+        return !status.equals(UserStatus.AccountLock.getCode());
     }
 
     @JsonIgnore
     @Override
     public boolean isCredentialsNonExpired() {
-        return true;
+        return !status.equals(UserStatus.CredentialExpired.getCode());
     }
 
     @JsonIgnore
     @Override
     public boolean isEnabled() {
-        return true;
+        return status.equals(UserStatus.Enable.getCode());
     }
 }

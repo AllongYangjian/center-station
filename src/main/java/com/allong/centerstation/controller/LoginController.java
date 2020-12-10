@@ -1,6 +1,7 @@
 package com.allong.centerstation.controller;
 
 import com.allong.centerstation.common.Result;
+import com.allong.centerstation.common.enums.UserStatus;
 import com.allong.centerstation.domain.User;
 import com.allong.centerstation.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,7 +49,7 @@ public class LoginController {
         User user = new User();
         user.setUsername(username);
         user.setPassword(encoder.encode(password));
-        user.setStatus(true);
+        user.setStatus(UserStatus.Enable.getCode());
         boolean result = userService.save(user);
         if (result) {
             return new ResponseEntity<>(new Result.Builder<>().buildSaveSuccess(), HttpStatus.OK);

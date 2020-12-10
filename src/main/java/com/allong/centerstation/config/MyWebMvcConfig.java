@@ -23,6 +23,7 @@ public class MyWebMvcConfig implements WebMvcConfigurer {
         registry.addViewController("/system/hospital").setViewName("/system/hospital");
         registry.addViewController("/system/device").setViewName("/system/device");
         registry.addViewController("/system/role").setViewName("/system/role");
+        registry.addViewController("/system/user").setViewName("/system/user");
     }
 
     @Override

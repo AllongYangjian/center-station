@@ -2,6 +2,7 @@ package com.allong.centerstation.controller;
 
 
 import com.allong.centerstation.common.Result;
+import com.allong.centerstation.domain.Role;
 import com.allong.centerstation.domain.User;
 import com.allong.centerstation.service.UserService;
 import com.allong.centerstation.utils.SecurityUtils;
@@ -10,11 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * <p>
@@ -48,6 +45,17 @@ public class UserController {
             user.setPassword(null);
         }
         return new ResponseEntity<>(new Result.Builder<>().setData(user).buildQuerySuccess(), HttpStatus.OK);
+    }
+
+
+    @GetMapping
+    public ResponseEntity<Object> list() {
+        return new ResponseEntity<>(new Result.Builder<>().setData(userService.list()).buildQuerySuccess(), HttpStatus.OK);
+    }
+
+    @PutMapping
+    public ResponseEntity<Object> update(@RequestBody User user) {
+        return new ResponseEntity<>(new Result.Builder<>().setData(user.updateById()).buildUpdateSuccess(), HttpStatus.OK);
     }
 
 }
