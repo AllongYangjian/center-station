@@ -1,0 +1,284 @@
+const columns = [[
+    {
+        field: 'ck',
+        checkbox: true
+    },
+    {
+        title: 'ID',
+        field: 'id',
+        align: 'center',
+        width: 1
+    },
+    {
+        title: '代码',
+        field: 'code',
+        align: 'center',
+        width: 1
+    },
+    {
+        title: '名称',
+        field: 'name',
+        align: 'center',
+        width: 1
+    },
+    {
+        title: '排序',
+        field: 'position',
+        align: 'center',
+        width: 1
+    },
+    {
+        title: '颜色',
+        field: 'keyColor',
+        align: 'center',
+        width: 1,
+        formatter: (value, row, index) => {
+            return '<span style="display:inline-block;width: 100%;height: 20px;color:white;background: ' + value + '">' + value + '</span>'
+        }
+    },
+    {
+        title: '大小',
+        field: 'keySize',
+        align: 'center',
+        width: 1
+    },
+    {
+        title: '下限',
+        field: 'min',
+        align: 'center',
+        width: 1
+    },
+    {
+        title: '上限',
+        field: 'max',
+        align: 'center',
+        width: 1
+    },
+    {
+        title: '是否存在波形',
+        field: 'wave',
+        align: 'center',
+        width: 1,
+        formatter: (value, row, index) => {
+            if (value) {
+                return '<span>是</span>'
+            } else {
+                return '<span>否</span>'
+            }
+        }
+    },
+    {
+        title: '缩放系数',
+        field: 'scale',
+        align: 'center',
+        width: 1
+    }
+]];
+
+const enableData = [
+    {
+        id: false,
+        name: '否'
+    },
+    {
+        id: true,
+        name: '是'
+    }
+];
+
+
+var $keyTable;
+var currentItem;
+
+$(function () {
+    initKeyTable();
+
+    $("#add").on('click', () => {
+        currentItem = undefined;
+        $keyTable.datagrid('uncheckAll');
+        showKeyDialog();
+    });
+
+    $("#edit").on('click', () => {
+        if (currentItem) {
+            showKeyDialog();
+        } else {
+            showToast('提示', '请选择要修改的数据');
+        }
+    });
+
+    $("#delete").on('click', () => {
+        if (currentItem) {
+            showDeleteToast(doDeleteKeyRecord);
+        } else {
+            showToast('提示', '请选择要删除的数据');
+        }
+    });
+
+    $("#query").on('click', () => {
+        loadKeyData();
+    });
+
+    $("#key_save").on('click', () => {
+        saveKeyInfo();
+    });
+
+    loadKeyData();
+    loadDeviceData();
+});
+
+function loadDeviceData() {
+    $.ajax({
+        url: "/api/device",
+        type: 'get',
+        dataType: 'json',
+        success: data => {
+            if (data.code === 200) {
+                $("#deviceId").combobox({data: data.data});
+            }
+        }
+    })
+}
+
+
+/**
+ * 初始化用户信息表单
+ */
+function bindKeyFormData() {
+    if (currentItem) {
+        $("#id").textbox('setValue', currentItem.id);
+        $("#deviceId").combobox('setValue', currentItem.deviceId);
+        $("#code").textbox('setValue', currentItem.code);
+        $("#name").textbox('setValue', currentItem.name);
+        $("#keyColor").val(currentItem.keyColor);
+        $("#keySize").textbox('setValue', currentItem.keySize);
+        $("#min").textbox('setValue', currentItem.min);
+        $("#max").textbox('setValue', currentItem.max);
+        $("#position").textbox('setValue', currentItem.position);
+        $("#wave").combobox('setValue', currentItem.wave);
+        $("#scale").numberspinner('setValue', currentItem.scale);
+    }
+}
+
+/**
+ * 重置用户信息表单
+ */
+function resortKeyFormData() {
+    // $("#ff")[0].reset(); //并没有删除原来的值
+    $("#id").textbox('setValue', '');
+    $("#deviceId").combobox('setValue', '');
+    $("#code").textbox('setValue', '');
+    $("#name").textbox('setValue', '');
+    $("#keyColor").val('#000000');
+    $("#keySize").textbox('setValue', '');
+    $("#min").textbox('setValue', '');
+    $("#max").textbox('setValue', '');
+    $("#position").textbox('setValue', '');
+    $("#wave").combobox('setValue', '');
+    $("#scale").numberspinner('setValue', '');
+}
+
+/**
+ * 显示用户信息表单对话框
+ */
+function showKeyDialog() {
+    $("#key_dialog").dialog({
+        onOpen: () => {
+            bindKeyFormData();
+        },
+        onClose: () => {
+            resortKeyFormData();
+        }
+    });
+    $("#key_dialog").dialog('open');
+}
+
+/**
+ * 初始化用户信息
+ */
+function initKeyTable() {
+    $keyTable = $("#key_list");
+    $keyTable.datagrid({
+        rownumbers: true,
+        showFooter: true,
+        fitColumns: true,
+        pagination: true,
+        remoteSort: false,
+        singleSelect: true,
+        pagePosition: 'bottom',
+        pageNumber: 1,
+        pageSize: 20,
+        columns: columns,
+        onCheck: (index, data) => {
+            currentItem = data;
+        },
+        onUncheck: (index, data) => {
+            currentItem = undefined;
+        }
+    });
+}
+
+/**
+ * 记载用户信息
+ */
+function loadKeyData() {
+    $.ajax({
+        url: "/api/key",
+        type: 'get',
+        dataType: 'json',
+        success: data => {
+            if (data.code === 200) {
+                $keyTable.datagrid({data: data.data});
+            }
+        }
+    })
+}
+
+function saveKeyInfo() {
+    let form = $("#ff");
+    if (form.form('validate')) {
+        let data = form.serializeObject();
+        // console.log(data);
+        if (data.id) {
+            doSaveOrUpdateKeyInfo(data, 'PUT');
+        } else {
+            doSaveOrUpdateKeyInfo(data, 'POST');
+        }
+
+    } else {
+        showToast('警告', '存在校验未通过项目');
+    }
+}
+
+function doSaveOrUpdateKeyInfo(data, method) {
+    $.ajax({
+        url: '/api/key',
+        type: method,
+        data: JSON.stringify(data),
+        dataType: 'json',
+        contentType: 'application/json',
+        success: (data) => {
+            showToast('提示', data.message);
+            if (data.code === 200) {
+                loadKeyData();
+                resortKeyFormData();
+            }
+        }
+    })
+}
+
+function doDeleteKeyRecord() {
+    $.ajax({
+        url: '/api/key/' + currentItem.id,
+        type: 'DELETE',
+        dataType: 'json',
+        contentType: 'application/json',
+        success: (data) => {
+            showToast('提示', data.message);
+            if (data.code === 200) {
+                loadKeyData();
+            }
+        }
+    })
+}
+

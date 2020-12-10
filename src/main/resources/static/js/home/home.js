@@ -43,6 +43,10 @@ var data = [
                 url: '/system/device'
             },
             {
+                text: '关键字',
+                url: '/system/key'
+            },
+            {
                 text: '医院',
                 url: '/system/hospital'
             },

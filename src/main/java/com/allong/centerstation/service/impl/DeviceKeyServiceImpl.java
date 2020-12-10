@@ -3,8 +3,11 @@ package com.allong.centerstation.service.impl;
 import com.allong.centerstation.domain.DeviceKey;
 import com.allong.centerstation.mapper.DeviceKeyMapper;
 import com.allong.centerstation.service.DeviceKeyService;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * <p>
@@ -17,4 +20,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class DeviceKeyServiceImpl extends ServiceImpl<DeviceKeyMapper, DeviceKey> implements DeviceKeyService {
 
+    @Override
+    public List<DeviceKey> listByDeviceId(Integer deviceId) {
+        return baseMapper.selectList(new QueryWrapper<DeviceKey>().eq("device_id", deviceId));
+    }
 }

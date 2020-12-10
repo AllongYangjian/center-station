@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>设备关键字</title>
+    <script type="text/javascript" src="/static/js/common/title.js"></script>
+    <script type="text/javascript" src="/static/js/utils/utils.js"></script>
+    <style>
+
+        form#ff {
+            padding: 8px;
+        }
+
+        .form-item {
+            margin-bottom: 16px;
+        }
+
+        .form-item-title {
+            /*display: inline-block;*/
+            /*width: 100px;*/
+            /*text-align: right;*/
+            font-size: 18px;
+            /*font-weight: 700;*/
+            /*margin-bottom: 8px;*/
+        }
+    </style>
+</head>
+<body>
+
+<div id="key_list" class="easyui-datagrid" fit="true" style="width: 70%;height: 100%"
+     toolbar="#key_list_toolbar">
+
+</div>
+
+<div id="key_list_toolbar" style="padding: 5px;height: auto">
+    <a class="easyui-linkbutton" id="add" data-options="iconCls:'icon-add'">新增</a>
+    <a class="easyui-linkbutton" id="edit" data-options="iconCls:'icon-edit'">修改</a>
+    <a class="easyui-linkbutton" id="delete" data-options="iconCls:'icon-remove'">删除</a>
+    <a class="easyui-linkbutton" id="query" data-options="iconCls:'icon-reload'">刷新</a>
+</div>
+
+
+<div id="key_dialog" class="easyui-dialog" title="医院信息"
+     data-options="resizable:true,modal:true,closed:true,border:false"
+     style="width: 600px;height: 600px">
+    <form id="ff" method="post">
+        <table style="width: 100%" cellspacing="10">
+            <tr class="form-item">
+                <td class="form-item-title">ID:</td>
+                <td><input class="easyui-textbox" id="id" name="id" style="width: 100%;height:32px"
+                           data-options="prompt:'该项为系统生成，无需输入',editable:false"></td>
+            </tr>
+            <tr>
+                <td class="form-item-title">
+                    设备类型:
+                </td>
+                <td>
+                    <input class="easyui-combobox" id="deviceId" name="deviceId" style="width:100%;height:32px"
+                           data-options="prompt:'请输入代码',required:true,valueField:'id',textField:'name'">
+                </td>
+            </tr>
+            <tr>
+                <td class="form-item-title">
+                    代码:
+                </td>
+                <td>
+                    <input class="easyui-textbox" id="code" name="code" style="width:100%;height:32px"
+                           data-options="prompt:'请输入代码',required:true">
+                </td>
+            </tr>
+            <tr>
+                <td class="form-item-title">
+                    名称:
+                </td>
+                <td>
+                    <input class="easyui-textbox" id="name" name="name" style="width:100%;height:32px"
+                           data-options="prompt:'请输入名称',required:true">
+                </td>
+            </tr>
+            <tr>
+                <td class="form-item-title">
+                    显示颜色:
+                </td>
+                <td>
+                    <input type="color" id="keyColor" name="keyColor" style="width:100%;height:32px"
+                           data-options="prompt:'请输入颜色',required:true">
+                </td>
+            </tr>
+            <tr>
+                <td class="form-item-title">
+                    显示大小:
+                </td>
+                <td>
+                    <input class="easyui-textbox" id="keySize" name="keySize" style="width:100%;height:32px"
+                           data-options="prompt:'请输入大小',required:true">
+                </td>
+            </tr>
+            <tr>
+                <td class="form-item-title">
+                    下限:
+                </td>
+                <td>
+                    <input class="easyui-textbox" id="min" name="min" style="width:100%;height:32px"
+                           data-options="prompt:'请输入下限',required:true">
+                </td>
+            </tr>
+            <tr>
+                <td class="form-item-title">
+                    上限:
+                </td>
+                <td>
+                    <input class="easyui-textbox" id="max" name="max" style="width:100%;height:32px"
+                           data-options="prompt:'请输入上限',required:true">
+                </td>
+            </tr>
+            <tr>
+                <td class="form-item-title">
+                    排序:
+                </td>
+                <td>
+                    <input class="easyui-textbox" id="position" name="position" style="width:100%;height:32px"
+                           data-options="prompt:'请输入索引',required:true">
+                </td>
+            </tr>
+            <tr>
+                <td class="form-item-title">
+                    是否存在波形:
+                </td>
+                <td>
+                    <input class="easyui-combobox" id="wave" name="wave" style="width:100%;height:32px"
+                           data-options="prompt:'请输入是否存在波形',required:true,valueField:'id',textField:'name',data:enableData">
+                </td>
+            </tr>
+            <tr>
+                <td class="form-item-title">
+                    缩放系数:
+                </td>
+                <td>
+                    <input class="easyui-numberspinner" id="scale" name="scale" style="width:100%;height:32px"
+                           data-options="prompt:'请输入缩放系数',required:true,min:1">
+                </td>
+            </tr>
+
+        </table>
+        <div style="margin-top: 16px">
+            <a href="#" id="key_save" class="easyui-linkbutton" iconCls="icon-ok"
+               style="width:100%;height:32px">保存</a>
+        </div>
+    </form>
+</div>
+<script type="text/javascript" src="/static/js/system/key.js"></script>
+</body>
+</html>
