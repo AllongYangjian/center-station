@@ -59,6 +59,11 @@ $(function () {
         saveRoleInfo();
     });
 
+    $("#role_close").on('click', () => {
+        $("#role_dialog").dialog('close');
+    });
+
+
     loadRoleData();
 });
 
@@ -108,7 +113,8 @@ function initRoleTable() {
         },
         onUncheck: (index, data) => {
             currentItem = undefined;
-        }
+        },
+        loadFilter: pagerFilter
     });
 }
 

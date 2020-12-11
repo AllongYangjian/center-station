@@ -65,6 +65,10 @@ $(function () {
         saveHospitalInfo();
     });
 
+    $("#hospital_close").on('click', () => {
+        $("#hospital_dialog").dialog('close');
+    });
+
     loadHospitalData();
 });
 
@@ -116,7 +120,8 @@ function initHospitalTable() {
         },
         onUncheck: (index, data) => {
             currentItem = undefined;
-        }
+        },
+        loadFilter: pagerFilter
     });
 }
 

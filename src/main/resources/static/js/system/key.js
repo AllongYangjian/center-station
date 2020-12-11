@@ -89,6 +89,7 @@ const enableData = [
 
 var $keyTable;
 var currentItem;
+var currentDeviceId;
 
 $(function () {
     initKeyTable();
@@ -119,12 +120,34 @@ $(function () {
         loadKeyData();
     });
 
+    $("#reset").on('click', () => {
+        currentDeviceId = undefined;
+        $("#device_criteria").combobox('setValue', '');
+        loadKeyData();
+    });
+
     $("#key_save").on('click', () => {
         saveKeyInfo();
     });
 
+    $("#key_close").on('click', () => {
+        $("#key_dialog").dialog('close');
+    });
+
+    $("#reload_device").on('click', () => {
+        loadDeviceData();
+    });
+
+    $("#device_criteria").combobox({
+        onSelect: item => {
+            currentDeviceId = item.id;
+            loadKeyData();
+        }
+    });
+
     loadKeyData();
     loadDeviceData();
+
 });
 
 function loadDeviceData() {
@@ -135,6 +158,7 @@ function loadDeviceData() {
         success: data => {
             if (data.code === 200) {
                 $("#deviceId").combobox({data: data.data});
+                $("#device_criteria").combobox({data: data.data});
             }
         }
     })
@@ -151,10 +175,10 @@ function bindKeyFormData() {
         $("#code").textbox('setValue', currentItem.code);
         $("#name").textbox('setValue', currentItem.name);
         $("#keyColor").val(currentItem.keyColor);
-        $("#keySize").textbox('setValue', currentItem.keySize);
+        $("#keySize").numberspinner('setValue', currentItem.keySize);
         $("#min").textbox('setValue', currentItem.min);
         $("#max").textbox('setValue', currentItem.max);
-        $("#position").textbox('setValue', currentItem.position);
+        $("#position").numberspinner('setValue', currentItem.position);
         $("#wave").combobox('setValue', currentItem.wave);
         $("#scale").numberspinner('setValue', currentItem.scale);
     }
@@ -170,10 +194,10 @@ function resortKeyFormData() {
     $("#code").textbox('setValue', '');
     $("#name").textbox('setValue', '');
     $("#keyColor").val('#000000');
-    $("#keySize").textbox('setValue', '');
+    $("#keySize").numberspinner('setValue', '');
     $("#min").textbox('setValue', '');
     $("#max").textbox('setValue', '');
-    $("#position").textbox('setValue', '');
+    $("#position").numberspinner('setValue', '');
     $("#wave").combobox('setValue', '');
     $("#scale").numberspinner('setValue', '');
 }
@@ -214,7 +238,8 @@ function initKeyTable() {
         },
         onUncheck: (index, data) => {
             currentItem = undefined;
-        }
+        },
+        loadFilter: pagerFilter
     });
 }
 
@@ -222,8 +247,14 @@ function initKeyTable() {
  * 记载用户信息
  */
 function loadKeyData() {
+    let url = '';
+    if (currentDeviceId !== undefined) {
+        url = "/api/key/" + currentDeviceId;
+    } else {
+        url = "/api/key";
+    }
     $.ajax({
-        url: "/api/key",
+        url: url,
         type: 'get',
         dataType: 'json',
         success: data => {

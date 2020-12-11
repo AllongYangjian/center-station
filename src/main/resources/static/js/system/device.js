@@ -138,6 +138,10 @@ $(function () {
         saveDeviceInfo();
     });
 
+    $("#device_close").on('click', () => {
+        $("#device_dialog").dialog('close');
+    });
+
     loadDeviceData();
 });
 
@@ -203,7 +207,8 @@ function initDeviceTable() {
         },
         onUncheck: (index, data) => {
             currentItem = undefined;
-        }
+        },
+        loadFilter: pagerFilter
     });
 }
 

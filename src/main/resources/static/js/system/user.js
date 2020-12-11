@@ -124,6 +124,10 @@ $(function () {
         saveUserRole();
     });
 
+    $("#user_close").on('click', () => {
+        $("#user_dialog").dialog('close');
+    });
+
     loadUserData();
     loadUserRoleData();
 });
@@ -147,7 +151,8 @@ function initUserRoleTable() {
         onCheck: (index, data) => {
         },
         onUncheck: (index, data) => {
-        }
+        },
+        loadFilter: pagerFilter
     });
 }
 
@@ -242,7 +247,8 @@ function initUserTable() {
         },
         onUncheck: (index, data) => {
             currentItem = undefined;
-        }
+        },
+        loadFilter: pagerFilter
     });
 }
 
