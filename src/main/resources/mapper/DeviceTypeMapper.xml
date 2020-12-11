@@ -3,7 +3,7 @@
 <mapper namespace="com.allong.centerstation.mapper.DeviceTypeMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.allong.centerstation.domain.DeviceType">
+    <resultMap id="BaseResultMap" type="com.allong.centerstation.domain.entity.DeviceType">
         <id column="id" property="id" />
         <result column="name" property="name" />
         <result column="manufacturer" property="manufacturer" />

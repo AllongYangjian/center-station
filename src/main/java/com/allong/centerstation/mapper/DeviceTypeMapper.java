@@ -1,6 +1,6 @@
 package com.allong.centerstation.mapper;
 
-import com.allong.centerstation.domain.DeviceType;
+import com.allong.centerstation.domain.entity.DeviceType;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**

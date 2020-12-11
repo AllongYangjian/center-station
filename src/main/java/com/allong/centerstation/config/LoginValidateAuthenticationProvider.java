@@ -1,6 +1,6 @@
 package com.allong.centerstation.config;
 
-import com.allong.centerstation.domain.User;
+import com.allong.centerstation.domain.entity.User;
 import com.allong.centerstation.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.*;

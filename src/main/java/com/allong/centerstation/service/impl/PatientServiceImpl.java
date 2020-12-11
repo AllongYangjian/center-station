@@ -1,6 +1,6 @@
 package com.allong.centerstation.service.impl;
 
-import com.allong.centerstation.domain.Patient;
+import com.allong.centerstation.domain.entity.Patient;
 import com.allong.centerstation.mapper.PatientMapper;
 import com.allong.centerstation.service.PatientService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;

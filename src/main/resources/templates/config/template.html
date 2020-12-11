@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>模板</title>
+    <script type="text/javascript" src="/static/js/common/title.js"></script>
+    <script type="text/javascript" src="/static/js/utils/utils.js"></script>
+    <style>
+
+        form#ff {
+            padding: 8px;
+        }
+
+        .form-item {
+            margin-bottom: 16px;
+        }
+
+        .form-item-title {
+            /*display: inline-block;*/
+            /*width: 100px;*/
+            /*text-align: right;*/
+            font-size: 18px;
+            /*font-weight: 700;*/
+            /*margin-bottom: 8px;*/
+        }
+    </style>
+</head>
+<body>
+<div id="template_list" class="easyui-datagrid" fit="true" toolbar="#template_list_toolbar">
+
+</div>
+<div id="template_list_toolbar" style="padding: 5px;height: auto">
+    <a class="easyui-linkbutton" id="add" data-options="iconCls:'icon-add'">新增</a>
+    <a class="easyui-linkbutton" id="edit" data-options="iconCls:'icon-edit'">修改</a>
+    <a class="easyui-linkbutton" id="delete" data-options="iconCls:'icon-remove'">删除</a>
+    <a class="easyui-linkbutton" id="query" data-options="iconCls:'icon-reload'">刷新</a>
+</div>
+
+<div id="template_dialog" class="easyui-dialog" title="角色信息"
+     data-options="resizable:true,modal:true,closed:true,border:false"
+     style="width: 600px;height: 450px">
+    <form id="ff" method="post">
+        <table style="width: 100%" cellspacing="10">
+            <tr class="form-item">
+                <td class="form-item-title">ID:</td>
+                <td><input class="easyui-textbox" id="id" name="id" style="width: 100%;height:32px"
+                           data-options="prompt:'该项为系统生成，无需输入',editable:false"></td>
+            </tr>
+            <tr>
+                <td class="form-item-title">
+                    角色名称:
+                </td>
+                <td>
+                    <input class="easyui-textbox" id="tempName" name="tempName" style="width:100%;height:32px"
+                           data-options="prompt:'请输入角色名称',required:true">
+                </td>
+            </tr>
+            <tr>
+                <td class="form-item-title">
+                    波形显示:
+                </td>
+                <td>
+                    <input class="easyui-tagbox" id="waves" name="waves" style="width:100%;height:32px"
+                           data-options="prompt:'请选择波形显示的字段',required:true,valueField:'keyId',textField:'keyName',
+                           hasDownArrow:true,editable:false">
+                </td>
+            </tr>
+            <tr>
+                <td class="form-item-title">
+                    数值显示:
+                </td>
+                <td>
+                    <input class="easyui-tagbox" id="data" name="data" style="width:100%;height:32px"
+                           data-options="prompt:'请选择数值显示的字段',required:true,valueField:'keyId',
+                           textField:'keyName',hasDownArrow:true,editable:false">
+                </td>
+            </tr>
+            <tr>
+                <td class="form-item-title">
+                    是否启用:
+                </td>
+                <td>
+                    <input class="easyui-combobox" id="enable" name="enable" style="width:100%;height:32px"
+                           data-options="prompt:'请输入是否启用',required:true,valueField:'id',textField:'name',data:enableData,editable:false">
+                </td>
+            </tr>
+        </table>
+        <div style="margin-top: 16px">
+            <a href="#" id="template_save" class="easyui-linkbutton" iconCls="icon-ok"
+               style="width:100%;height:32px">保存</a>
+        </div>
+        <div style="margin-top: 16px">
+            <a href="#" id="template_close" class="easyui-linkbutton" iconCls="icon-cancel"
+               style="width:100%;height:32px">取消</a>
+        </div>
+    </form>
+</div>
+<script type="text/javascript" src="/static/js/config/template.js"></script>
+</body>
+</html>

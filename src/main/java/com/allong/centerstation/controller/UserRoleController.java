@@ -2,9 +2,7 @@ package com.allong.centerstation.controller;
 
 
 import com.allong.centerstation.common.Result;
-import com.allong.centerstation.domain.Hospital;
-import com.allong.centerstation.domain.UserRole;
-import com.allong.centerstation.service.HospitalService;
+import com.allong.centerstation.domain.entity.UserRole;
 import com.allong.centerstation.service.UserRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

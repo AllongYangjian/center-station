@@ -1,6 +1,6 @@
 package com.allong.centerstation.service;
 
-import com.allong.centerstation.domain.Patient;
+import com.allong.centerstation.domain.entity.Patient;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.List;

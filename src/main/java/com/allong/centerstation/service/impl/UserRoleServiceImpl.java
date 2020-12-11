@@ -1,6 +1,6 @@
 package com.allong.centerstation.service.impl;
 
-import com.allong.centerstation.domain.UserRole;
+import com.allong.centerstation.domain.entity.UserRole;
 import com.allong.centerstation.mapper.UserRoleMapper;
 import com.allong.centerstation.service.UserRoleService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;

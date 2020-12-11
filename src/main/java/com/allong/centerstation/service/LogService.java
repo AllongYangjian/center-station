@@ -1,6 +1,6 @@
 package com.allong.centerstation.service;
 
-import com.allong.centerstation.domain.Log;
+import com.allong.centerstation.domain.entity.Log;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**

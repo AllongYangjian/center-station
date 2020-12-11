@@ -1,13 +1,11 @@
-package com.allong.centerstation.domain;
+package com.allong.centerstation.domain.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.extension.activerecord.Model;
 
 import java.util.Date;
 
 import com.baomidou.mybatisplus.annotation.TableId;
-import com.allong.centerstation.domain.BaseEntity;
 
 import java.io.Serializable;
 

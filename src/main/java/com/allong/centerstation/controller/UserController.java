@@ -2,16 +2,13 @@ package com.allong.centerstation.controller;
 
 
 import com.allong.centerstation.common.Result;
-import com.allong.centerstation.domain.Role;
-import com.allong.centerstation.domain.User;
+import com.allong.centerstation.domain.entity.User;
 import com.allong.centerstation.service.RoleService;
 import com.allong.centerstation.service.UserService;
 import com.allong.centerstation.utils.SecurityUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

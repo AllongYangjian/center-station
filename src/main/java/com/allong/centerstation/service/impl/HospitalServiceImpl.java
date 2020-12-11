@@ -1,6 +1,6 @@
 package com.allong.centerstation.service.impl;
 
-import com.allong.centerstation.domain.Hospital;
+import com.allong.centerstation.domain.entity.Hospital;
 import com.allong.centerstation.mapper.HospitalMapper;
 import com.allong.centerstation.service.HospitalService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;

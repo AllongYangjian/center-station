@@ -1,6 +1,7 @@
 package com.allong.centerstation.service.impl;
 
-import com.allong.centerstation.domain.DeviceKey;
+import com.allong.centerstation.domain.KeyDetail;
+import com.allong.centerstation.domain.entity.DeviceKey;
 import com.allong.centerstation.mapper.DeviceKeyMapper;
 import com.allong.centerstation.service.DeviceKeyService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -23,5 +24,10 @@ public class DeviceKeyServiceImpl extends ServiceImpl<DeviceKeyMapper, DeviceKey
     @Override
     public List<DeviceKey> listByDeviceId(Integer deviceId) {
         return baseMapper.selectList(new QueryWrapper<DeviceKey>().eq("device_id", deviceId));
+    }
+
+    @Override
+    public List<KeyDetail> listKeyDetail() {
+        return baseMapper.listKeyDetail();
     }
 }

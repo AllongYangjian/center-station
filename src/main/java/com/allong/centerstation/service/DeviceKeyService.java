@@ -1,6 +1,7 @@
 package com.allong.centerstation.service;
 
-import com.allong.centerstation.domain.DeviceKey;
+import com.allong.centerstation.domain.KeyDetail;
+import com.allong.centerstation.domain.entity.DeviceKey;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.List;
@@ -16,4 +17,6 @@ import java.util.List;
 public interface DeviceKeyService extends IService<DeviceKey> {
 
     List<DeviceKey> listByDeviceId(Integer deviceId);
+
+    List<KeyDetail> listKeyDetail();
 }

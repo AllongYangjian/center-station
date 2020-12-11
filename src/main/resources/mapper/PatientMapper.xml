@@ -3,7 +3,7 @@
 <mapper namespace="com.allong.centerstation.mapper.PatientMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.allong.centerstation.domain.Patient">
+    <resultMap id="BaseResultMap" type="com.allong.centerstation.domain.entity.Patient">
         <id column="id" property="id"/>
         <result column="hid" property="hid"/>
         <result column="bed" property="bed"/>

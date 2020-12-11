@@ -1,7 +1,7 @@
 package com.allong.centerstation.controller;
 
 import com.allong.centerstation.common.Result;
-import com.allong.centerstation.domain.Role;
+import com.allong.centerstation.domain.entity.Role;
 import com.allong.centerstation.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

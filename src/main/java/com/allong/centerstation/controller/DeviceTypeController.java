@@ -2,7 +2,7 @@ package com.allong.centerstation.controller;
 
 
 import com.allong.centerstation.common.Result;
-import com.allong.centerstation.domain.DeviceType;
+import com.allong.centerstation.domain.entity.DeviceType;
 import com.allong.centerstation.service.DeviceTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

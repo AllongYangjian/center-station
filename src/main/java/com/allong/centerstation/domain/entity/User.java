@@ -1,12 +1,10 @@
-package com.allong.centerstation.domain;
+package com.allong.centerstation.domain.entity;
 
 import com.allong.centerstation.common.enums.UserStatus;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.baomidou.mybatisplus.annotation.TableId;
-import com.allong.centerstation.domain.BaseEntity;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -16,7 +14,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.Transient;
 import org.springframework.security.core.userdetails.UserDetails;
 
 /**

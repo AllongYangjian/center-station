@@ -3,7 +3,7 @@
 <mapper namespace="com.allong.centerstation.mapper.LogMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.allong.centerstation.domain.Log">
+    <resultMap id="BaseResultMap" type="com.allong.centerstation.domain.entity.Log">
         <id column="log_id" property="logId" />
         <result column="description" property="description" />
         <result column="log_type" property="logType" />

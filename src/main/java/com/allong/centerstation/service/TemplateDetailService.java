@@ -1,7 +1,9 @@
 package com.allong.centerstation.service;
 
-import com.allong.centerstation.domain.TemplateDetail;
+import com.allong.centerstation.domain.entity.TemplateDetail;
 import com.baomidou.mybatisplus.extension.service.IService;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +15,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface TemplateDetailService extends IService<TemplateDetail> {
 
+    List<TemplateDetail> listByTempId(Integer tempId);
+
+    void deleteByTempId(Integer tempId);
 }

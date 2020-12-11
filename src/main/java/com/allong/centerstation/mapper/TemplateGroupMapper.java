@@ -1,6 +1,6 @@
 package com.allong.centerstation.mapper;
 
-import com.allong.centerstation.domain.TemplateGroup;
+import com.allong.centerstation.domain.entity.TemplateGroup;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**

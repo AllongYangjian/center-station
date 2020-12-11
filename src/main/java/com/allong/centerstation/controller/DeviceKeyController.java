@@ -2,10 +2,9 @@ package com.allong.centerstation.controller;
 
 
 import com.allong.centerstation.common.Result;
-import com.allong.centerstation.domain.DeviceKey;
-import com.allong.centerstation.domain.DeviceType;
+import com.allong.centerstation.domain.entity.DeviceKey;
 import com.allong.centerstation.service.DeviceKeyService;
-import com.allong.centerstation.service.DeviceTypeService;
+import jdk.nashorn.internal.objects.annotations.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -53,6 +52,11 @@ public class DeviceKeyController {
     @DeleteMapping
     public ResponseEntity<Object> deleteAll() {
         return new ResponseEntity<>(new Result.Builder<>().setData(deviceKeyService.remove(null)).buildDeleteSuccess(), HttpStatus.OK);
+    }
+
+    @GetMapping("/detail")
+    public ResponseEntity<Object> listKeyDetail(){
+        return new ResponseEntity<>(new Result.Builder<>().setData(deviceKeyService.listKeyDetail()).buildQuerySuccess(), HttpStatus.OK);
     }
 }
 

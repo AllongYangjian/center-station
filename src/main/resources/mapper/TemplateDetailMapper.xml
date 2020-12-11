@@ -3,14 +3,15 @@
 <mapper namespace="com.allong.centerstation.mapper.TemplateDetailMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.allong.centerstation.domain.TemplateDetail">
+    <resultMap id="BaseResultMap" type="com.allong.centerstation.domain.entity.TemplateDetail">
         <result column="temp_id" property="tempId" />
         <result column="key_id" property="keyId" />
+        <result column="type" property="type" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        temp_id, key_id
+        temp_id, key_id,type
     </sql>
 
 </mapper>

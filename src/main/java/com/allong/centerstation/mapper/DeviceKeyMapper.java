@@ -1,7 +1,10 @@
 package com.allong.centerstation.mapper;
 
-import com.allong.centerstation.domain.DeviceKey;
+import com.allong.centerstation.domain.KeyDetail;
+import com.allong.centerstation.domain.entity.DeviceKey;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +16,5 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  */
 public interface DeviceKeyMapper extends BaseMapper<DeviceKey> {
 
+    List<KeyDetail> listKeyDetail();
 }

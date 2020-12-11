@@ -1,6 +1,6 @@
 package com.allong.centerstation.utils;
 
-import com.allong.centerstation.domain.User;
+import com.allong.centerstation.domain.entity.User;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 

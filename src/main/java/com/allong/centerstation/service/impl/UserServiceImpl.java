@@ -1,6 +1,6 @@
 package com.allong.centerstation.service.impl;
 
-import com.allong.centerstation.domain.User;
+import com.allong.centerstation.domain.entity.User;
 import com.allong.centerstation.mapper.UserMapper;
 import com.allong.centerstation.service.RoleService;
 import com.allong.centerstation.service.UserService;

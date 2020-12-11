@@ -1,15 +1,14 @@
-package com.allong.centerstation.domain;
+package com.allong.centerstation.domain.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.baomidou.mybatisplus.extension.activerecord.Model;
-import com.allong.centerstation.domain.BaseEntity;
+
 import java.io.Serializable;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 /**
  * <p>
- * 模板详情
+ * 用户角色表
  * </p>
  *
  * @author 杨建
@@ -17,20 +16,20 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@TableName("sys_template_detail")
-public class TemplateDetail extends BaseEntity<TemplateDetail> {
+@TableName("sys_user_role")
+public class UserRole extends BaseEntity<UserRole> {
 
     private static final long serialVersionUID = 1L;
 
     /**
-     * 模板id
+     * 角色id
      */
-    private Integer tempId;
+    private Integer rid;
 
     /**
-     * 关键字id
+     * 用户id
      */
-    private Integer keyId;
+    private Integer uid;
 
 
     @Override

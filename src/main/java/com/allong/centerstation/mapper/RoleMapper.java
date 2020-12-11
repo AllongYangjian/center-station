@@ -1,6 +1,6 @@
 package com.allong.centerstation.mapper;
 
-import com.allong.centerstation.domain.Role;
+import com.allong.centerstation.domain.entity.Role;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 import java.util.List;

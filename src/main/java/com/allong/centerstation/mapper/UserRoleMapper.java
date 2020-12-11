@@ -1,6 +1,6 @@
 package com.allong.centerstation.mapper;
 
-import com.allong.centerstation.domain.UserRole;
+import com.allong.centerstation.domain.entity.UserRole;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**

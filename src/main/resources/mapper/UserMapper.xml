@@ -3,12 +3,12 @@
 <mapper namespace="com.allong.centerstation.mapper.UserMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.allong.centerstation.domain.User">
+    <resultMap id="BaseResultMap" type="com.allong.centerstation.domain.entity.User">
         <id column="id" property="id"/>
         <result column="username" property="username"/>
         <result column="password" property="password"/>
         <result column="status" property="status"/>
-        <collection property="roles" column="id" javaType="ArrayList" ofType="com.allong.centerstation.domain.Role"
+        <collection property="roles" column="id" javaType="ArrayList" ofType="com.allong.centerstation.domain.entity.Role"
                     select="com.allong.centerstation.mapper.RoleMapper.selectAllByUserId">
             <id column="id" property="id"/>
             <result column="role_name" property="roleName"/>

@@ -1,6 +1,6 @@
 package com.allong.centerstation.mapper;
 
-import com.allong.centerstation.domain.Patient;
+import com.allong.centerstation.domain.entity.Patient;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**

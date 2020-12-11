@@ -2,7 +2,7 @@ package com.allong.centerstation.controller;
 
 
 import com.allong.centerstation.common.Result;
-import com.allong.centerstation.domain.Hospital;
+import com.allong.centerstation.domain.entity.Hospital;
 import com.allong.centerstation.service.HospitalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

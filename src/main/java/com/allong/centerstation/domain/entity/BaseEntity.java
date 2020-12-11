@@ -1,4 +1,4 @@
-package com.allong.centerstation.domain;
+package com.allong.centerstation.domain.entity;
 
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 

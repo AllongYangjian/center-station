@@ -1,8 +1,7 @@
 package com.allong.centerstation.service;
 
-import com.allong.centerstation.domain.User;
+import com.allong.centerstation.domain.entity.User;
 import com.baomidou.mybatisplus.extension.service.IService;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 /**

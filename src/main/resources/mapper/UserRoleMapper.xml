@@ -3,7 +3,7 @@
 <mapper namespace="com.allong.centerstation.mapper.UserRoleMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.allong.centerstation.domain.UserRole">
+    <resultMap id="BaseResultMap" type="com.allong.centerstation.domain.entity.UserRole">
         <result column="rid" property="rid"/>
         <result column="uid" property="uid"/>
     </resultMap>

@@ -2,9 +2,7 @@ package com.allong.centerstation.controller;
 
 
 import com.allong.centerstation.common.Result;
-import com.allong.centerstation.domain.DeviceKey;
-import com.allong.centerstation.domain.Patient;
-import com.allong.centerstation.service.DeviceKeyService;
+import com.allong.centerstation.domain.entity.Patient;
 import com.allong.centerstation.service.PatientService;
 import com.allong.centerstation.utils.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;

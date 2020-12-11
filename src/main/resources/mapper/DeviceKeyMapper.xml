@@ -3,7 +3,7 @@
 <mapper namespace="com.allong.centerstation.mapper.DeviceKeyMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.allong.centerstation.domain.DeviceKey">
+    <resultMap id="BaseResultMap" type="com.allong.centerstation.domain.entity.DeviceKey">
         <id column="id" property="id"/>
         <result column="code" property="code"/>
         <result column="device_id" property="deviceId"/>
@@ -21,5 +21,10 @@
     <sql id="Base_Column_List">
        device_id, id, code, name, key_color, key_size, min, max, position, wave, scale
     </sql>
+
+    <select id="listKeyDetail" resultType="com.allong.centerstation.domain.KeyDetail">
+            select k.id keyId,k.name keyName,d.name deviceName,k.wave from sys_device_key k,sys_device_type d
+            where k.device_id = d.id;
+    </select>
 
 </mapper>

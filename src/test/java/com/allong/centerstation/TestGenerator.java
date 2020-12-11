@@ -1,6 +1,6 @@
 package com.allong.centerstation;
 
-import com.allong.centerstation.domain.BaseEntity;
+import com.allong.centerstation.domain.entity.BaseEntity;
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.generator.AutoGenerator;

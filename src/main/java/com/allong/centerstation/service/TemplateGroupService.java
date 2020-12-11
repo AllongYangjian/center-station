@@ -1,7 +1,9 @@
 package com.allong.centerstation.service;
 
-import com.allong.centerstation.domain.TemplateGroup;
+import com.allong.centerstation.domain.entity.TemplateGroup;
 import com.baomidou.mybatisplus.extension.service.IService;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +15,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface TemplateGroupService extends IService<TemplateGroup> {
 
+    List<TemplateGroup> listByUsername(String username);
 }

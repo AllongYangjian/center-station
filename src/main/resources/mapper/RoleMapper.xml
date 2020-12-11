@@ -3,7 +3,7 @@
 <mapper namespace="com.allong.centerstation.mapper.RoleMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.allong.centerstation.domain.Role">
+    <resultMap id="BaseResultMap" type="com.allong.centerstation.domain.entity.Role">
         <id column="id" property="id"/>
         <result column="role_name" property="roleName"/>
         <result column="role_desc" property="roleDesc"/>
@@ -13,7 +13,7 @@
     <sql id="Base_Column_List">
         id, role_name, role_desc
     </sql>
-    <select id="selectAllByUserId" resultType="com.allong.centerstation.domain.Role">
+    <select id="selectAllByUserId" resultType="com.allong.centerstation.domain.entity.Role">
         select sr.* from sys_role sr,sys_user_role sur where sr.id = sur.rid and sur.uid = #{uid};
     </select>
 

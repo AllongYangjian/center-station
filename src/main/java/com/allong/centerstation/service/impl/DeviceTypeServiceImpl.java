@@ -1,6 +1,6 @@
 package com.allong.centerstation.service.impl;
 
-import com.allong.centerstation.domain.DeviceType;
+import com.allong.centerstation.domain.entity.DeviceType;
 import com.allong.centerstation.mapper.DeviceTypeMapper;
 import com.allong.centerstation.service.DeviceTypeService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;

@@ -1,6 +1,6 @@
 package com.allong.centerstation.service.impl;
 
-import com.allong.centerstation.domain.Role;
+import com.allong.centerstation.domain.entity.Role;
 import com.allong.centerstation.mapper.RoleMapper;
 import com.allong.centerstation.service.RoleService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
