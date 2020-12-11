@@ -3,10 +3,15 @@ package com.allong.centerstation.domain;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
+
 import java.util.Date;
+
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.allong.centerstation.domain.BaseEntity;
+
 import java.io.Serializable;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -30,6 +35,11 @@ public class Patient extends BaseEntity<Patient> {
      */
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
+
+    /**
+     * 医院id
+     */
+    private Integer hid;
 
     /**
      * 床号
@@ -69,6 +79,7 @@ public class Patient extends BaseEntity<Patient> {
     /**
      * 记录时间
      */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date recordTime;
 
     /**
@@ -77,7 +88,7 @@ public class Patient extends BaseEntity<Patient> {
     private String recordUser;
 
     /**
-     * 状态 1-可查看 0 不可查看 
+     * 状态 1-可查看 0 不可查看
      */
     private Integer status;
 

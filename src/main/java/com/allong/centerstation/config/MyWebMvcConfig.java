@@ -18,14 +18,16 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class MyWebMvcConfig implements WebMvcConfigurer {
 
-    @Override
-    public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/system/hospital").setViewName("/system/hospital");
-        registry.addViewController("/system/device").setViewName("/system/device");
-        registry.addViewController("/system/role").setViewName("/system/role");
-        registry.addViewController("/system/user").setViewName("/system/user");
-        registry.addViewController("/system/key").setViewName("/system/key");
-    }
+//    @Override
+//    public void addViewControllers(ViewControllerRegistry registry) {
+//        registry.addViewController("/system/hospital").setViewName("/system/hospital");
+//        registry.addViewController("/system/device").setViewName("/system/device");
+//        registry.addViewController("/system/role").setViewName("/system/role");
+//        registry.addViewController("/system/user").setViewName("/system/user");
+//        registry.addViewController("/system/key").setViewName("/system/key");
+//        registry.addViewController("/config/patient").setViewName("/config/patient");
+//        registry.addViewController("/config/template").setViewName("/config/template");
+//    }
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {

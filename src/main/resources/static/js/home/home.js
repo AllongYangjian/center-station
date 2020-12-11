@@ -15,10 +15,12 @@ var data = [
         iconCls: 'icon-config',
         children: [
             {
-                text: '界面模板'
+                text: '界面模板',
+                url: '/config/template'
             },
             {
-                text: '病人录入'
+                text: '病人录入',
+                url: '/config/patient'
             }
         ]
     },

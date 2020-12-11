@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>病人</title>
+    <script type="text/javascript" src="/static/js/common/title.js"></script>
+    <script type="text/javascript" src="/static/js/utils/utils.js"></script>
+    <style>
+
+        form#ff {
+            padding: 8px;
+        }
+
+        .form-item {
+            margin-bottom: 16px;
+        }
+
+        .form-item-title {
+            /*display: inline-block;*/
+            /*width: 100px;*/
+            /*text-align: right;*/
+            font-size: 18px;
+            /*font-weight: 700;*/
+            /*margin-bottom: 8px;*/
+        }
+    </style>
+</head>
+<body>
+
+<div id="patient_list" class="easyui-datagrid" fit="true" style="width: 70%;height: 100%"
+     toolbar="#patient_list_toolbar">
+
+</div>
+
+<div id="patient_list_toolbar" style="width: 100%;height: auto;padding: 5px">
+    <label>所在医院:</label>
+    <input class="easyui-combobox" id="hospital_criteria" style="width:200px;height:32px"
+           data-options="valueField:'id',textField:'name'">
+    <a class="easyui-linkbutton" id="add" data-options="iconCls:'icon-add'" style="margin-left: 16px">新增</a>
+    <a class="easyui-linkbutton" id="edit" data-options="iconCls:'icon-edit'">修改</a>
+    <a class="easyui-linkbutton" id="delete" data-options="iconCls:'icon-remove'">删除</a>
+    <a class="easyui-linkbutton" id="query" data-options="iconCls:'icon-reload'">刷新</a>
+    <a class="easyui-linkbutton" id="reset" data-options="iconCls:'icon-redo'">重置</a>
+</div>
+
+
+<div id="patient_dialog" class="easyui-dialog" title="病人信息"
+     data-options="resizable:true,modal:true,closed:true,border:false"
+     style="width: 600px;height: 650px">
+    <form id="ff" method="post">
+        <table style="width: 100%" cellspacing="10">
+            <tr class="form-item">
+                <td class="form-item-title">ID:</td>
+                <td><input class="easyui-textbox" id="id" name="id" style="width: 100%;height:32px"
+                           data-options="prompt:'该项为系统生成，无需输入',editable:false"></td>
+            </tr>
+            <tr>
+                <td class="form-item-title">
+                    <a id="reload_hospital" class="easyui-linkbutton" iconCls="icon-reload"></a>
+                    所在医院:
+                </td>
+                <td>
+                    <input class="easyui-combobox" id="hospitalId" name="hid" style="width:100%;height:32px"
+                           data-options="prompt:'请选择所在医院',required:true,valueField:'id',textField:'name'">
+                </td>
+            </tr>
+            <tr>
+                <td class="form-item-title">
+                    床号:
+                </td>
+                <td>
+                    <input class="easyui-textbox" id="bed" name="bed" style="width:100%;height:32px"
+                           data-options="prompt:'请输入床号',required:true">
+                </td>
+            </tr>
+            <tr>
+                <td class="form-item-title">
+                    PID:
+                </td>
+                <td>
+                    <input class="easyui-textbox" id="pid" name="pid" style="width:100%;height:32px"
+                           data-options="prompt:'请输入PID',required:true">
+                </td>
+            </tr>
+            <tr>
+                <td class="form-item-title">
+                    住院号:
+                </td>
+                <td>
+                    <input class="easyui-textbox" id="zyh" name="zyh" style="width:100%;height:32px"
+                           data-options="prompt:'请输入住院号',required:true">
+                </td>
+            </tr>
+            <tr>
+                <td class="form-item-title">
+                    姓名:
+                </td>
+                <td>
+                    <input class="easyui-textbox" id="name" name="name"
+                           style="width:100%;height:32px"
+                           data-options="prompt:'请输入姓名',required:true,min:12">
+                </td>
+            </tr>
+            <tr>
+                <td class="form-item-title">
+                    性别:
+                </td>
+                <td>
+                    <input class="easyui-combobox" id="gender" name="gender" style="width:100%;height:32px"
+                           data-options="prompt:'请输入性别',required:true,valueField:'id',textField:'name',data:genderData">
+                </td>
+            </tr>
+            <tr>
+                <td class="form-item-title">
+                    年龄:
+                </td>
+                <td>
+                    <input class="easyui-numberspinner" id="age" name="age" style="width:100%;height:32px"
+                           data-options="prompt:'请输入年龄',required:true,min:0,max:120">
+                </td>
+            </tr>
+            <tr>
+                <td class="form-item-title">
+                    主诉:
+                </td>
+                <td>
+                    <input class="easyui-textbox" id="complaint" name="complaint" style="width:100%;height:90px"
+                           data-options="prompt:'请输入主诉',required:true,multiline:true">
+                </td>
+            </tr>
+            <tr>
+                <td class="form-item-title">
+                    是否查看波形:
+                </td>
+                <td>
+                    <input class="easyui-combobox" id="status" name="status" style="width:100%;height:32px"
+                           data-options="prompt:'是否查看波形',required:true,valueField:'id',textField:'name',data:enableData">
+                </td>
+            </tr>
+        </table>
+        <div style="margin-top: 16px">
+            <a href="#" id="patient_save" class="easyui-linkbutton" iconCls="icon-ok"
+               style="width:100%;height:32px">保存</a>
+        </div>
+        <div style="margin-top: 16px">
+            <a href="#" id="patient_close" class="easyui-linkbutton" iconCls="icon-cancel"
+               style="width:100%;height:32px">取消</a>
+        </div>
+    </form>
+</div>
+<script type="text/javascript" src="/static/js/config/patient.js"></script>
+</body>
+</html>
