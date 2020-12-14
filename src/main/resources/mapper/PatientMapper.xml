@@ -6,6 +6,7 @@
     <resultMap id="BaseResultMap" type="com.allong.centerstation.domain.entity.Patient">
         <id column="id" property="id"/>
         <result column="hid" property="hid"/>
+        <result column="dept" property="dept"/>
         <result column="bed" property="bed"/>
         <result column="pid" property="pid"/>
         <result column="zyh" property="zyh"/>
@@ -20,7 +21,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id,hid, bed, pid, zyh, name, gender, age, complaint, record_time, record_user, status
+        id,hid,dept, bed, pid, zyh, name, gender, age, complaint, record_time, record_user, status
     </sql>
 
 </mapper>

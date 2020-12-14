@@ -40,6 +40,11 @@ public class Patient extends BaseEntity<Patient> {
     private Integer hid;
 
     /**
+     * 科室
+     */
+    private String dept;
+
+    /**
      * 床号
      */
     private String bed;
