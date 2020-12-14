@@ -15,11 +15,12 @@
         <result column="position" property="position"/>
         <result column="wave" property="wave"/>
         <result column="scale" property="scale"/>
+        <result column="unit" property="unit"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-       device_id, id, code, name, key_color, key_size, min, max, position, wave, scale
+       device_id, id, code, name, key_color, key_size, min, max, position, wave, scale,unit
     </sql>
 
     <select id="listKeyDetail" resultType="com.allong.centerstation.domain.KeyDetail">

@@ -10,6 +10,18 @@ const columns = [[
         width: 1
     },
     {
+        title: '医院',
+        field: 'hospitalName',
+        align: 'center',
+        width: 1
+    },
+    {
+        title: '科室',
+        field: 'dept',
+        align: 'center',
+        width: 1
+    },
+    {
         title: '床号',
         field: 'bed',
         align: 'center',

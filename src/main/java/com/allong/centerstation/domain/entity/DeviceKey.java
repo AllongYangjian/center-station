@@ -20,7 +20,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @TableName("sys_device_key")
-public class DeviceKey extends BaseEntity<DeviceKey> {
+public class DeviceKey extends BaseEntity<DeviceKey> implements Comparable<DeviceKey>{
 
     private static final long serialVersionUID = 1L;
 
@@ -80,10 +80,19 @@ public class DeviceKey extends BaseEntity<DeviceKey> {
      */
     private Integer scale;
 
+    /**
+     * 单位
+     */
+    private String unit;
+
 
     @Override
     protected Serializable pkVal() {
         return this.id;
     }
 
+    @Override
+    public int compareTo(DeviceKey o) {
+        return this.position - o.getPosition();
+    }
 }

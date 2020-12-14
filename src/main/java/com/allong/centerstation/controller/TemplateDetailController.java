@@ -2,6 +2,7 @@ package com.allong.centerstation.controller;
 
 
 import com.allong.centerstation.common.Result;
+import com.allong.centerstation.domain.entity.DeviceKey;
 import com.allong.centerstation.domain.entity.TemplateDetail;
 import com.allong.centerstation.domain.entity.TemplateGroup;
 import com.allong.centerstation.service.DeviceKeyService;
@@ -12,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -68,7 +70,9 @@ public class TemplateDetailController {
             templateDetails.forEach(item -> {
                 ids.add(item.getKeyId());
             });
-            return new ResponseEntity<>(new Result.Builder<>().setData(deviceKeyService.listByIds(ids)).buildQuerySuccess(), HttpStatus.OK);
+            List<DeviceKey> deviceKeys = deviceKeyService.listByIds(ids);
+            Collections.sort(deviceKeys);
+            return new ResponseEntity<>(new Result.Builder<>().setData(deviceKeys).buildQuerySuccess(), HttpStatus.OK);
         }
         return new ResponseEntity<>(new Result.Builder<>().buildQuerySuccess(), HttpStatus.OK);
     }
@@ -81,7 +85,10 @@ public class TemplateDetailController {
             templateDetails.forEach(item -> {
                 ids.add(item.getKeyId());
             });
-            return new ResponseEntity<>(new Result.Builder<>().setData(deviceKeyService.listByIds(ids)).buildQuerySuccess(), HttpStatus.OK);
+
+            List<DeviceKey> deviceKeys = deviceKeyService.listByIds(ids);
+            Collections.sort(deviceKeys);
+            return new ResponseEntity<>(new Result.Builder<>().setData(deviceKeys).buildQuerySuccess(), HttpStatus.OK);
         }
         return new ResponseEntity<>(new Result.Builder<>().buildQuerySuccess(), HttpStatus.OK);
     }

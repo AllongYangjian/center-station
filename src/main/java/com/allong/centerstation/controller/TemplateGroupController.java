@@ -6,6 +6,7 @@ import com.allong.centerstation.domain.entity.TemplateGroup;
 import com.allong.centerstation.service.TemplateDetailService;
 import com.allong.centerstation.service.TemplateGroupService;
 import com.allong.centerstation.utils.SecurityUtils;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,6 +34,12 @@ public class TemplateGroupController {
     @GetMapping
     public ResponseEntity<Object> list() {
         return new ResponseEntity<>(new Result.Builder<>().setData(templateGroupService.list()).buildQuerySuccess(), HttpStatus.OK);
+    }
+
+    @GetMapping("/enable")
+    public ResponseEntity<Object> selectEnable() {
+        return new ResponseEntity<>(new Result.Builder<>().setData(templateGroupService.getOne(new QueryWrapper<TemplateGroup>()
+        .eq("enable",true))).buildQuerySuccess(), HttpStatus.OK);
     }
 
     @GetMapping("/{username}")

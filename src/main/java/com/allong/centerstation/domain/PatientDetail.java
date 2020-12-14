@@ -31,7 +31,7 @@ public class PatientDetail implements Serializable {
     /**
      * 医院名称
      */
-    private String hName;
+    private String hospitalName;
 
     /**
      * 科室
