@@ -6,7 +6,7 @@ var data = [
         children: [
             {
                 text: '波形展示',
-                url: '/wave'
+                url: '/wave/data'
             },
         ]
     },
@@ -213,6 +213,10 @@ function onWestExpand() {
 }
 
 function onSideMenuSelect(item) {
+    if (item.url === '/wave/data') {
+        window.open(item.url);
+        return;
+    }
     if (!$('#tt').tabs('exists', item.text)) {
         $('#tt').tabs('add', {
             title: item.text,

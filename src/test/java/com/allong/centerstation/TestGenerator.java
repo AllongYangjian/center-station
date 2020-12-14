@@ -36,7 +36,7 @@ public class TestGenerator {
         gc.setOutputDir("E:\\SourceCode\\CenterStation\\center-station\\app\\src\\main\\java")
                 .setAuthor("杨建")
                 .setOpen(true)
-                .setFileOverride(true)
+                .setFileOverride(false)
                 .setActiveRecord(true)
                 .setDateType(DateType.ONLY_DATE)
                 .setServiceName("%sService")
@@ -59,7 +59,8 @@ public class TestGenerator {
                 .setTablePrefix("sys_")
                 .setEntityLombokModel(true)
                 .setSuperEntityClass(BaseEntity.class)
-                .setRestControllerStyle(true);
+                .setRestControllerStyle(true)
+                .setInclude("user_info");
 
         PackageConfig packageConfig = new PackageConfig();
         packageConfig.setParent("com.allong.centerstation")
