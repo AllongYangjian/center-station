@@ -3,6 +3,7 @@ package com.allong.centerstation.service;
 import com.allong.centerstation.domain.entity.User;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * <p>

@@ -31,4 +31,9 @@ public class IndexController {
     public String loginPage() {
         return "login";
     }
+
+    @RequestMapping("/register")
+    public String registerPage() {
+        return "register";
+    }
 }

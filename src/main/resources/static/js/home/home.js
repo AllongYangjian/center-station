@@ -83,7 +83,7 @@ function loadUserInfo() {
         success: data => {
             if (data.code === 200) {
                 saveKey(KEY_USER, data.data);
-                $("#username").text(data.data.username);
+                $("#username").text(data.data.name);
             }
         }
     })
