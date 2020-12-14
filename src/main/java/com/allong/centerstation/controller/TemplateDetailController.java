@@ -45,6 +45,7 @@ public class TemplateDetailController {
         return new ResponseEntity<>(new Result.Builder<>().buildQuerySuccess(), HttpStatus.OK);
     }
 
+
     @PostMapping
     public ResponseEntity<Object> save(@RequestBody TemplateDetail detail){
         return new ResponseEntity<>(new Result.Builder<>().setData(detail.insert()).buildSaveSuccess(), HttpStatus.OK);
@@ -57,6 +58,32 @@ public class TemplateDetailController {
             templateDetailService.deleteByTempId(detailList.get(0).getTempId());
         }
         return new ResponseEntity<>(new Result.Builder<>().setData(templateDetailService.saveBatch(detailList)).buildSaveSuccess(), HttpStatus.OK);
+    }
+
+    @GetMapping("/wave/{tempId}")
+    public ResponseEntity<Object> listWave(@PathVariable("tempId")Integer id){
+        List<TemplateDetail> templateDetails = templateDetailService.listByTempIdAndType(id,1);
+        if (templateDetails != null && templateDetails.size() > 0) {
+            List<Integer> ids = new ArrayList<>();
+            templateDetails.forEach(item -> {
+                ids.add(item.getKeyId());
+            });
+            return new ResponseEntity<>(new Result.Builder<>().setData(deviceKeyService.listByIds(ids)).buildQuerySuccess(), HttpStatus.OK);
+        }
+        return new ResponseEntity<>(new Result.Builder<>().buildQuerySuccess(), HttpStatus.OK);
+    }
+
+    @GetMapping("/data/{tempId}")
+    public ResponseEntity<Object> listData(@PathVariable("tempId")Integer id){
+        List<TemplateDetail> templateDetails = templateDetailService.listByTempIdAndType(id,2);
+        if (templateDetails != null && templateDetails.size() > 0) {
+            List<Integer> ids = new ArrayList<>();
+            templateDetails.forEach(item -> {
+                ids.add(item.getKeyId());
+            });
+            return new ResponseEntity<>(new Result.Builder<>().setData(deviceKeyService.listByIds(ids)).buildQuerySuccess(), HttpStatus.OK);
+        }
+        return new ResponseEntity<>(new Result.Builder<>().buildQuerySuccess(), HttpStatus.OK);
     }
 
 }

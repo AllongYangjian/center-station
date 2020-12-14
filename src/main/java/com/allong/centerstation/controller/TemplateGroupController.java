@@ -51,6 +51,18 @@ public class TemplateGroupController {
         }
     }
 
+    @PutMapping("/{tempId}")
+    public ResponseEntity<Object> update(@PathVariable("tempId") Integer tempId) {
+        templateGroupService.updateAllDisable();
+        boolean result = templateGroupService.updateOneEnable(tempId);
+        if(result){
+            return new ResponseEntity<>(new Result.Builder<>().buildUpdateSuccess(), HttpStatus.OK);
+        }else {
+            return new ResponseEntity<>(new Result.Builder<>().buildUpdateFailed(), HttpStatus.OK);
+        }
+
+    }
+
     @PutMapping
     public ResponseEntity<Object> update(@RequestBody TemplateGroup templateGroup) {
         boolean result = templateGroup.updateById();

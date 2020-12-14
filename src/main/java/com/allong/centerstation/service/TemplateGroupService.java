@@ -16,4 +16,8 @@ import java.util.List;
 public interface TemplateGroupService extends IService<TemplateGroup> {
 
     List<TemplateGroup> listByUsername(String username);
+
+    void updateAllDisable();
+
+    boolean updateOneEnable(Integer tempId);
 }

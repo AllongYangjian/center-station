@@ -4,7 +4,6 @@ import com.allong.centerstation.domain.entity.TemplateDetail;
 import com.allong.centerstation.mapper.TemplateDetailMapper;
 import com.allong.centerstation.service.TemplateDetailService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
@@ -30,4 +29,10 @@ public class TemplateDetailServiceImpl extends ServiceImpl<TemplateDetailMapper,
     public void deleteByTempId(Integer tempId) {
         baseMapper.delete(new QueryWrapper<TemplateDetail>().eq("temp_id",tempId));
     }
+
+    @Override
+    public List<TemplateDetail> listByTempIdAndType(Integer id, int type) {
+        return baseMapper.selectList(new QueryWrapper<TemplateDetail>().eq("temp_id",id).eq("type",type));
+    }
+
 }

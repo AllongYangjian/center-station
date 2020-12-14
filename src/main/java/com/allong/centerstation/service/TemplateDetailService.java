@@ -18,4 +18,6 @@ public interface TemplateDetailService extends IService<TemplateDetail> {
     List<TemplateDetail> listByTempId(Integer tempId);
 
     void deleteByTempId(Integer tempId);
+
+    List<TemplateDetail> listByTempIdAndType(Integer id, int type);
 }

@@ -13,4 +13,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  */
 public interface TemplateGroupMapper extends BaseMapper<TemplateGroup> {
 
+    void updateAllDisable(String username);
+
+    boolean updateOneEnable(Integer tempId);
 }

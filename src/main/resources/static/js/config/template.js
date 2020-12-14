@@ -16,10 +16,26 @@ var columns = [[
         width: 1
     },
     {
-        title: '是否启用',
+        title: '当前状态',
         field: 'enable',
         align: 'center',
-        width: 1
+        width: 1,
+        formatter: (value, row, index) => {
+            if (value) {
+                return '<span style="color: red">使用中...</span>'
+            } else {
+                return '<span>未使用</span>'
+            }
+        }
+    },
+    {
+        title: '操作',
+        field: 'edit',
+        align: 'center',
+        width: 1,
+        formatter: (value, row, index) => {
+            return '<input type="button" value="启用" onclick="applyCurrentTemplate(' + row.id + ')">';
+        }
     }
 ]];
 
@@ -99,9 +115,9 @@ function resortTemplateFormData() {
 function showTemplateDialog() {
     $("#template_dialog").dialog({
         onOpen: () => {
-            //todo 加载模板对应的数据
-
             bindTemplateFormData();
+            loadWaveKey();
+            loadDataKey();
         },
         onClose: () => {
             resortTemplateFormData();
@@ -136,6 +152,7 @@ function initTemplateTable() {
             return '<div style="padding:2px"><table class="ddv"></table></div>';
         },
         onExpandRow: function (index, row) {
+            $templateTable.datagrid('checkRow', index);
             var ddv = $(this).datagrid('getRowDetail', index).find('table.ddv');
             ddv.datagrid({
                 fitColumns: true,
@@ -144,14 +161,61 @@ function initTemplateTable() {
                 loadMsg: '',
                 height: 'auto',
                 columns: [[
-                    {field: 'id', title: 'ID', width: 100},
-                    {field: 'name', title: '名称', width: 100},
+                    // {field: 'id', title: 'ID', width: 100},
                     {
-                        field: 'enable', title: '', width: 100, formatter: (value, row, index) => {
+                        title: '代码',
+                        field: 'code',
+                        align: 'center',
+                        width: 1
+                    },
+                    {
+                        title: '名称',
+                        field: 'name',
+                        align: 'center',
+                        width: 1
+                    },
+                    {
+                        title: '排序',
+                        field: 'position',
+                        align: 'center',
+                        width: 1
+                    },
+                    {
+                        title: '颜色',
+                        field: 'keyColor',
+                        align: 'center',
+                        width: 1,
+                        formatter: (value, row, index) => {
+                            return '<span style="display:inline-block;width: 100%;height: 20px;color:white;background: ' + value + '">' + value + '</span>'
+                        }
+                    },
+                    {
+                        title: '大小',
+                        field: 'keySize',
+                        align: 'center',
+                        width: 1
+                    },
+                    {
+                        title: '下限',
+                        field: 'min',
+                        align: 'center',
+                        width: 1
+                    },
+                    {
+                        title: '上限',
+                        field: 'max',
+                        align: 'center',
+                        width: 1
+                    },
+                    {
+                        field: 'enable',
+                        title: '',
+                        width: 1,
+                        formatter: (value, row, index) => {
                             if (value) {
-                                return '<span>波形</span>'
+                                return '<span style="color: red">显示波形</span>'
                             } else {
-                                return '<span>数字</span>'
+                                return '<span style="color:#000;">显示数字</span>'
                             }
                         }
                     },
@@ -173,19 +237,82 @@ function initTemplateTable() {
 }
 
 function loadTempDetailData(row, table) {
+    // $.ajax({
+    //     url: "/api/template/detail/" + row.id,
+    //     type: 'get',
+    //     dataType: 'json',
+    //     success: data => {
+    //         console.log('loadTempDetailData', data);
+    //         if (data.code === 200 && table) {
+    //             table.datagrid({data: data.data});
+    //         }
+    //     }
+    // })
+    let arr = [];
+    arr.push($.ajax({
+        url: "/api/template/detail/wave/" + currentItem.id,
+        type: 'get',
+        dataType: 'json',
+    }));
+    arr.push($.ajax({
+        url: "/api/template/detail/data/" + currentItem.id,
+        type: 'get',
+        dataType: 'json',
+    }));
+    Promise.all(arr).then(res => {
+        let arr = [];
+        if (res[0].code === 200) {
+            res[0].data.map(item => {
+                arr.push({...item, enable: true});
+            })
+        }
+
+        if (res[1].code === 200) {
+            res[1].data.forEach(item => {
+                arr.push({...item, enable: false});
+            })
+        }
+        table.datagrid({data: arr});
+    });
+}
+
+/**
+ * 夹杂波形数据
+ */
+function loadWaveKey() {
     $.ajax({
-        url: "/api/template/detail/" + row.id,
+        url: "/api/template/detail/wave/" + currentItem.id,
         type: 'get',
         dataType: 'json',
         success: data => {
-            if (data.code === 200) {
-                table.datagrid({data: data.data});
+            if (data.code === 200 && data.data.length > 0) {
+                let arr = data.data.map(item => item.id);
+                $("#waves").tagbox('setValues', arr);
             }
         }
     })
 }
 
+/**
+ * 加载关键字
+ */
+function loadDataKey() {
+    $.ajax({
+        url: "/api/template/detail/data/" + currentItem.id,
+        type: 'get',
+        dataType: 'json',
+        success: data => {
+            if (data.code === 200 && data.data.length > 0) {
+                let arr = data.data.map(item => item.id);
+                $("#data").tagbox('setValues', arr);
+            }
+        }
+    })
+}
 
+/**
+ * 记载模板列表
+ */
 function loadTemplateData() {
     $.ajax({
         url: "/api/template",
@@ -199,6 +326,10 @@ function loadTemplateData() {
     })
 }
 
+
+/**
+ * 获取关键字详情
+ */
 function loadKeyDetail() {
     $.ajax({
         url: "/api/key/detail",
@@ -223,6 +354,16 @@ function saveTemplateInfo() {
     let form = $("#ff");
     if (form.form('validate')) {
         let data = form.serializeObject();
+        let arr1 = $("#waves").tagbox('getValues');
+        let arr2 = $("#waves").tagbox('getValues');
+        if (arr1.length > 4) {
+            showToast('警告', '最多显示四条波形数据');
+            return;
+        }
+        if (arr2.length > 8) {
+            showToast('警告', '最多显示8个数值数据');
+            return;
+        }
         if (data.id) {
             doSaveOrUpdateTemplateInfo(data, 'PUT');
         } else {
@@ -247,14 +388,14 @@ function doSaveOrUpdateTemplateInfo(formData, method) {
                 let id = data.data;
                 let array = [];
 
-                let arr1 = $("#waves").combobox('getValues');
-                let arr2 = $("#data").combobox('getValues');
+                let arr1 = $("#waves").tagbox('getValues');
+                let arr2 = $("#data").tagbox('getValues');
 
                 arr1.forEach(item => {
                     array.push({keyId: item, tempId: id, type: 1})
                 });
 
-                arr1.forEach(item => {
+                arr2.forEach(item => {
                     array.push({keyId: item, tempId: id, type: 2})
                 });
 
@@ -262,6 +403,19 @@ function doSaveOrUpdateTemplateInfo(formData, method) {
                 saveTempDetailInfo(array);
 
             }
+        }
+    })
+}
+
+function applyCurrentTemplate(tempId) {
+    $.ajax({
+        url: '/api/template/' + tempId,
+        type: 'PUT',
+        dataType: 'json',
+        contentType: 'application/json',
+        success: (data) => {
+            showToast('提示', data.message);
+            loadTemplateData();
         }
     })
 }
