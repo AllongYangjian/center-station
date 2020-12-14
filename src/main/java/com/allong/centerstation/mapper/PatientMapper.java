@@ -1,7 +1,10 @@
 package com.allong.centerstation.mapper;
 
+import com.allong.centerstation.domain.PatientDetail;
 import com.allong.centerstation.domain.entity.Patient;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +16,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  */
 public interface PatientMapper extends BaseMapper<Patient> {
 
+    List<PatientDetail> listDetail();
+
+    List<PatientDetail> listDetailByHid(Integer hid);
 }

@@ -1,8 +1,12 @@
 package com.allong.centerstation.utils;
 
+import com.allong.centerstation.domain.entity.Role;
 import com.allong.centerstation.domain.entity.User;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Copyright (C), 2015-2020, 杭州奥朗信息科技有限公司
@@ -17,11 +21,30 @@ import org.springframework.security.core.context.SecurityContextHolder;
 public class SecurityUtils {
 
     public static String getCurrentUsername() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User user = (User) authentication.getPrincipal();
-        if (user == null) {
-            return "";
+        try {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            User user = (User) authentication.getPrincipal();
+            if (user == null) {
+                return "";
+            }
+            return user.getUsername();
+        } catch (Exception e) {
+//            e.printStackTrace();
         }
-        return user.getUsername();
+        return "";
+    }
+
+    public static List<Role> getRoles() {
+        try {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            User user = (User) authentication.getPrincipal();
+            if (user == null) {
+                return new ArrayList<>();
+            }
+            return user.getRoles();
+        } catch (Exception e) {
+
+        }
+        return new ArrayList<>();
     }
 }

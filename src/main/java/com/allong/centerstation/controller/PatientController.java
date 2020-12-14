@@ -3,14 +3,20 @@ package com.allong.centerstation.controller;
 
 import com.allong.centerstation.common.Result;
 import com.allong.centerstation.domain.entity.Patient;
+import com.allong.centerstation.domain.entity.Role;
+import com.allong.centerstation.domain.entity.UserInfo;
 import com.allong.centerstation.service.PatientService;
+import com.allong.centerstation.service.UserInfoService;
 import com.allong.centerstation.utils.SecurityUtils;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * <p>
@@ -26,9 +32,28 @@ public class PatientController {
     @Autowired
     private PatientService patientService;
 
+    @Autowired
+    private UserInfoService infoService;
+
     @GetMapping
     public ResponseEntity<Object> list() {
-        return new ResponseEntity<>(new Result.Builder<>().setData(patientService.list()).buildQuerySuccess(), HttpStatus.OK);
+        //管理员，获取所有病人， 其他人，获取自己医院的病人
+        List<Role> roles = SecurityUtils.getRoles();//如果是管理员
+        boolean contain = false;
+        if (roles != null && roles.size() > 0) {
+            for (Role role : roles) {
+                if (role.getRoleName().toUpperCase().contains("ADMIN")) {
+                    contain = true;
+                    break;
+                }
+            }
+        }
+        if (contain) {
+            return new ResponseEntity<>(new Result.Builder<>().setData(patientService.listDetail()).buildQuerySuccess(), HttpStatus.OK);
+        } else {
+            UserInfo userInfo = infoService.loadUserByUserId(SecurityUtils.getCurrentUsername());
+            return new ResponseEntity<>(new Result.Builder<>().setData(patientService.listDetailByHid(userInfo.getHid())).buildQuerySuccess(), HttpStatus.OK);
+        }
     }
 
     @GetMapping("/{hid}")

@@ -1,5 +1,6 @@
 package com.allong.centerstation.service.impl;
 
+import com.allong.centerstation.domain.PatientDetail;
 import com.allong.centerstation.domain.entity.Patient;
 import com.allong.centerstation.mapper.PatientMapper;
 import com.allong.centerstation.service.PatientService;
@@ -23,5 +24,15 @@ public class PatientServiceImpl extends ServiceImpl<PatientMapper, Patient> impl
     @Override
     public List<Patient> listByHid(Integer hid) {
         return baseMapper.selectList(new QueryWrapper<Patient>().eq("hid", hid));
+    }
+
+    @Override
+    public List<PatientDetail> listDetail() {
+        return baseMapper.listDetail();
+    }
+
+    @Override
+    public List<PatientDetail> listDetailByHid(Integer hid) {
+        return baseMapper.listDetailByHid(hid);
     }
 }
