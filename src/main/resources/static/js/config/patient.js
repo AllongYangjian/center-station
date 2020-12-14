@@ -73,15 +73,28 @@ const columns = [[
         width: 1
     },
     {
-        title: '是否查看波形',
+        title: '当前状态',
         field: 'status',
         align: 'center',
         width: 1,
         formatter: (value, row, index) => {
             if (value) {
-                return '<span>是</span>'
+                return '<span style="color: red">监护中...</span>'
             } else {
-                return '<span>否</span>'
+                return '<span>无需监护</span>'
+            }
+        }
+    },
+    {
+        title: '操作',
+        field: 'edit',
+        align: 'center',
+        width: 1,
+        formatter: (value, row, index) => {
+            if (row.status) {
+                return '<input type="button" value="取消监护" onclick="monitorItem(' +index + ')">'
+            } else {
+                return '<input type="button" value="监护" onclick="monitorItem(' + index + ')">'
             }
         }
     }
@@ -201,7 +214,7 @@ function bindPatientFormData() {
         $("#hospitalId").combobox('setValue', currentItem.hid);
         $("#bed").textbox('setValue', currentItem.bed);
         $("#pid").textbox('setValue', currentItem.pid);
-        $("#zyh").textbox('setValue',currentItem.zyh);
+        $("#zyh").textbox('setValue', currentItem.zyh);
         $("#name").textbox('setValue', currentItem.name);
         $("#gender").combobox('setValue', currentItem.gender);
         $("#age").numberspinner('setValue', currentItem.age);
@@ -219,7 +232,7 @@ function resortPatientFormData() {
     $("#hospitalId").combobox('setValue', '');
     $("#bed").textbox('setValue', '');
     $("#pid").textbox('setValue', '');
-    $("#zyh").textbox('setValue','');
+    $("#zyh").textbox('setValue', '');
     $("#name").textbox('setValue', '');
     $("#gender").combobox('setValue', '');
     $("#age").numberspinner('setValue', '');
@@ -336,5 +349,15 @@ function doDeletePatientRecord() {
             }
         }
     })
+}
+
+function monitorItem(index) {
+    $patientTable.datagrid('checkRow', index);
+    var rows = $patientTable.datagrid('getChecked');
+    if (rows.length > 0) {
+        rows[0].status = Math.abs(rows[0].status - 1);
+        console.log(rows[0]);
+        doSaveOrUpdatePatientInfo(rows[0], 'put');
+    }
 }
 

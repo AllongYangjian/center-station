@@ -72,6 +72,10 @@ $(function () {
 
     $("#delete").on('click', () => {
         if (currentItem) {
+            if (currentItem.username === '0') {
+                showToast('提示', '默认模板无法删除');
+                return;
+            }
             showDeleteToast(doDeleteTemplateRecord);
         } else {
             showToast('提示', '请选择要删除的数据');
