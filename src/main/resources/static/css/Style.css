@@ -68,6 +68,28 @@ html, body {
     text-align: center;
 }
 
+.complaint-desc:hover {
+    cursor: pointer;
+    color: red;
+}
+
+.complaint-desc:hover .complaint {
+    display: block;
+}
+
+.complaint {
+    position: absolute;
+    top: 16px;
+    z-index: 1000;
+    /*padding: 8px;*/
+    background: rgba(193, 193, 193, 0.41);
+    /*padding: 8px;*/
+    padding: 8px;
+    right: 50px;
+    border-radius: 1em;
+    display: none;
+}
+
 .item-container {
     position: absolute;
     top: 32px;
@@ -199,7 +221,7 @@ ul.page {
 }
 
 
-ul.page li{
+ul.page li {
     float: left;
     width: 32px;
     height: 32px;
@@ -212,14 +234,14 @@ ul.page li{
     border: 1px solid lightgray;
 }
 
-ul.page li:hover{
+ul.page li:hover {
     cursor: pointer;
     color: #1d1f20;
     background-color: white;
     border: solid 1px white;
 }
 
-ul.page li.active{
+ul.page li.active {
     cursor: pointer;
     color: #1d1f20;
     background-color: white;

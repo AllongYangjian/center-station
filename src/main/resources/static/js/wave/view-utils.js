@@ -34,7 +34,7 @@ function calculateViewSize() {
     column = getBindData('column', '2');
     itemWidth = $(".bed-container").width() / parseInt(column);
     itemHeight = $(".bed-container").height() / parseInt(row);
-    canvasWidth = Math.round(itemWidth * 0.6) ;
+    canvasWidth = Math.round(itemWidth * 0.6);
     console.log(row, column, itemWidth, itemHeight, canvasWidth);
 }
 
@@ -61,7 +61,7 @@ function initView() {
                 $hospitalSelect.combobox({data: data.data});
             }
         },
-        error:errorHandler
+        error: errorHandler
     });
     $("#view_config_save").on('click', () => {
         saveViewConfigInfo();
@@ -88,7 +88,7 @@ function loadPatientDataAndTempData() {
                 doLoadPatientAndTempDetail(id);
             }
         },
-        error:errorHandler
+        error: errorHandler
     });
 }
 
@@ -289,6 +289,8 @@ function getBedItemTitle(patient) {
         '<label id=' + "AGE_" + patient.pid + '>' + patient.age + '岁</label>' +
         '<label id=' + "HOSPITAL_" + patient.pid + '>医院:' + patient.hospitalName + '</label>' +
         '<label id=' + "DEPT_" + patient.pid + '>科室:' + patient.dept + '</label>' +
+        '<label id=' + "COMPLAINT_" + patient.pid + ' class="complaint-desc" onclick="showComplaint(this)">主诉</label>' +
+        // '<div class="complaint" style="height: '+(itemHeight-50)+'px;width: '+(itemWidth*0.25)+'px">'+patient.complaint+'</div>'+
         '</div>'
 }
 
@@ -466,6 +468,38 @@ function getBindData(key, defaultValue) {
         val = defaultValue;
     }
     return val;
+}
+
+
+
+function showComplaint(e) {
+    let id = $(e).attr('id');
+    let ids = id.split('_');
+    let pid = ids[1];
+
+    let currentPatient = undefined;
+
+    for (let x = 0; x < mData.length; x++) {
+        if (mData[x].pid === pid) {
+            currentPatient = mData[x];
+            break;
+        }
+    }
+
+    $("#complaint_config").dialog({
+        title:`${currentPatient.bed} 床详情`,
+        onOpen: () => {
+            let val = 'PID：'+currentPatient.pid+"<br/>";
+            val+='住院号：'+currentPatient.pid+"<br/>";
+            val+='患者主诉：<strong>'+currentPatient.complaint+"</strong><br/>";
+            $('#patient-detail').html(val);
+        },
+        onClose: () => {
+            currentPatient = undefined;
+        }
+    });
+    $("#complaint_config").dialog('open');
+
 }
 
 
