@@ -5,6 +5,7 @@ import com.allong.centerstation.common.Result;
 import com.allong.centerstation.domain.entity.Patient;
 import com.allong.centerstation.domain.entity.Role;
 import com.allong.centerstation.domain.entity.UserInfo;
+import com.allong.centerstation.logger.annotation.Log;
 import com.allong.centerstation.service.PatientService;
 import com.allong.centerstation.service.UserInfoService;
 import com.allong.centerstation.utils.SecurityUtils;
@@ -36,8 +37,9 @@ public class PatientController {
     private UserInfoService infoService;
 
     @GetMapping
+    @Log("查询病人列表")
     public ResponseEntity<Object> list() {
-        //管理员，获取所有病人， 其他人，获取自己医院的病人
+        //管理员，获取所有病人， 其他人，获取自己病人的病人
         List<Role> roles = SecurityUtils.getRoles();//如果是管理员
         boolean contain = false;
         if (roles != null && roles.size() > 0) {
@@ -57,11 +59,13 @@ public class PatientController {
     }
 
     @GetMapping("/{hid}")
+    @Log("查询病人下属病人列表")
     public ResponseEntity<Object> list(@PathVariable("hid") Integer hid) {
         return new ResponseEntity<>(new Result.Builder<>().setData(patientService.listByHid(hid)).buildQuerySuccess(), HttpStatus.OK);
     }
 
     @PostMapping
+    @Log("保存病人信息")
     public ResponseEntity<Object> save(@RequestBody Patient patient) {
         patient.setRecordTime(new Date());
         patient.setRecordUser(SecurityUtils.getCurrentUsername());
@@ -69,16 +73,19 @@ public class PatientController {
     }
 
     @PutMapping
+    @Log("更新病人信息")
     public ResponseEntity<Object> update(@RequestBody Patient patient) {
         return new ResponseEntity<>(new Result.Builder<>().setData(patient.updateById()).buildUpdateSuccess(), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
+    @Log("删除病人信息")
     public ResponseEntity<Object> delete(@PathVariable("id") Integer id) {
         return new ResponseEntity<>(new Result.Builder<>().setData(patientService.removeById(id)).buildDeleteSuccess(), HttpStatus.OK);
     }
 
     @DeleteMapping
+    @Log("删除所有病人信息")
     public ResponseEntity<Object> deleteAll() {
         return new ResponseEntity<>(new Result.Builder<>().setData(patientService.remove(null)).buildDeleteSuccess(), HttpStatus.OK);
     }

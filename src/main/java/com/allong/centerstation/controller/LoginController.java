@@ -5,6 +5,7 @@ import com.allong.centerstation.common.enums.UserStatus;
 import com.allong.centerstation.domain.UserDetailInfo;
 import com.allong.centerstation.domain.entity.User;
 import com.allong.centerstation.domain.entity.UserInfo;
+import com.allong.centerstation.logger.annotation.Log;
 import com.allong.centerstation.service.UserInfoService;
 import com.allong.centerstation.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +41,7 @@ public class LoginController {
 
     @PostMapping("/register")
     @ResponseBody
+    @Log("用户注册")
     public ResponseEntity<Object> register(@RequestBody UserDetailInfo userDetailInfo) {
         User cacheUser = (User) userService.loadUserByUsername(userDetailInfo.getUsername());
         if (cacheUser != null) {

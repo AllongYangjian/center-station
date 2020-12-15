@@ -2,6 +2,8 @@ package com.allong.centerstation.service;
 
 import com.allong.centerstation.domain.entity.Log;
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.aspectj.lang.ProceedingJoinPoint;
+import org.springframework.scheduling.annotation.Async;
 
 /**
  * <p>
@@ -13,4 +15,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface LogService extends IService<Log> {
 
+    @Async
+    void save(String username, String browser, String ipAddress, ProceedingJoinPoint joinPoint, Log log);
 }

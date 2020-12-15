@@ -3,6 +3,7 @@ package com.allong.centerstation.controller;
 
 import com.allong.centerstation.common.Result;
 import com.allong.centerstation.domain.entity.UserRole;
+import com.allong.centerstation.logger.annotation.Log;
 import com.allong.centerstation.service.UserRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,6 +28,7 @@ public class UserRoleController {
     private UserRoleService userRoleService;
 
     @PostMapping
+    @Log("获取角色列表")
     public ResponseEntity<Object> saveAll(@RequestBody List<UserRole> userRoleList) {
         if (userRoleList.size() > 0) {
             //先删除所有的数据在保存
@@ -36,6 +38,7 @@ public class UserRoleController {
     }
 
     @DeleteMapping("/{uid}")
+    @Log("删除指定用户角色信息")
     public ResponseEntity<Object> delete(@PathVariable("uid") Integer uid) {
         return new ResponseEntity<>(new Result.Builder<>().setData(userRoleService.removeByUid(uid)).buildDeleteSuccess(), HttpStatus.OK);
     }

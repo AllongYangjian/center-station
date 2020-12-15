@@ -4,6 +4,7 @@ package com.allong.centerstation.controller;
 import com.allong.centerstation.common.Result;
 import com.allong.centerstation.domain.entity.User;
 import com.allong.centerstation.domain.entity.UserInfo;
+import com.allong.centerstation.logger.annotation.Log;
 import com.allong.centerstation.service.RoleService;
 import com.allong.centerstation.service.UserInfoService;
 import com.allong.centerstation.service.UserService;
@@ -35,6 +36,7 @@ public class UserController {
     private final UserInfoService userInfoService;
 
     @GetMapping("/{username}")
+    @Log("获取用户信息")
     public ResponseEntity<Object> queryUserByUsername(@PathVariable("username") String username) {
         User user = (User) userService.loadUserByUsername(username);
         if (user != null) {
@@ -44,6 +46,7 @@ public class UserController {
     }
 
     @GetMapping("/fetchCurrent")
+    @Log("获取当前用户信息")
     public ResponseEntity<Object> queryCurrentUser() {
         String username = SecurityUtils.getCurrentUsername();
         UserInfo user = userInfoService.loadUserByUserId(username);
@@ -52,6 +55,7 @@ public class UserController {
 
 
     @GetMapping
+    @Log("获取账户列表")
     public ResponseEntity<Object> list() {
         List<User> list = userService.list();
         if (list != null) {
@@ -61,11 +65,13 @@ public class UserController {
     }
 
     @PutMapping
+    @Log("更新账户信息")
     public ResponseEntity<Object> update(@RequestBody User user) {
         return new ResponseEntity<>(new Result.Builder<>().setData(user.updateById()).buildUpdateSuccess(), HttpStatus.OK);
     }
 
     @GetMapping("/role/{uid}")
+    @Log("获取用户角色列表")
     public ResponseEntity<Object> list(@PathVariable("uid") Integer uid) {
         return new ResponseEntity<>(new Result.Builder<>().setData(roleService.selectAllByUserId(uid)).buildQuerySuccess(), HttpStatus.OK);
     }

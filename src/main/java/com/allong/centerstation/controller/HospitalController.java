@@ -6,6 +6,7 @@ import com.allong.centerstation.domain.entity.Hospital;
 import com.allong.centerstation.domain.entity.Role;
 import com.allong.centerstation.domain.entity.User;
 import com.allong.centerstation.domain.entity.UserInfo;
+import com.allong.centerstation.logger.annotation.Log;
 import com.allong.centerstation.service.HospitalService;
 import com.allong.centerstation.service.UserInfoService;
 import com.allong.centerstation.service.UserService;
@@ -37,6 +38,7 @@ public class HospitalController {
     private UserInfoService infoService;
 
     @GetMapping
+    @Log("查询医院列表")
     public ResponseEntity<Object> list() {
         //如果是管理员，则显示全部医院
         String username = SecurityUtils.getCurrentUsername();
@@ -66,21 +68,25 @@ public class HospitalController {
     }
 
     @PostMapping
+    @Log("保存医院信息")
     public ResponseEntity<Object> save(@RequestBody Hospital hospital) {
         return new ResponseEntity<>(new Result.Builder<>().setData(hospital.insert()).buildSaveSuccess(), HttpStatus.OK);
     }
 
     @PutMapping
+    @Log("更新医院信息")
     public ResponseEntity<Object> update(@RequestBody Hospital hospital) {
         return new ResponseEntity<>(new Result.Builder<>().setData(hospital.updateById()).buildUpdateSuccess(), HttpStatus.OK);
     }
 
     @DeleteMapping("/{hospitalId}")
+    @Log("删除指定医院信息")
     public ResponseEntity<Object> delete(@PathVariable("hospitalId") Integer hospitalId) {
         return new ResponseEntity<>(new Result.Builder<>().setData(hospitalService.removeById(hospitalId)).buildDeleteSuccess(), HttpStatus.OK);
     }
 
     @DeleteMapping
+    @Log("删除所有医院信息")
     public ResponseEntity<Object> deleteAll() {
         return new ResponseEntity<>(new Result.Builder<>().setData(hospitalService.remove(null)).buildDeleteSuccess(), HttpStatus.OK);
     }

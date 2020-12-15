@@ -1,5 +1,6 @@
 package com.allong.centerstation.controller;
 
+import com.allong.centerstation.logger.annotation.Log;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -17,22 +18,25 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class IndexController {
 
     @RequestMapping("/")
+    @Log("打开网站")
     public String index() {
         return "login";
     }
 
-
     @RequestMapping("/home")
+    @Log("访问主页")
     public String home() {
         return "home";
     }
 
     @RequestMapping("/login")
+    @Log("登录页面")
     public String loginPage() {
         return "login";
     }
 
     @RequestMapping("/register")
+    @Log("注册页面")
     public String registerPage() {
         return "register";
     }
