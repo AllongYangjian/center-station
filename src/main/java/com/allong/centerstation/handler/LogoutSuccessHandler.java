@@ -35,7 +35,7 @@ public class LogoutSuccessHandler implements org.springframework.security.web.au
 
     @Override
     public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-        System.err.println(JSONObject.toJSONString(authentication));
+//        System.err.println(JSONObject.toJSONString(authentication));
         User user = (User) authentication.getPrincipal();
         user.setPassword(null);
         Log log = new Log("INFO", 0l);

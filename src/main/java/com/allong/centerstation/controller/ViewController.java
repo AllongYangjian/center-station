@@ -19,47 +19,49 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping
 public class ViewController {
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_HOSPITAL')")
     @RequestMapping("/system/hospital")
     @Log("医院")
     public String systemHospital() {
         return "system/hospital";
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_DEVICE')")
     @RequestMapping("/system/device")
     @Log("设备")
     public String systemDevice() {
         return "system/device";
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_ROLE')")
     @RequestMapping("/system/role")
     @Log("角色")
     public String systemRole() {
         return "system/role";
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER')")
     @RequestMapping("/system/user")
     @Log("账户")
     public String systemUser() {
         return "system/user";
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_KEY')")
     @RequestMapping("/system/key")
     @Log("关键字")
     public String systemKey() {
         return "system/key";
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_PATIENT')")
     @RequestMapping("/config/patient")
     @Log("病人")
     public String configPatient() {
         return "config/patient";
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_TEMPLATE')")
     @RequestMapping("/config/template")
     @Log("模板")
     public String configTemplate() {
@@ -72,12 +74,14 @@ public class ViewController {
         return "wave/data";
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_PERFORMANCE')")
     @RequestMapping("/operation/performance")
     @Log("性能")
     public String operationPerformance() {
         return "operation/performance";
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_LOG')")
     @RequestMapping("/operation/log")
     @Log("日志")
     public String operationLog() {

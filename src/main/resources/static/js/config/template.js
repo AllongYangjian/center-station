@@ -293,7 +293,8 @@ function loadWaveKey() {
                 let arr = data.data.map(item => item.id);
                 $("#waves").tagbox('setValues', arr);
             }
-        }
+        },
+        error:errorHandler
     })
 }
 
@@ -310,7 +311,8 @@ function loadDataKey() {
                 let arr = data.data.map(item => item.id);
                 $("#data").tagbox('setValues', arr);
             }
-        }
+        },
+        error:errorHandler
     })
 }
 
@@ -326,7 +328,8 @@ function loadTemplateData() {
             if (data.code === 200) {
                 $templateTable.datagrid({data: data.data});
             }
-        }
+        },
+        error:errorHandler
     })
 }
 
@@ -349,7 +352,8 @@ function loadKeyDetail() {
                 $("#waves").tagbox({data: waveData});
                 $("#data").tagbox({data: keys});
             }
-        }
+        },
+        error:errorHandler
     })
 }
 
@@ -407,7 +411,8 @@ function doSaveOrUpdateTemplateInfo(formData, method) {
                 saveTempDetailInfo(array);
 
             }
-        }
+        },
+        error:errorHandler
     })
 }
 
@@ -420,7 +425,8 @@ function applyCurrentTemplate(tempId) {
         success: (data) => {
             showToast('提示', data.message);
             loadTemplateData();
-        }
+        },
+        error:errorHandler
     })
 }
 
@@ -437,7 +443,8 @@ function saveTempDetailInfo(data) {
                 loadTemplateData();
                 resortTemplateFormData();
             }
-        }
+        },
+        error:errorHandler
     })
 }
 
@@ -452,6 +459,7 @@ function doDeleteTemplateRecord() {
             if (data.code === 200) {
                 loadTemplateData();
             }
-        }
+        },
+        error:errorHandler
     })
 }

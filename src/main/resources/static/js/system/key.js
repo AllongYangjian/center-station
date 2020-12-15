@@ -160,7 +160,8 @@ function loadDeviceData() {
                 $("#deviceId").combobox({data: data.data});
                 $("#device_criteria").combobox({data: data.data});
             }
-        }
+        },
+        error:errorHandler
     })
 }
 
@@ -261,7 +262,8 @@ function loadKeyData() {
             if (data.code === 200) {
                 $keyTable.datagrid({data: data.data});
             }
-        }
+        },
+        error:errorHandler
     })
 }
 
@@ -294,7 +296,8 @@ function doSaveOrUpdateKeyInfo(data, method) {
                 loadKeyData();
                 resortKeyFormData();
             }
-        }
+        },
+        error:errorHandler
     })
 }
 
@@ -309,7 +312,8 @@ function doDeleteKeyRecord() {
             if (data.code === 200) {
                 loadKeyData();
             }
-        }
+        },
+        error:errorHandler
     })
 }
 

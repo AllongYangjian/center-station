@@ -43,7 +43,8 @@ function doSaveAccount(data) {
                 showToast('提示', data.message);
                 $(".account_error").show();
             }
-        }
+        },
+        error:errorHandler
     })
 }
 
@@ -85,6 +86,7 @@ function loadHospitalData() {
             if (data.code === 200) {
                 $("#hid").combobox({data: data.data});
             }
-        }
+        },
+        error:errorHandler
     })
 }

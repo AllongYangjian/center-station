@@ -212,7 +212,8 @@ function loadHospitalData() {
                 $("#hospitalId").combobox({data: data.data});
                 $("#hospital_criteria").combobox({data: data.data});
             }
-        }
+        },
+        error:errorHandler
     })
 }
 
@@ -313,7 +314,8 @@ function loadPatientData() {
             if (data.code === 200) {
                 $patientTable.datagrid({data: data.data});
             }
-        }
+        },
+        error: errorHandler
     })
 }
 
@@ -346,7 +348,8 @@ function doSaveOrUpdatePatientInfo(data, method) {
                 loadPatientData();
                 resortPatientFormData();
             }
-        }
+        },
+        error:errorHandler
     })
 }
 
@@ -361,7 +364,8 @@ function doDeletePatientRecord() {
             if (data.code === 200) {
                 loadPatientData();
             }
-        }
+        },
+        error:errorHandler
     })
 }
 

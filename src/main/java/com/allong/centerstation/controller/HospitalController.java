@@ -14,6 +14,7 @@ import com.allong.centerstation.utils.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -69,24 +70,28 @@ public class HospitalController {
 
     @PostMapping
     @Log("保存医院信息")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_HOSPITAL','ROLE_PATIENT')")
     public ResponseEntity<Object> save(@RequestBody Hospital hospital) {
         return new ResponseEntity<>(new Result.Builder<>().setData(hospital.insert()).buildSaveSuccess(), HttpStatus.OK);
     }
 
     @PutMapping
     @Log("更新医院信息")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_HOSPITAL','ROLE_PATIENT')")
     public ResponseEntity<Object> update(@RequestBody Hospital hospital) {
         return new ResponseEntity<>(new Result.Builder<>().setData(hospital.updateById()).buildUpdateSuccess(), HttpStatus.OK);
     }
 
     @DeleteMapping("/{hospitalId}")
     @Log("删除指定医院信息")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public ResponseEntity<Object> delete(@PathVariable("hospitalId") Integer hospitalId) {
         return new ResponseEntity<>(new Result.Builder<>().setData(hospitalService.removeById(hospitalId)).buildDeleteSuccess(), HttpStatus.OK);
     }
 
     @DeleteMapping
     @Log("删除所有医院信息")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public ResponseEntity<Object> deleteAll() {
         return new ResponseEntity<>(new Result.Builder<>().setData(hospitalService.remove(null)).buildDeleteSuccess(), HttpStatus.OK);
     }

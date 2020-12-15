@@ -224,7 +224,8 @@ function loadDeviceData() {
             if (data.code === 200) {
                 $deviceTable.datagrid({data: data.data});
             }
-        }
+        },
+        error:errorHandler
     })
 }
 
@@ -257,7 +258,8 @@ function doSaveOrUpdateDeviceInfo(data, method) {
                 loadDeviceData();
                 resortDeviceFormData();
             }
-        }
+        },
+        error:errorHandler
     })
 }
 
@@ -272,7 +274,8 @@ function doDeleteDeviceRecord() {
             if (data.code === 200) {
                 loadDeviceData();
             }
-        }
+        },
+        error:errorHandler
     })
 }
 

@@ -87,7 +87,8 @@ function loadUserInfo() {
                 saveKey(KEY_USER, data.data);
                 $("#username").text(data.data.name);
             }
-        }
+        },
+        error:errorHandler
     })
 }
 
@@ -120,7 +121,8 @@ function logout() {
         url: '/logout',
         type: "POST",
         success: data => {
-        }
+        },
+        error:errorHandler
     })
 }
 

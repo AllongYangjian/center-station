@@ -12,6 +12,7 @@ import com.allong.centerstation.utils.SecurityUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -56,6 +57,7 @@ public class UserController {
 
     @GetMapping
     @Log("获取账户列表")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER')")
     public ResponseEntity<Object> list() {
         List<User> list = userService.list();
         if (list != null) {
@@ -66,12 +68,14 @@ public class UserController {
 
     @PutMapping
     @Log("更新账户信息")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER')")
     public ResponseEntity<Object> update(@RequestBody User user) {
         return new ResponseEntity<>(new Result.Builder<>().setData(user.updateById()).buildUpdateSuccess(), HttpStatus.OK);
     }
 
     @GetMapping("/role/{uid}")
     @Log("获取用户角色列表")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER')")
     public ResponseEntity<Object> list(@PathVariable("uid") Integer uid) {
         return new ResponseEntity<>(new Result.Builder<>().setData(roleService.selectAllByUserId(uid)).buildQuerySuccess(), HttpStatus.OK);
     }

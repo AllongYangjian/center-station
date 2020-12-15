@@ -128,7 +128,8 @@ function loadRoleData() {
             if (data.code === 200) {
                 $roleTable.datagrid({data: data.data});
             }
-        }
+        },
+        error:errorHandler
     })
 }
 
@@ -161,7 +162,8 @@ function doSaveOrUpdateRoleInfo(data, method) {
                 loadRoleData();
                 resortRoleFormData();
             }
-        }
+        },
+        error:errorHandler
     })
 }
 
@@ -176,6 +178,7 @@ function doDeleteRoleRecord() {
             if (data.code === 200) {
                 loadRoleData();
             }
-        }
+        },
+        error:errorHandler
     })
 }

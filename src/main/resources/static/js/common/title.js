@@ -34,3 +34,14 @@ function showDeleteToast(callback) {
         }
     })
 }
+
+function errorHandler(xhr, status, error) {
+    if (xhr.status === 403) {
+        showToast('提示', '权限不足，无法访问');
+    } else if (xhr.status === 500) {
+        showToast('提示', '服务器出错，获取数据失败');
+    }else {
+        showToast('提示', status);
+    }
+
+}

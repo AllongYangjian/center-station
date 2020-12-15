@@ -58,7 +58,8 @@ function doLogin() {
                 window.location.href = "/home";
             }
 
-        }
+        },
+        error:errorHandler
     });
 }
 

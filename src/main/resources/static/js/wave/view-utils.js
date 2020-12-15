@@ -60,7 +60,8 @@ function initView() {
             if (data.code === 200) {
                 $hospitalSelect.combobox({data: data.data});
             }
-        }
+        },
+        error:errorHandler
     });
     $("#view_config_save").on('click', () => {
         saveViewConfigInfo();
@@ -86,7 +87,8 @@ function loadPatientDataAndTempData() {
                 let id = data.data.id;
                 doLoadPatientAndTempDetail(id);
             }
-        }
+        },
+        error:errorHandler
     });
 }
 

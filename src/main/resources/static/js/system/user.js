@@ -185,7 +185,8 @@ function loadUserRoleList(data) {
                     $roleTable.datagrid('clearChecked');
                 }
             }
-        }
+        },
+        error:errorHandler
     })
 }
 
@@ -264,7 +265,8 @@ function loadUserData() {
             if (data.code === 200) {
                 $userTable.datagrid({data: data.data});
             }
-        }
+        },
+        error:errorHandler
     })
 }
 
@@ -280,7 +282,8 @@ function loadUserRoleData() {
             if (data.code === 200) {
                 $roleTable.datagrid({data: data.data});
             }
-        }
+        },
+        error:errorHandler
     })
 }
 
@@ -313,7 +316,8 @@ function doSaveOrUpdateUserInfo(data, method) {
                 loadUserData();
                 resortUserFormData();
             }
-        }
+        },
+        error:errorHandler
     })
 }
 
@@ -328,7 +332,8 @@ function doDeleteUserRecord() {
             if (data.code === 200) {
                 loadUserData();
             }
-        }
+        },
+        error:errorHandler
     })
 }
 
@@ -364,7 +369,8 @@ function doSaveUserRole(data) {
         contentType: 'application/json',
         success: data => {
             showToast('提示', data.message);
-        }
+        },
+        error:errorHandler
     })
 }
 

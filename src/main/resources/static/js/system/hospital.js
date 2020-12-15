@@ -135,7 +135,8 @@ function loadHospitalData() {
             if (data.code === 200) {
                 $hospitalTable.datagrid({data: data.data});
             }
-        }
+        },
+        error:errorHandler
     })
 }
 
@@ -168,7 +169,8 @@ function doSaveOrUpdateHospitalInfo(data, method) {
                 loadHospitalData();
                 resortHospitalFormData();
             }
-        }
+        },
+        error:errorHandler
     })
 }
 
@@ -183,6 +185,7 @@ function doDeleteHospitalRecord() {
             if (data.code === 200) {
                 loadHospitalData();
             }
-        }
+        },
+        error:errorHandler
     })
 }

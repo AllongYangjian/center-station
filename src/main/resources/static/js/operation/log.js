@@ -158,7 +158,8 @@ function loadLogData() {
             if (data.code === 200) {
                 $logTable.datagrid({data: data.data});
             }
-        }
+        },
+        error:errorHandler
     })
 }
 

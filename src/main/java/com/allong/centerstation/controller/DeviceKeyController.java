@@ -9,6 +9,7 @@ import jdk.nashorn.internal.objects.annotations.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
  * @since 2020-12-09
  */
 @RestController
+@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_KEY')")
 @RequestMapping("/api/key")
 public class DeviceKeyController {
     @Autowired
