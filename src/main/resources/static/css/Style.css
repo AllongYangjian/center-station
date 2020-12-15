@@ -15,17 +15,22 @@ html, body {
 }
 
 .header {
+    position: absolute;
     width: 100%;
     height: 48px;
+    left: 0;
+    bottom: 0;
     background: #00111e;
 }
 
 .bed-container {
     position: absolute;
     width: 100%;
-    top: 48px;
-    bottom: 0;
+    top: 0;
+    bottom: 48px;
     font-size: 0;
+    /*overflow-y: scroll;*/
+    background: black;
     /*margin-right: calc(100% - 100vw)*/
 }
 
@@ -34,7 +39,7 @@ html, body {
     float: left;
     width: 50%;
     border: 2px solid rgb(86, 95, 108);
-    height: 280px;
+    /*height: 280px;*/
     border-top-width: 0;
     border-left-width: 0;
     background-color: #14191e;
@@ -89,9 +94,10 @@ html, body {
     width: 33%;
     height: 33%;
 }
+
 .key_nibp {
     float: left;
-    width: 60%;
+    width: 66%;
     height: 33%;
 }
 
@@ -174,62 +180,187 @@ label.key_value2 {
     right: 0;
 }
 
-/*.nibp {*/
-/*    float: left;*/
-/*    width: 196px;*/
-/*    color: white;*/
-/*    margin-top: 32px;*/
-/*}*/
-
-/*.pr {*/
-/*    float: left;*/
-/*    width: 90px;*/
-/*    margin-top: 32px;*/
-/*    color: rgb(110, 251, 252);*/
-/*    margin-left: 32px;*/
-/*}*/
-
-/*.pr::after{*/
-/*    content:'';*/
-/*    display:block;*/
-/*    clear:both;*/
-/*    height:0;*/
-/*    visibility:hidden;*/
-/*}*/
-
-/*.nibp .key_send_value {*/
-/*    float: right;*/
-/*}*/
-
-/*.key_time {*/
-/*    font-size: 13.6px;*/
-/*}*/
-
-/*.t {*/
-/*    float: left;*/
-/*    height: 32px;*/
-/*    line-height: 32px;*/
-/*    width: 90px;*/
-/*    color: white;*/
-/*    margin-top: 16px;*/
-/*}*/
-
-/*.t2 {*/
-/*    margin-left: 16px;*/
-/*}*/
-
-/*.td {*/
-/*    margin-left: 32px;*/
-/*}*/
-
-/*.key_unit2 {*/
-/*    float: right;*/
-/*    font-size: 12px;*/
-/*    color: gray;*/
-/*}*/
-
 .boack {
     position: absolute;
     width: 100%;
     height: 100%;
 }
+
+/*分页样式*/
+
+ul.page {
+    display: inline-block;
+    width: 45rem;
+    height: 100%;
+    text-align: center;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+
+ul.page li{
+    float: left;
+    width: 32px;
+    height: 32px;
+    line-height: 32px;
+    border-radius: 0.2rem;
+    margin-left: 8px;
+    margin-top: 8px;
+    color: white;
+    text-align: center;
+    border: 1px solid lightgray;
+}
+
+ul.page li:hover{
+    cursor: pointer;
+    color: #1d1f20;
+    background-color: white;
+    border: solid 1px white;
+}
+
+ul.page li.active{
+    cursor: pointer;
+    color: #1d1f20;
+    background-color: white;
+    border: solid 1px white;
+}
+
+/*.header {*/
+/*    position: absolute;*/
+/*    left: 0;*/
+/*    bottom: 0;*/
+/*    width: 100%;*/
+/*    height: 48px;*/
+/*    background: #00111e;*/
+/*    !*padding: 1rem;*!*/
+/*    !*margin: 3rem auto;*!*/
+/*    border-radius: 0.2rem;*/
+/*    counter-reset: pagination;*/
+/*    !*text-align: center;*!*/
+/*}*/
+
+/*.header:after {*/
+/*    clear: both;*/
+/*    content: "";*/
+/*    display: table;*/
+/*}*/
+
+/*.header ul {*/
+/*    width: 100%;*/
+/*}*/
+
+/*.large {*/
+/*    width: 100%;*/
+/*}*/
+
+
+/*.pagination ul, li {*/
+/*    list-style: none;*/
+/*    display: inline;*/
+/*    padding-left: 0px;*/
+/*}*/
+
+/*.pagination li {*/
+/*    counter-increment: pagination;*/
+/*}*/
+
+/*.pagination li:hover a {*/
+/*    color: #fdfdfd;*/
+/*    background-color: #1d1f20;*/
+/*    border: solid 1px #1d1f20;*/
+/*}*/
+
+/*.pagination li.active a {*/
+/*    color: #fdfdfd;*/
+/*    background-color: #1d1f20;*/
+/*    border: solid 1px #1d1f20;*/
+/*}*/
+
+/*.pagination li:first-child a:after {*/
+/*    content: "<";*/
+/*}*/
+
+/*.pagination li:nth-child(2) {*/
+/*    counter-reset: pagination;*/
+/*}*/
+
+/*.pagination li:last-child a:after {*/
+/*    content: ">";*/
+/*}*/
+
+/*.pagination li a {*/
+/*    border: solid 1px #d6d6d6;*/
+/*    border-radius: 0.2rem;*/
+/*    color: #7d7d7d;*/
+/*    text-decoration: none;*/
+/*    text-transform: uppercase;*/
+/*    display: inline-block;*/
+/*    text-align: center;*/
+/*    padding: 0.5rem 0.9rem;*/
+/*}*/
+
+/*.pagination li a:after {*/
+/*    content: " " counter(pagination) " ";*/
+/*}*/
+
+/*.large li a {*/
+/*    display: none;*/
+/*}*/
+
+/*.large li:first-child a {*/
+/*    display: inline-block;*/
+/*}*/
+
+/*.large li:first-child a:after {*/
+/*    content: "<";*/
+/*}*/
+
+/*.large li:nth-child(2) a {*/
+/*    display: inline-block;*/
+/*}*/
+
+/*.large li:nth-child(3) a {*/
+/*    display: inline-block;*/
+/*}*/
+
+/*.large li:nth-child(4) a {*/
+/*    display: inline-block;*/
+/*}*/
+
+/*.large li:nth-child(5) a {*/
+/*    display: inline-block;*/
+/*}*/
+
+/*.large li:nth-child(6) a {*/
+/*    display: inline-block;*/
+/*}*/
+
+/*.large li:nth-child(7) a {*/
+/*    display: inline-block;*/
+/*}*/
+
+/*.large li:nth-child(8) a {*/
+/*    display: inline-block;*/
+/*}*/
+
+/*.large li:last-child a {*/
+/*    display: inline-block;*/
+/*}*/
+
+/*.large li:last-child a:after {*/
+/*    content: ">";*/
+/*}*/
+
+/*.large li:nth-last-child(2) a {*/
+/*    display: inline-block;*/
+/*}*/
+
+/*.large li:nth-last-child(3) {*/
+/*    display: inline-block;*/
+/*}*/
+
+/*.large li:nth-last-child(3):after {*/
+/*    padding: 0 1rem;*/
+/*    content: "...";*/
+/*}*/

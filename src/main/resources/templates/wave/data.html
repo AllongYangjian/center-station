@@ -5,8 +5,9 @@
     <title>波形数据展示</title>
     <link rel="stylesheet" href="/static/css/Style.css">
     <script type="text/javascript" src="/static/js/common/title.js"></script>
-<!--    <script type="text/javascript" src="/static/js/utils/const.js"></script>-->
-<!--    <script type="text/javascript" src="/static/jquery-1.8.0.min.js"/>-->
+    <script type="text/javascript" src="/static/js/utils/utils.js"></script>
+    <!--    <script type="text/javascript" src="/static/js/utils/const.js"></script>-->
+    <!--    <script type="text/javascript" src="/static/jquery-1.8.0.min.js"/>-->
     <script type="text/javascript" src="/static/js/utils/webSocket.js"></script>
     <script type="text/javascript" src="/static/js/utils/color-utils.js"></script>
     <script type="text/javascript" src="/static/js/wave/view-utils.js"></script>
@@ -14,11 +15,54 @@
 </head>
 <body>
 <div class="container">
-    <div class="header">
-        <label style="color: white;font-size:20px;height: 48px;line-height: 48px;margin-left: 16px">选择医院：</label>
-        <input style="height: 32px;font-size: 20px" id="hospital_select" data-options="textField:'name',valueField:'id'">
-    </div>
     <div class="bed-container clearfix">
+    </div>
+    <!--    <div class="header large">-->
+    <!--        <div class="pagination">-->
+    <!--            <ul>-->
+    <!--                <li> <a href="javascript:void(0)"></a> </li>-->
+    <!--                <li> <a href="javascript:void(0)"></a> </li>-->
+    <!--                <li> <a href="javascript:void(0)"></a> </li>-->
+    <!--                <li> <a href="javascript:void(0)"></a> </li>-->
+    <!--                <li> <a href="javascript:void(0)"></a> </li>-->
+    <!--                <li> <a href="javascript:void(0)"></a> </li>-->
+    <!--                <li> <a href="javascript:void(0)"></a> </li>-->
+    <!--                <li> <a href="javascript:void(0)"></a> </li>-->
+    <!--                <li> <a href="javascript:void(0)"></a> </li>-->
+    <!--                <li> <a href="javascript:void(0)"></a> </li>-->
+    <!--                <li> <a href="javascript:void(0)"></a> </li>-->
+    <!--                <li> <a href="javascript:void(0)"></a> </li>-->
+    <!--                <li class="active"> <a href="javascript:void(0)"></a> </li>-->
+    <!--                <li> <a href="javascript:void(0)"></a> </li>-->
+    <!--                <li> <a href="javascript:void(0)"></a> </li>-->
+    <!--                <li> <a href="javascript:void(0)"></a> </li>-->
+    <!--                <li> <a href="javascript:void(0)"></a> </li>-->
+    <!--                <li> <a href="javascript:void(0)"></a> </li>-->
+    <!--                <li> <a href="javascript:void(0)"></a> </li>-->
+    <!--                <li> <a href="javascript:void(0)"></a> </li>-->
+    <!--                <li> <a href="javascript:void(0)"></a> </li>-->
+    <!--                <li> <a href="javascript:void(0)"></a> </li>-->
+    <!--                <li> <a href="javascript:void(0)"></a> </li>-->
+    <!--                <li> <a href="javascript:void(0)"></a> </li>-->
+    <!--                <li> <a href="javascript:void(0)"></a> </li>-->
+    <!--                <li> <a href="javascript:void(0)"></a> </li>-->
+    <!--                <li> <a href="javascript:void(0)"></a> </li>-->
+    <!--                <li> <a href="javascript:void(0)"></a> </li>-->
+    <!--                <li> <a href="javascript:void(0)"></a> </li>-->
+    <!--            </ul>-->
+    <!--        </div>-->
+    <!--    </div>-->
+    <div class="header">
+        <ul class="page"></ul>
+        <a class="easyui-linkbutton" iconCls="icon-setting" style="float:right;margin-right: 8px;margin-top: 8px"
+           onclick="showViewDialog()"></a>
+    </div>
+    <div id="view_config" class="easyui-dialog" title="布局设置"
+         data-options="resizable:true,modal:true,closed:true,border:false"
+         style="width: 600px;height: 400px">
+        <form>
+
+        </form>
     </div>
 </div>
 </body>

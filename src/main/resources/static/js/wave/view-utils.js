@@ -7,9 +7,14 @@ var mDataKeys = [];
 var id1 = -1;
 var id2 = -1;
 var itemWidth;
+var itemHeight;
 var canvasWidth;
+var row = 3;
+var column = 2;
+var currentPage = 1;
 $(function () {
-    itemWidth = $(".bed-container").width() / 2;
+    itemWidth = $(".bed-container").width() / column;
+    itemHeight = $(".bed-container").height() / row;
     canvasWidth = Math.round(itemWidth * 0.6) - 10;
     // console.log(window.innerWidth,itemWidth, canvasWidth);
     window.onbeforeunload = function (ev) {
@@ -50,7 +55,7 @@ function initView() {
 }
 
 /**
- * 加载用户信息
+ * 加载当前使用的模板
  */
 function loadPatientDataAndTempData() {
 
@@ -68,6 +73,11 @@ function loadPatientDataAndTempData() {
     });
 }
 
+/**
+ * 记载病人信息及模板详情
+ * 模板详情包括 波形字段、数值字段
+ * @param id 模板id
+ */
 function doLoadPatientAndTempDetail(id) {
     let arr = [];
     arr.push($.ajax({
@@ -87,15 +97,15 @@ function doLoadPatientAndTempDetail(id) {
     }));
     Promise.all(arr).then(res => {
         if (res[1].code === 200) {
-            mWaveKeys = res[1].data;
+            mWaveKeys = res[1].data; //缓存波形字段
         }
         if (res[2].code === 200) {
-            mDataKeys = res[2].data;
+            mDataKeys = res[2].data; //缓存数值字段
         }
         if (res[0].code === 200) {
             mPatientList = res[0].data;
             mData = res[0].data;
-            inflateViewByData();
+            inflateViewByData(); //界面布局
         }
 
     })
@@ -121,16 +131,46 @@ function clearData() {
  * 根据病人信息布局床位界面
  */
 function inflateViewByData() {
-    bedContainView.empty();
-    for (var x = 0; x < mData.length; x++) {
-        bedContainView.append($(getItemView(mData[x])));
+    //根据病人数据填充分页
+    let pageCount = mData.length % (column * row) === 0 ? mData.length / (column * row) : mData.length / (column * row) + 1;
+    $(".page").empty();
+    for (let x = 1; x < pageCount; x++) {
+        $(".page").append('<li class="page-item" onclick="pagePatient(this)">' + x + '</li>')
     }
-    bindViewData();
+    $(".page li:first-child").trigger('click');
+    // bedContainView.empty();
+    // for (var x = 0; x < mData.length; x++) {
+    //     bedContainView.append($(getItemView(mData[x])));
+    // }
     id1 = setInterval(startTest, 1000);
     id2 = setInterval(startTest2, 30 * 60 * 1000);
     startTest2();
 }
 
+/**
+ * 按分页显示病人信息
+ * @param e
+ */
+function pagePatient(e) {
+    let val = parseInt($(e).text());
+    $(e).addClass("active");
+    $(e).siblings('li').removeClass('active');
+    // console.log($(e).text());
+    let start = (val - 1) * row * column;
+    let end = val * row * column;
+    bedContainView.empty();
+    for (let x = start; x < end; x++) {
+        if (x < mData.length) { //泛指越界
+            bedContainView.append($(getItemView(mData[x])));
+        }
+    }
+    // restoreData();//先清除所有缓存
+    // bindViewData();
+}
+
+/**
+ * 测试数据 ，实施更新除血压外的所有数据
+ */
 function startTest() {
     for (var x = 0; x < mData.length; x++) {
         let p = mData[x];
@@ -144,6 +184,9 @@ function startTest() {
     }
 }
 
+/**
+ * 测试数据，仅更新血压数据，每30分钟更新一次
+ */
 function startTest2() {
     for (var x = 0; x < mData.length; x++) {
         let p = mData[x];
@@ -154,12 +197,18 @@ function startTest2() {
                 let ssy = key.max.split('-');
                 let value1 = getRandomValue(parseInt(szy[0]), parseInt(szy[1]));
                 let value2 = getRandomValue(parseInt(ssy[0]), parseInt(ssy[1]));
-                updateValue(p.bed, key.code, value1 + "/" + value2);
+                updateValue(p.bed, key.code, value2 + "/" + value1);
             }
         }
     }
 }
 
+/**
+ * 更新界面数据值
+ * @param bed 床位
+ * @param key 字段
+ * @param value 值
+ */
 function updateValue(bed, key, value) {
     // console.log(bed, key, value);
     var view = document.getElementById(key + "_" + bed);
@@ -168,18 +217,34 @@ function updateValue(bed, key, value) {
     }
 }
 
+/**
+ * 根据上下限获取随机值
+ * @param min
+ * @param max
+ * @returns {number} 随机值
+ */
 function getRandomValue(min, max) {
     return Math.floor(Math.random() * (max - min)) + min;
 }
 
+/**
+ * 获取床位布局
+ * @param patient 病人信息
+ * @returns {string} 布局
+ */
 function getItemView(patient) {
-    return '<div class="bed-item">'
+    return '<div class="bed-item" style="height: ' + itemHeight + 'px;">'
         + getBedItemTitle(patient)
         + getBedContentView(patient)
         +
         '</div>'
 }
 
+/**
+ * 获取床位头部病人信息
+ * @param patient 病人信息
+ * @returns {string} 布局
+ */
 function getBedItemTitle(patient) {
     let gender;
     if (patient.gender === 1) {
@@ -200,6 +265,11 @@ function getBedItemTitle(patient) {
         '</div>'
 }
 
+/**
+ * 获取床位内容布局，包括曲线和数据
+ * @param patient
+ * @returns {string}
+ */
 function getBedContentView(patient) {
     return '<div class="item-container">' +
         getBedContentLeftView(patient)
@@ -208,41 +278,67 @@ function getBedContentView(patient) {
         '</div>'
 }
 
-
+/**
+ * 获取床位曲线布局
+ * <p>
+ *     包括背景网格和曲线字段
+ * </p>
+ * @param patient 病人信息
+ * @returns {string} 布局
+ */
 function getBedContentLeftView(patient) {
+    let canvasBgHeight = itemHeight - 32;
+    let canvasKeyHeight = canvasBgHeight / mWaveKeys.length;
     return '<div class="item-container-left" id="size-of-chart">' +
         '    <div class="boack">' +
-        '        <canvas id="background_' + patient.bed + '" width="' + canvasWidth + 'px" height="248px">' +
+        '        <canvas id="background_' + patient.bed + '" width="' + canvasWidth + 'px" height="' + canvasBgHeight + 'px">' +
         '        </canvas>' +
         '    </div>' +
         '    <div class="boack">' +
-        getKeyCanvas(patient) +
+        getKeyCanvas(patient, canvasKeyHeight) +
         '    </div>' +
         '</div>'
 }
 
 /**
- *         '        <canvas id="line_key1_' + patient.bed + '" width="500px" height="62px"></canvas>' +
+ * 获取曲线布局
+ *        <p>
+ *        '        <canvas id="line_key1_' + patient.bed + '" width="500px" height="62px"></canvas>' +
  '        <canvas id="line_key2_' + patient.bed + '" width="500px" height="62px"></canvas>' +
  '        <canvas id="line_key3_' + patient.bed + '" width="500px" height="62px"></canvas>' +
  '        <canvas id="line_key4_' + patient.bed + '" width="500px" height="62px"></canvas>' +
- * @param patient
+ <p>
+ * @param patient 病人信息
+ * @param canvasKeyHeight 曲线宽度
  */
-function getKeyCanvas(patient) {
+function getKeyCanvas(patient, canvasKeyHeight) {
     let view = '';
     for (let x = 0; x < mWaveKeys.length; x++) {
         let id = `line_${mWaveKeys[x].code}_${patient.bed}`;
-        view += '<canvas id="' + id + '" width="' + canvasWidth + 'px" height="62px"></canvas>'
+        view += '<canvas id="' + id + '" width="' + canvasWidth + 'px" height="' + canvasKeyHeight + 'px"></canvas>'
     }
     return view;
 }
 
+/**
+ * 获取数值字段布局信息
+ * @param patient 病人
+ * @returns {string} 布局
+ */
 function getBedContentRightView(patient) {
     return '<div class="item-container-right">' +
         getKeyData(patient) +
         '</div>';
 }
 
+/**
+ * 获取字段项目布局信息
+ * <p>
+ *     包括特殊字段和不同字段
+ *     </p>
+ * @param patient
+ * @returns {string}
+ */
 function getKeyData(patient) {
     let view = '';
     for (let x = 0; x < mDataKeys.length; x++) {
@@ -257,6 +353,12 @@ function getKeyData(patient) {
     return view;
 }
 
+/**
+ * 获取普通字段布局信息
+ * @param id  布局id
+ * @param key 字段
+ * @returns {string} 布局
+ */
 function getKeyItem(id, key) {
     return '<div class="key" style="color: ' + key.keyColor + '">' +
         '<label class="key_title">' + key.name + '</label><span class="key_unit">(' + key.unit + ')</span>' +
@@ -268,6 +370,12 @@ function getKeyItem(id, key) {
         '</div>';
 }
 
+/**
+ * 获取特殊字段布局
+ * @param id 布局id
+ * @param key 字段
+ * @returns {string} 布局
+ */
 function getKeyItemSpecial(id, key) {
     let szy = key.min.split('-');
     let ssy = key.max.split('-');
@@ -284,79 +392,19 @@ function getKeyItemSpecial(id, key) {
         '</div>'
 }
 
-function getHRView(patient) {
-    return '<div class="hr">' +
-        '<label class="key_title">HR</label><span class="key_unit">' + patient.hr.unit + '</span>' +
-        '<div class="key_content">' +
-        '    <label class="key_threshold key_threshold_max">' + patient.hr.max + '</label>' +
-        '    <label class="key_threshold key_threshold_min">' + patient.hr.min + '</label>' +
-        '    <label class="key_value" id="' + patient.hr.key + '_' + patient.bed + '">' + patient.hr.value + '</label>' +
-        '</div>' +
-        '</div>'
+/**
+ * 显示界面布局对话框
+ * 主要用来设置每页床位显示的数量
+ */
+function showViewDialog() {
+    $("#view_config").dialog({
+        onOpen: () => {
+
+        }
+    });
+    $("#view_config").dialog('open');
 }
 
-function getRRView(patient) {
-    return '<div class="rr">' +
-        '<label class="key_title">Resp</label><span class="key_unit">' + patient.Resp.unit + '</span>' +
-        '<div class="key_content">' +
-        '    <label class="key_threshold key_threshold_max">' + patient.Resp.max + '</label>' +
-        '    <label class="key_threshold key_threshold_min">' + patient.Resp.min + '</label>' +
-        '    <label class="key_value" id="' + patient.Resp.key + '_' + patient.bed + '">' + patient.Resp.value + '</label>' +
-        '</div>' +
-        '</div>'
-}
 
-function getSpO2View(patient) {
-    return '<div class="spo2">' +
-        '<label class="key_title">SpO2</label><span class="key_unit">' + patient.spo2.unit + '</span>' +
-        '<div class="key_content">' +
-        '    <label class="key_threshold key_threshold_max">' + patient.spo2.max + '</label>' +
-        '    <label class="key_threshold key_threshold_min">' + patient.spo2.min + '</label>' +
-        '    <label class="key_value" id="' + patient.spo2.key + '_' + patient.bed + '">' + patient.spo2.value + '</label>' +
-        '</div>' +
-        '</div>'
-}
-
-function getNIBPView(patient) {
-    return '  <div class="nibp">' +
-        '<label class="key_title">NIBP</label><span class="key_unit">' + patient.nibp.unit + '</span>' +
-        '<label class="key_send_value">' + patient.nibp.value2 + '</label>' +
-        '<div class="key_content">' +
-        '    <label class="key_threshold key_threshold_max">' + patient.nibp.max1 + '</label>' +
-        '    <label class="key_threshold key_threshold_min">' + patient.nibp.min1 + '</label>' +
-        '    <label class="key_value2" id="' + patient.nibp.key + '_' + patient.bed + '">' + patient.nibp.value1 + '</label>' +
-        '    <label class="key_threshold key_threshold_max2">' + patient.nibp.max2 + '</label>' +
-        '    <label class="key_threshold key_threshold_min2">' + patient.nibp.min2 + '</label>' +
-        '</div>' +
-        '</div>'
-}
-
-function getPRView(patient) {
-    return ' <div class="pr">' +
-        '<label class="key_title">PR</label><span class="key_unit">' + patient.pr.unit + '</span>' +
-        '<div class="key_content">' +
-        '    <label class="key_threshold key_threshold_max">' + patient.pr.max + '</label>' +
-        '    <label class="key_threshold key_threshold_min">' + patient.pr.min + '</label>' +
-        '    <label class="key_value" id="' + patient.pr.key + '_' + patient.bed + '">' + patient.pr.value + '</label>' +
-        '</div>' +
-        '<div class="key_time">' +
-        '    &nbsp;' +
-        '</div>' +
-        '</div>'
-}
-
-function getTView(patient) {
-    return '  <div class="t">' +
-        '    <label>T1：</label><label>' + patient.t1.value + '</label>' +
-        '    <label class="key_unit2">' + patient.t1.unit + '</label>' +
-        '</div>' +
-        '<div class="t t2">' +
-        '    <label>T2：</label><label>' + patient.t2.value + '</label>' +
-        '    <label class="key_unit2">' + patient.t2.unit + '</label>' +
-        '</div>' +
-        '<div class="t td">' +
-        '    <label>TD：</label><label>' + patient.td.value + '</label>' +
-        '</div>'
-}
 
 
