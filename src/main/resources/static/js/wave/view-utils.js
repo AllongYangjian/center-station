@@ -13,9 +13,6 @@ var row = 3;
 var column = 2;
 var currentPage = 1;
 $(function () {
-    itemWidth = $(".bed-container").width() / column;
-    itemHeight = $(".bed-container").height() / row;
-    canvasWidth = Math.round(itemWidth * 0.6) - 10;
     // console.log(window.innerWidth,itemWidth, canvasWidth);
     window.onbeforeunload = function (ev) {
         clearData();
@@ -23,10 +20,23 @@ $(function () {
         close();
     };
     initView();
+    calculateViewSize();
     loadPatientDataAndTempData();
     // connectServer();
 
 });
+
+/**
+ * 计算界面布局大小
+ */
+function calculateViewSize() {
+    row = getBindData('row', '3');
+    column = getBindData('column', '2');
+    itemWidth = $(".bed-container").width() / parseInt(column);
+    itemHeight = $(".bed-container").height() / parseInt(row);
+    canvasWidth = Math.round(itemWidth * 0.6) - 10;
+    console.log(row, column, itemWidth, itemHeight, canvasWidth);
+}
 
 /**
  * 初始化布局
@@ -51,7 +61,14 @@ function initView() {
                 $hospitalSelect.combobox({data: data.data});
             }
         }
-    })
+    });
+    $("#view_config_save").on('click', () => {
+        saveViewConfigInfo();
+    });
+
+    $("#view_config_close").on('click', () => {
+        $("#view_config").dialog('close');
+    });
 }
 
 /**
@@ -132,10 +149,18 @@ function clearData() {
  */
 function inflateViewByData() {
     //根据病人数据填充分页
-    let pageCount = mData.length % (column * row) === 0 ? mData.length / (column * row) : mData.length / (column * row) + 1;
+    let pageCount;
+    if (mData.length <= (column * row)) {
+        pageCount = 1;
+    } else {
+        pageCount = mData.length % (column * row) === 0 ? mData.length / (column * row) : mData.length / (column * row) + 1;
+    }
+    console.log('inflateViewByData', pageCount);
     $(".page").empty();
-    for (let x = 1; x < pageCount; x++) {
+    for (let x = 1; x <= pageCount; x++) {
+        // if (x < mData.length) {
         $(".page").append('<li class="page-item" onclick="pagePatient(this)">' + x + '</li>')
+        // }
     }
     $(".page li:first-child").trigger('click');
     // bedContainView.empty();
@@ -164,8 +189,8 @@ function pagePatient(e) {
             bedContainView.append($(getItemView(mData[x])));
         }
     }
-    // restoreData();//先清除所有缓存
-    // bindViewData();
+    restoreData();//先清除所有缓存
+    bindViewData();
 }
 
 /**
@@ -233,7 +258,7 @@ function getRandomValue(min, max) {
  * @returns {string} 布局
  */
 function getItemView(patient) {
-    return '<div class="bed-item" style="height: ' + itemHeight + 'px;">'
+    return '<div class="bed-item" style="height: ' + itemHeight + 'px;width: ' + itemWidth + 'px">'
         + getBedItemTitle(patient)
         + getBedContentView(patient)
         +
@@ -399,10 +424,46 @@ function getKeyItemSpecial(id, key) {
 function showViewDialog() {
     $("#view_config").dialog({
         onOpen: () => {
-
+            bindDefaultViewData();
         }
     });
     $("#view_config").dialog('open');
+}
+
+function bindDefaultViewData() {
+    let val = getBindData('row', '3');
+    $("#row").numberbox('setValue', val);
+
+    val = getBindData('column', '2');
+    $("#column").numberbox('setValue', val);
+}
+
+function saveViewConfigInfo() {
+    let form = $("#ff");
+    if (form.form('validate')) {
+        let data = form.serializeObject();
+        for (let key in data) {
+            localStorage.setItem(key, data[key]);
+        }
+        showToast('提示', '保存成功');
+        //重新加载布局
+        //清楚数据
+        clearData();
+        restoreData();
+        //重新计算大小
+        calculateViewSize();
+        inflateViewByData();
+    } else {
+        showToast('警告', '存在校验未通过项目');
+    }
+}
+
+function getBindData(key, defaultValue) {
+    let val = localStorage.getItem(key);
+    if (val === undefined || val === null) {
+        val = defaultValue;
+    }
+    return val;
 }
 
 
