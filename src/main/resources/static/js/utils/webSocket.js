@@ -59,6 +59,7 @@ function parseWaveData(waveArray, patient) {
 
     try {
         waveArray.forEach(item => {
+            //todo 需要将床位改成pid
             let bed = patient.BedLabel;
             let key = item.Name;
             let arr = item.Data;

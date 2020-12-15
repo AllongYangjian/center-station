@@ -34,7 +34,7 @@ function calculateViewSize() {
     column = getBindData('column', '2');
     itemWidth = $(".bed-container").width() / parseInt(column);
     itemHeight = $(".bed-container").height() / parseInt(row);
-    canvasWidth = Math.round(itemWidth * 0.6) - 10;
+    canvasWidth = Math.round(itemWidth * 0.6) ;
     console.log(row, column, itemWidth, itemHeight, canvasWidth);
 }
 
@@ -281,12 +281,12 @@ function getBedItemTitle(patient) {
     }
     return '<div class="item-title">' +
         '<img src="/static/images/bed.png">' +
-        '<label id=' + "BED_" + patient.bed + '>' + patient.bed + ' 床</label>' +
-        '<label id=' + "NAME_" + patient.bed + '>' + patient.name + '</label>' +
-        '<label id=' + "GENDER_" + patient.bed + '>' + gender + '</label>' +
-        '<label id=' + "AGE_" + patient.bed + '>' + patient.age + '岁</label>' +
-        '<label id=' + "HOSPITAL_" + patient.bed + '>医院:' + patient.hospitalName + '</label>' +
-        '<label id=' + "DEPT_" + patient.bed + '>科室:' + patient.dept + '</label>' +
+        '<label id=' + "BED_" + patient.pid + '>' + patient.bed + ' 床</label>' +
+        '<label id=' + "NAME_" + patient.pid + '>' + patient.name + '</label>' +
+        '<label id=' + "GENDER_" + patient.pid + '>' + gender + '</label>' +
+        '<label id=' + "AGE_" + patient.pid + '>' + patient.age + '岁</label>' +
+        '<label id=' + "HOSPITAL_" + patient.pid + '>医院:' + patient.hospitalName + '</label>' +
+        '<label id=' + "DEPT_" + patient.pid + '>科室:' + patient.dept + '</label>' +
         '</div>'
 }
 
@@ -316,7 +316,7 @@ function getBedContentLeftView(patient) {
     let canvasKeyHeight = canvasBgHeight / mWaveKeys.length;
     return '<div class="item-container-left" id="size-of-chart">' +
         '    <div class="boack">' +
-        '        <canvas id="background_' + patient.bed + '" width="' + canvasWidth + 'px" height="' + canvasBgHeight + 'px">' +
+        '        <canvas id="background_' + patient.pid + '" width="' + canvasWidth + 'px" height="' + canvasBgHeight + 'px">' +
         '        </canvas>' +
         '    </div>' +
         '    <div class="boack">' +
@@ -339,7 +339,7 @@ function getBedContentLeftView(patient) {
 function getKeyCanvas(patient, canvasKeyHeight) {
     let view = '';
     for (let x = 0; x < mWaveKeys.length; x++) {
-        let id = `line_${mWaveKeys[x].code}_${patient.bed}`;
+        let id = `line_${mWaveKeys[x].code}_${patient.pid}`;
         view += '<canvas id="' + id + '" width="' + canvasWidth + 'px" height="' + canvasKeyHeight + 'px"></canvas>'
     }
     return view;
@@ -368,7 +368,7 @@ function getKeyData(patient) {
     let view = '';
     for (let x = 0; x < mDataKeys.length; x++) {
         let item = mDataKeys[x];
-        let id = item.code + "_" + patient.bed;
+        let id = item.code + "_" + patient.pid;
         if (item.code === 'NIBP') {
             view += getKeyItemSpecial(id, item);
         } else {

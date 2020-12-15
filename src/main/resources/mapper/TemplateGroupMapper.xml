@@ -4,10 +4,10 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.allong.centerstation.domain.entity.TemplateGroup">
-        <id column="id" property="id" />
-        <result column="username" property="username" />
-        <result column="temp_name" property="tempName" />
-        <result column="enable" property="enable" />
+        <id column="id" property="id"/>
+        <result column="username" property="username"/>
+        <result column="temp_name" property="tempName"/>
+        <result column="enable" property="enable"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
@@ -15,7 +15,7 @@
         id, username, temp_name,enable
     </sql>
     <update id="updateAllDisable">
-        update sys_template_group set enable = false  where username = #{username};
+        update sys_template_group set enable = false  where username = #{username} or username = 0;
     </update>
     <update id="updateOneEnable">
         update sys_template_group set enable = true where id = #{tempId};

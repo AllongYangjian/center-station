@@ -115,7 +115,7 @@ function restoreData() {
 function drawEcgBg() {
     for (let x = 0; x < mPatientList.length; x++) {
         let p = mPatientList[x];
-        const canvas = document.getElementById("background_" + p.bed);
+        const canvas = document.getElementById("background_" + p.pid);
         if (canvas) {
             let canvasObj = new Object(); //创建一个对象用来缓存数据
             const ctx = canvas.getContext("2d");
@@ -124,7 +124,7 @@ function drawEcgBg() {
             canvasObj.width = canvas.width;
             canvasObj.height = canvas.height;
             drawGrid(canvasObj);
-            bedBackgroundCanvasMap.set(p.bed, canvasObj);//缓存背景canvas对象
+            bedBackgroundCanvasMap.set(p.pid, canvasObj);//缓存背景canvas对象
         }
     }
 }
@@ -207,7 +207,7 @@ function ecg() {
             let p = mPatientList[x];
             for (let y = 0; y < mWaveKeys.length; y++) {
                 let key = mWaveKeys[y];
-                let id = `line_${key.code}_${p.bed}`;
+                let id = `line_${key.code}_${p.pid}`;
                 setTimeout(testData, 10 + x * 10 + y * 10, id);
                 // testData(id);
                 // sleep(100);
@@ -233,7 +233,7 @@ function initParams() {
 
         for (let y = 0; y < mWaveKeys.length; y++) {
             let key = mWaveKeys[y];
-            let id = `line_${key.code}_${p.bed}`;
+            let id = `line_${key.code}_${p.pid}`;
             let canvasKey = document.getElementById(id);
             if (canvasKey) {
                 let canvasObj = new Object(); //创建一个对象用来缓存数据
@@ -289,7 +289,7 @@ function testData(id) {
     //     //将值装换成负数，然后加上上限，这样就可以将数据倒转，不会导致波峰波谷颠倒
     //     array.push(-parseInt(data.substr(y, 2), 16)+bedLine.maxHeight);
     // }
-    console.log('ss', array);
+    // console.log('ss', array);
     let i = setInterval(() => {
         loopData(bedLine, array);
     }, 1000);
