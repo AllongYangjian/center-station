@@ -72,4 +72,16 @@ public class ViewController {
         return "wave/data";
     }
 
+    @RequestMapping("/operation/performance")
+    @Log("性能")
+    public String operationPerformance() {
+        return "operation/performance";
+    }
+
+    @RequestMapping("/operation/log")
+    @Log("日志")
+    public String operationLog() {
+        return "operation/log";
+    }
+
 }

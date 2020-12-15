@@ -1,6 +1,7 @@
 document.write('<script src="/static/easyui/jquery.min.js"></script>');
 document.write('<script src="/static/easyui/jquery.easyui.min.js"></script>');
 document.write('<script src="/static/easyui/datagrid-detailview.js"></script>');
+document.write('<script src="/static/easyui/datagrid-filter.js"></script>');
 document.write('<link rel="stylesheet" type="text/css" href="/static/css/base.css"/>');
 // document.write('<script src="/static/js/common/common-utils.js"></script>');
 document.write('<script src="/static/js/utils/utils.js"></script>');

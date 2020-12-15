@@ -29,10 +29,12 @@ var data = [
         iconCls: 'icon-operation',
         children: [
             {
-                text: '性能'
+                text: '性能',
+                url: '/operation/performance'
             },
             {
-                text: '日志'
+                text: '日志',
+                url: '/operation/log'
             }
         ]
     },
