@@ -28,10 +28,12 @@
         id,hid,dept, bed, pid, zyh, name, gender, age, complaint, record_time, record_user, status
     </sql>
     <select id="listDetail" resultType="com.allong.centerstation.domain.PatientDetail">
-        select p.*,h.name hospital_name from sys_patient p,sys_hospital h where p.hid = h.id and p.status = 1;
+        select p.*,h.name hospital_name from sys_patient p,sys_hospital h where p.hid = h.id and p.status = 1
+        order by h.name desc,p.dept desc;
     </select>
     <select id="listDetailByHid" resultType="com.allong.centerstation.domain.PatientDetail">
-        select p.*,h.name hospital_name from sys_patient p,sys_hospital h where p.hid = h.id and p.status = 1 and p.hid = #{hid};
+        select p.*,h.name hospital_name from sys_patient p,sys_hospital h where p.hid = h.id and p.status = 1 and p.hid = #{hid}
+        order by h.name desc,p.dept desc;
     </select>
 
 </mapper>

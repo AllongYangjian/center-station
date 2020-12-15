@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.*;
  * @since 2020-12-09
  */
 @RestController
-@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_KEY')")
+@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_KEY','ROLE_TEMPLATE')")
 @RequestMapping("/api/key")
 public class DeviceKeyController {
     @Autowired
