@@ -205,7 +205,7 @@ function startTest() {
             let key = mDataKeys[y];
             if (key.code !== 'NIBP') {
                 let value = getRandomValue(parseInt(key.min), parseInt(key.max));
-                updateValue(p.bed, key.code, value);
+                updateValue(p.pid, key.code, value);
             }
         }
     }
@@ -224,7 +224,7 @@ function startTest2() {
                 let ssy = key.max.split('-');
                 let value1 = getRandomValue(parseInt(szy[0]), parseInt(szy[1]));
                 let value2 = getRandomValue(parseInt(ssy[0]), parseInt(ssy[1]));
-                updateValue(p.bed, key.code, value2 + "/" + value1);
+                updateValue(p.pid, key.code, value2 + "/" + value1);
             }
         }
     }
