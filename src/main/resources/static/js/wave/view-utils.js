@@ -289,7 +289,7 @@ function getBedItemTitle(patient) {
         '<label id=' + "AGE_" + patient.pid + '>' + patient.age + '岁</label>' +
         '<label id=' + "HOSPITAL_" + patient.pid + '>医院:' + patient.hospitalName + '</label>' +
         '<label id=' + "DEPT_" + patient.pid + '>科室:' + patient.dept + '</label>' +
-        '<label id=' + "COMPLAINT_" + patient.pid + ' class="complaint-desc" onclick="showComplaint(this)">主诉</label>' +
+        '<label id=' + "COMPLAINT_" + patient.pid + ' class="complaint-desc" onclick="showComplaint(this)"><span class="iconfont" style="font-size: 18px">&#xe773;</span>主诉</label>' +
         // '<div class="complaint" style="height: '+(itemHeight-50)+'px;width: '+(itemWidth*0.25)+'px">'+patient.complaint+'</div>'+
         '</div>'
 }
