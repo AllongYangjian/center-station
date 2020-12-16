@@ -69,7 +69,7 @@ const waveData3 = [[-48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, -48, 
  * 每秒画多少个点
  * @type {number}
  */
-const one_time_points = 32;
+const one_time_points = 8;
 /**
  * 存放心背景canvas对象的集合
  * @type {Map<id, canvas>}
@@ -90,14 +90,16 @@ const bedLineMap = new Map();
 const timeIntervalIdsMap = new Map();
 
 const testMode = true;
-const LINE_START_X = 40;
+const LINE_START_X = 60;
 const ONE_POINT_PIXEL = 1;
+
+const TIME_INTERVAL = 5000;
 
 /**
  * 供界面调用的方法
  */
 function bindViewData() {
-    drawEcgBg();
+    // drawEcgBg();
     ecg();
 }
 
@@ -143,7 +145,7 @@ function drawGrid(canvasObj) {
 
     let ctx = canvasObj.canvasCtx;
     ctx.lineWidth = 1;
-    ctx.strokeStyle = "#4d4c61";
+    ctx.strokeStyle = "rgba(77,76,97,0.53)";
     ctx.moveTo(left, top);
     ctx.lineTo(right, top);
     ctx.stroke();
@@ -167,7 +169,7 @@ function drawGrid(canvasObj) {
         ctx.stroke()
     }
     ctx.lineWidth = 1;
-    ctx.strokeStyle = "#4d4c61";
+    ctx.strokeStyle = "rgba(77,76,97,0.53)";
     left = 0;
     top = 0;
     right = canvasObj.width;
@@ -227,7 +229,7 @@ function ecg() {
  * </p>
  */
 function initParams() {
-    console.log('initParams',mWaveKeys);
+    console.log('initParams', mWaveKeys);
     for (let x = 0; x < mPatientList.length; x++) {
         let p = mPatientList[x];
 
@@ -273,6 +275,9 @@ function drawFillText(ctx, keyText) {
     ctx.fillText(keyText, 1, 0);
 }
 
+var flag = 1;
+var flagIndex = 0;
+
 /**
  * 测试方法
  * @param id
@@ -282,17 +287,24 @@ function testData(id) {
     if (bedLine === null || bedLine === undefined) {
         return;
     }
-    let data = waveData[0];
-    // let array = new Array();
-    let array = waveData3[0].map(item => -item / 20);
-    // for (let y = 0; y < data.length ; y+=2) {
-    //     //将值装换成负数，然后加上上限，这样就可以将数据倒转，不会导致波峰波谷颠倒
-    //     array.push(-parseInt(data.substr(y, 2), 16)+bedLine.maxHeight);
-    // }
-    // console.log('ss', array);
+    let array = new Array();
+    flag++;
+    if (flag % 2 === 0) {
+        array = waveData3[0].map(item => -item / 20);
+    } else {
+        if (flagIndex >= waveData.length) {
+            flagIndex = 0;
+        }
+        let data = waveData[flagIndex];
+        for (let y = 0; y < data.length; y += 2) {
+            // 将值装换成负数，然后加上上限，这样就可以将数据倒转，不会导致波峰波谷颠倒
+            array.push((-parseInt(data.substr(y, 2), 16) + bedLine.height) / 10);
+        }
+        flagIndex++;
+    }
     let i = setInterval(() => {
         loopData(bedLine, array);
-    }, 1000);
+    }, TIME_INTERVAL);
     timeIntervalIdsMap.set(id, i);
 }
 
@@ -329,7 +341,7 @@ function updateWaveData(bed, key, data, scale) {
 function loopData(bedLine, array) {
     let ctx = bedLine.ctx;
     let count = array.length / one_time_points;
-    let time = 1000 / count;//需要间隔多久
+    let time = TIME_INTERVAL / count;//需要间隔多久
     // console.log('loopData', time, new Date().getTime());
     let startX = bedLine.startX;
     let lineTimes = bedLine.lineTimes;

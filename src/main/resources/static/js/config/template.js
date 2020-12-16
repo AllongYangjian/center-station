@@ -364,14 +364,14 @@ function saveTemplateInfo() {
         let data = form.serializeObject();
         let arr1 = $("#waves").tagbox('getValues');
         let arr2 = $("#waves").tagbox('getValues');
-        if (arr1.length > 4) {
-            showToast('警告', '最多显示四条波形数据');
-            return;
-        }
-        if (arr2.length > 8) {
-            showToast('警告', '最多显示8个数值数据');
-            return;
-        }
+        // if (arr1.length > 4) {
+        //     showToast('警告', '最多显示四条波形数据');
+        //     return;
+        // }
+        // if (arr2.length > 8) {
+        //     showToast('警告', '最多显示8个数值数据');
+        //     return;
+        // }
         if (data.id) {
             doSaveOrUpdateTemplateInfo(data, 'PUT');
         } else {

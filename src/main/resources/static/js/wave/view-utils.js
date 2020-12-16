@@ -169,7 +169,7 @@ function inflateViewByData() {
     // for (var x = 0; x < mData.length; x++) {
     //     bedContainView.append($(getItemView(mData[x])));
     // }
-    id1 = setInterval(startTest, 1000);
+    id1 = setInterval(startTest, 3000);
     id2 = setInterval(startTest2, 30 * 60 * 1000);
     startTest2();
 }

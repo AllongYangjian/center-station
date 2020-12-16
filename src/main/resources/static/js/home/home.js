@@ -5,7 +5,7 @@ var data = [
         state: 'open',
         children: [
             {
-                text: '波形展示',
+                text: '监护展示',
                 url: '/wave/data'
             },
         ]
