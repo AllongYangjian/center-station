@@ -105,9 +105,9 @@ const columns = [[
         width: 1,
         formatter: (value, row, index) => {
             if (row.status) {
-                return '<input type="button" value="取消监护" onclick="monitorItem(' + index + ')">'
+                return '<input type="button" value="取消查看" onclick="monitorItem(' + index + ')">'
             } else {
-                return '<input type="button" value="监护" onclick="monitorItem(' + index + ')">'
+                return '<input type="button" value="查看" onclick="monitorItem(' + index + ')">'
             }
         }
     }

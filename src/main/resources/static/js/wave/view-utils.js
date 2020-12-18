@@ -390,7 +390,7 @@ function getKeyData(patient) {
  */
 function getKeyItem(id, key) {
     return '<div class="key" style="color: ' + key.keyColor + '">' +
-        '<label class="key_title">' + key.name + '</label><span class="key_unit">(' + key.unit + ')</span>' +
+        '<label class="key_title">' + key.code + '</label><span class="key_unit">(' + key.unit + ')</span>' +
         '<div class="key_content">' +
         '    <label class="key_threshold key_threshold_max">' + key.max + '</label>' +
         '    <label class="key_threshold key_threshold_min">' + key.min + '</label>' +
@@ -409,7 +409,7 @@ function getKeyItemSpecial(id, key) {
     let szy = key.min.split('-');
     let ssy = key.max.split('-');
     return '  <div class="key key_nibp" style="color: ' + key.keyColor + '">' +
-        '<label class="key_title">' + key.name + '</label><span class="key_unit">' + key.unit + '</span>' +
+        '<label class="key_title">' + key.code + '</label><span class="key_unit">' + key.unit + '</span>' +
         '<label class="key_send_value">-</label>' +
         '<div class="key_content">' +
         '    <label class="key_threshold key_threshold_max">' + ssy[0] + '</label>' +
