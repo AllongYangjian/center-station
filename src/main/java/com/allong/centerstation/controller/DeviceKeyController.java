@@ -5,6 +5,7 @@ import com.allong.centerstation.common.Result;
 import com.allong.centerstation.domain.entity.DeviceKey;
 import com.allong.centerstation.logger.annotation.Log;
 import com.allong.centerstation.service.DeviceKeyService;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import jdk.nashorn.internal.objects.annotations.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -37,6 +38,12 @@ public class DeviceKeyController {
     @Log("查询指定设备的关键字列表")
     public ResponseEntity<Object> list(@PathVariable("deviceId") Integer deviceId) {
         return new ResponseEntity<>(new Result.Builder<>().setData(deviceKeyService.listByDeviceId(deviceId)).buildQuerySuccess(), HttpStatus.OK);
+    }
+
+    @GetMapping("/code")
+    @Log("根据代码插叙设备关键字")
+    public ResponseEntity<Object> list(@RequestParam("code") String code) {
+        return new ResponseEntity<>(new Result.Builder<>().setData(deviceKeyService.list(new QueryWrapper<DeviceKey>().like("code",  code))).buildQuerySuccess(), HttpStatus.OK);
     }
 
     @PostMapping

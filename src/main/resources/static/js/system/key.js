@@ -8,7 +8,7 @@ const columns = [[
         field: 'id',
         align: 'center',
         width: 1,
-        hidden:true
+        hidden: true
     },
     {
         title: '代码',
@@ -130,8 +130,21 @@ $(function () {
     $("#reset").on('click', () => {
         currentDeviceId = undefined;
         $("#device_criteria").combobox('setValue', '');
+        $("#keycode").textbox('setValue', '');
         loadKeyData();
     });
+
+    $("#find").on('click', () => {
+        let value = $("#keycode").textbox('getValue');
+        if (value === null || value.length === 0) {
+            showToast('提示', '请输入要查询的关键字代码');
+            return
+        }
+
+        loadKeyDataWithCode(value);
+
+    });
+
 
     $("#key_save").on('click', () => {
         saveKeyInfo();
@@ -168,7 +181,7 @@ function loadDeviceData() {
                 $("#device_criteria").combobox({data: data.data});
             }
         },
-        error:errorHandler
+        error: errorHandler
     })
 }
 
@@ -272,7 +285,22 @@ function loadKeyData() {
                 $keyTable.datagrid({data: data.data});
             }
         },
-        error:errorHandler
+        error: errorHandler
+    })
+}
+
+function loadKeyDataWithCode(code) {
+    $.ajax({
+        url: '/api/key/code',
+        type: 'get',
+        data:{code:code},
+        dataType: 'json',
+        success: data => {
+            if (data.code === 200) {
+                $keyTable.datagrid({data: data.data});
+            }
+        },
+        error: errorHandler
     })
 }
 
@@ -306,7 +334,7 @@ function doSaveOrUpdateKeyInfo(data, method) {
                 resortKeyFormData();
             }
         },
-        error:errorHandler
+        error: errorHandler
     })
 }
 
@@ -322,7 +350,7 @@ function doDeleteKeyRecord() {
                 loadKeyData();
             }
         },
-        error:errorHandler
+        error: errorHandler
     })
 }
 
