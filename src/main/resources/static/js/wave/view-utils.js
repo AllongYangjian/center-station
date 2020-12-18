@@ -369,14 +369,16 @@ function getBedContentRightView(patient) {
  * @returns {string}
  */
 function getKeyData(patient) {
+    let rows = mDataKeys.length / 3;
+    let rowHeight = (itemHeight-32)/rows;
     let view = '';
     for (let x = 0; x < mDataKeys.length; x++) {
         let item = mDataKeys[x];
         let id = item.code + "_" + patient.pid;
         if (item.code === 'NIBP') {
-            view += getKeyItemSpecial(id, item);
+            view += getKeyItemSpecial(id, item,rowHeight);
         } else {
-            view += getKeyItem(id, item);
+            view += getKeyItem(id, item,rowHeight);
         }
     }
     return view;
@@ -387,14 +389,15 @@ function getKeyData(patient) {
  * @param id  布局id
  * @param key 字段
  * @returns {string} 布局
+ * @param h 高度
  */
-function getKeyItem(id, key) {
-    return '<div class="key" style="color: ' + key.keyColor + '">' +
+function getKeyItem(id, key,h) {
+    return '<div class="key" style="color: ' + key.keyColor + ';height: '+h+'px">' +
         '<label class="key_title">' + key.code + '</label><span class="key_unit">(' + key.unit + ')</span>' +
         '<div class="key_content">' +
         '    <label class="key_threshold key_threshold_max">' + key.max + '</label>' +
         '    <label class="key_threshold key_threshold_min">' + key.min + '</label>' +
-        '    <label class="key_value" id="' + id + '" style="font-size: '+key.keySize+'px">-</label>' +
+        '    <label class="key_value" id="' + id + '" style="font-size: ' + key.keySize + 'px">-</label>' +
         '</div>' +
         '</div>';
 }
@@ -404,17 +407,18 @@ function getKeyItem(id, key) {
  * @param id 布局id
  * @param key 字段
  * @returns {string} 布局
+ * @param h 高度
  */
-function getKeyItemSpecial(id, key) {
+function getKeyItemSpecial(id, key,h) {
     let szy = key.min.split('-');
     let ssy = key.max.split('-');
-    return '  <div class="key key_nibp" style="color: ' + key.keyColor + '">' +
+    return '  <div class="key key_nibp" style="color: ' + key.keyColor + ';height: '+h+'px">' +
         '<label class="key_title">' + key.code + '</label><span class="key_unit">' + key.unit + '</span>' +
         '<label class="key_send_value">-</label>' +
         '<div class="key_content">' +
         '    <label class="key_threshold key_threshold_max">' + ssy[0] + '</label>' +
         '    <label class="key_threshold key_threshold_min">' + ssy[1] + '</label>' +
-        '    <label class="key_value2" id="' + id + '" style="font-size: '+key.keySize+'px">-</label>' +
+        '    <label class="key_value2" id="' + id + '" style="font-size: ' + key.keySize + 'px">-</label>' +
         '    <label class="key_threshold key_threshold_max2">' + szy[0] + '</label>' +
         '    <label class="key_threshold key_threshold_min2">' + szy[1] + '</label>' +
         '</div>' +
@@ -471,7 +475,6 @@ function getBindData(key, defaultValue) {
 }
 
 
-
 function showComplaint(e) {
     let id = $(e).attr('id');
     let ids = id.split('_');
@@ -487,11 +490,11 @@ function showComplaint(e) {
     }
 
     $("#complaint_config").dialog({
-        title:`${currentPatient.bed} 床详情`,
+        title: `${currentPatient.bed} 床详情`,
         onOpen: () => {
-            let val = 'PID：'+currentPatient.pid+"<br/>";
-            val+='住院号：'+currentPatient.pid+"<br/>";
-            val+='患者主诉：<strong>'+currentPatient.complaint+"</strong><br/>";
+            let val = 'PID：' + currentPatient.pid + "<br/>";
+            val += '住院号：' + currentPatient.pid + "<br/>";
+            val += '患者主诉：<strong>' + currentPatient.complaint + "</strong><br/>";
             $('#patient-detail').html(val);
         },
         onClose: () => {
