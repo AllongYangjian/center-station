@@ -7,7 +7,8 @@ const columns = [[
         title: 'ID',
         field: 'id',
         align: 'center',
-        width: 1
+        width: 1,
+        hidden: true
     },
     {
         title: '医院',
@@ -213,7 +214,7 @@ function loadHospitalData() {
                 $("#hospital_criteria").combobox({data: data.data});
             }
         },
-        error:errorHandler
+        error: errorHandler
     })
 }
 
@@ -349,7 +350,7 @@ function doSaveOrUpdatePatientInfo(data, method) {
                 resortPatientFormData();
             }
         },
-        error:errorHandler
+        error: errorHandler
     })
 }
 
@@ -365,7 +366,7 @@ function doDeletePatientRecord() {
                 loadPatientData();
             }
         },
-        error:errorHandler
+        error: errorHandler
     })
 }
 

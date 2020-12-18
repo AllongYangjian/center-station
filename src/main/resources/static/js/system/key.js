@@ -7,7 +7,8 @@ const columns = [[
         title: 'ID',
         field: 'id',
         align: 'center',
-        width: 1
+        width: 1,
+        hidden:true
     },
     {
         title: '代码',
@@ -51,6 +52,12 @@ const columns = [[
     {
         title: '上限',
         field: 'max',
+        align: 'center',
+        width: 1
+    },
+    {
+        title: '单位',
+        field: 'unit',
         align: 'center',
         width: 1
     },
@@ -179,6 +186,7 @@ function bindKeyFormData() {
         $("#keySize").numberspinner('setValue', currentItem.keySize);
         $("#min").textbox('setValue', currentItem.min);
         $("#max").textbox('setValue', currentItem.max);
+        $("#unit").textbox('setValue', currentItem.unit);
         $("#position").numberspinner('setValue', currentItem.position);
         $("#wave").combobox('setValue', currentItem.wave);
         $("#scale").numberspinner('setValue', currentItem.scale);
@@ -198,6 +206,7 @@ function resortKeyFormData() {
     $("#keySize").numberspinner('setValue', '');
     $("#min").textbox('setValue', '');
     $("#max").textbox('setValue', '');
+    $("#unit").textbox('setValue', '');
     $("#position").numberspinner('setValue', '');
     $("#wave").combobox('setValue', '');
     $("#scale").numberspinner('setValue', '');

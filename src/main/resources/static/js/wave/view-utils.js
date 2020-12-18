@@ -394,7 +394,7 @@ function getKeyItem(id, key) {
         '<div class="key_content">' +
         '    <label class="key_threshold key_threshold_max">' + key.max + '</label>' +
         '    <label class="key_threshold key_threshold_min">' + key.min + '</label>' +
-        '    <label class="key_value" id="' + id + '">-</label>' +
+        '    <label class="key_value" id="' + id + '" style="font-size: '+key.keySize+'px">-</label>' +
         '</div>' +
         '</div>';
 }
@@ -414,7 +414,7 @@ function getKeyItemSpecial(id, key) {
         '<div class="key_content">' +
         '    <label class="key_threshold key_threshold_max">' + ssy[0] + '</label>' +
         '    <label class="key_threshold key_threshold_min">' + ssy[1] + '</label>' +
-        '    <label class="key_value2" id="' + id + '">-</label>' +
+        '    <label class="key_value2" id="' + id + '" style="font-size: '+key.keySize+'px">-</label>' +
         '    <label class="key_threshold key_threshold_max2">' + szy[0] + '</label>' +
         '    <label class="key_threshold key_threshold_min2">' + szy[1] + '</label>' +
         '</div>' +

@@ -212,6 +212,12 @@ function initTemplateTable() {
                         width: 1
                     },
                     {
+                        title: '单位',
+                        field: 'unit',
+                        align: 'center',
+                        width: 1
+                    },
+                    {
                         field: 'enable',
                         title: '',
                         width: 1,
@@ -223,6 +229,12 @@ function initTemplateTable() {
                             }
                         }
                     },
+                    {
+                        title: '缩放系数',
+                        field: 'scale',
+                        align: 'center',
+                        width: 1
+                    }
                 ]],
                 onResize: function () {
                     $('#dg').datagrid('fixDetailRowHeight', index);

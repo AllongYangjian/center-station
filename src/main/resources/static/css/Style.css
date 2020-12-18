@@ -114,13 +114,20 @@ html, body {
 .key {
     float: left;
     width: 33%;
-    height: 33%;
+    margin-left: 1px;
+    margin-top: 1px;
+    /*border-color: grey;*/
+    /*border-style: solid;*/
+    /*border-width: 0 1px 1px 0;*/
+    /*height: 33%;*/
 }
 
 .key_nibp {
     float: left;
     width: 66%;
-    height: 33%;
+    margin-left: 1px;
+    margin-top: 1px;
+    /*height: 33%;*/
 }
 
 /*.hr {*/
@@ -155,8 +162,19 @@ div.key_content {
 }
 
 span.key_unit {
+    float: right;
+    height: 24px;
+    line-height: 24px;
+    /*font-size: 12px;*/
+    /*margin-left: 8px;*/
+    /*position: absolute;*/
     font-size: 12px;
-    margin-left: 8px;
+    /*height: 42px;*/
+    /*line-height: 42px;*/
+    /*right: 10px;*/
+    text-align: center;
+    margin-right: 10px;
+
 }
 
 label.key_threshold {
@@ -186,7 +204,7 @@ label.key_threshold_min2 {
 
 label.key_value {
     position: absolute;
-    font-size: 36px;
+    /*font-size: 36px;*/
     height: 42px;
     line-height: 42px;
     right: 10px;
@@ -194,7 +212,7 @@ label.key_value {
 
 label.key_value2 {
     display: inline-block;
-    font-size: 36px;
+    /*font-size: 36px;*/
     width: 100%;
     text-align: center;
     height: 42px;

@@ -90,7 +90,7 @@ const bedLineMap = new Map();
 const timeIntervalIdsMap = new Map();
 
 const testMode = true;
-const LINE_START_X = 60;
+const LINE_START_X = 50;
 const ONE_POINT_PIXEL = 1;
 
 const TIME_INTERVAL = 5000;
@@ -210,7 +210,7 @@ function ecg() {
             for (let y = 0; y < mWaveKeys.length; y++) {
                 let key = mWaveKeys[y];
                 let id = `line_${key.code}_${p.pid}`;
-                setTimeout(testData, 10 + x * 10 + y * 10, id);
+                setTimeout(testData, 10 + x * 10 + y * 10, id, key.scale);
                 // testData(id);
                 // sleep(100);
             }
@@ -281,31 +281,32 @@ var flagIndex = 0;
 /**
  * 测试方法
  * @param id
+ * @param scale
  */
-function testData(id) {
+function testData(id, scale) {
     let bedLine = bedLineMap.get(id);
     if (bedLine === null || bedLine === undefined) {
         return;
     }
     let array = new Array();
     flag++;
-    if (flag % 2 === 0) {
-        array = waveData3[0].map(item => -item / 20);
-    } else {
+    // if (flag % 2 === 0) {
+    //     array = waveData3[0].map(item => -item / scale);
+    // } else {
         if (flagIndex >= waveData.length) {
             flagIndex = 0;
         }
         let data = waveData[flagIndex];
         for (let y = 0; y < data.length; y += 2) {
             // 将值装换成负数，然后加上上限，这样就可以将数据倒转，不会导致波峰波谷颠倒
-            array.push((-parseInt(data.substr(y, 2), 16) + bedLine.height) / 10);
+            array.push((-parseInt(data.substr(y, 2), 16) + bedLine.height) / scale);
         }
         flagIndex++;
-    }
+    // }
     let i = setInterval(() => {
         loopData(bedLine, array);
     }, TIME_INTERVAL);
-    timeIntervalIdsMap.set(id, i);
+    timeIntervalIdsMap.set(id, i, scale);
 }
 
 /**
@@ -377,7 +378,7 @@ function loopData(bedLine, array) {
                 }
             }
         }
-        ctx.clearRect(startX - 10, -100, 20, 1000);
+        ctx.clearRect(startX - 10, -1000, 20, 10000);
     }
     ctx.stroke();
 
