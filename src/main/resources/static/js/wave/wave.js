@@ -26,7 +26,7 @@ const timeIntervalIdsMap = new Map();
 
 const testMode = true;
 const LINE_START_X = 50;
-const ONE_POINT_PIXEL = 0.8;
+const ONE_POINT_PIXEL = 1.0;
 
 const TIME_INTERVAL = 5000;
 
@@ -194,6 +194,10 @@ function initParams() {
 
                 bedLineMap.set(id, canvasObj);
                 drawFillText(ctx, key.code);
+
+                if(key.code.indexOf('RESP')!==-1){
+                    ctx.translate(0, canvasKey.height/2);//平移坐标
+                }
             }
 
         }
@@ -255,18 +259,18 @@ function getRandomArray(id) {
         }
         return respData[index];
     }else if(id.indexOf('ECG')!==-1){
-        let index = randomNum(0, waveData1.length);
-        if(index>=waveData1.length){
-            index = waveData1.length-1;
+        let index = randomNum(0, waveData.length);
+        if(index>=waveData.length){
+            index = waveData.length-1;
         }
-        return waveData1[index];
+        return waveData[index];
     }
     else {
-        let index = randomNum(0, otherData.length);
-        if(index>=otherData.length){
-            index = otherData.length-1;
+        let index = randomNum(0, waveData.length);
+        if(index>=waveData.length){
+            index = waveData.length-1;
         }
-        return otherData[index];
+        return waveData[index];
     }
 }
 
