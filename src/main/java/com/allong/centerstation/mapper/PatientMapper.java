@@ -3,6 +3,7 @@ package com.allong.centerstation.mapper;
 import com.allong.centerstation.domain.PatientDetail;
 import com.allong.centerstation.domain.entity.Patient;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -16,7 +17,7 @@ import java.util.List;
  */
 public interface PatientMapper extends BaseMapper<Patient> {
 
-    List<PatientDetail> listDetail();
+    List<PatientDetail> listDetail(Integer status);
 
-    List<PatientDetail> listDetailByHid(Integer hid);
+    List<PatientDetail> listDetailByHid(@Param("hid") Integer hid, @Param("status") Integer status);
 }

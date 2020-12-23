@@ -18,7 +18,7 @@ public interface PatientService extends IService<Patient> {
 
     List<Patient> listByHid(Integer hid);
 
-    List<PatientDetail> listDetail();
+    List<PatientDetail> listDetail(Integer status);
 
-    List<PatientDetail> listDetailByHid(Integer hid);
+    List<PatientDetail> listDetailByHid(Integer hid,Integer status);
 }

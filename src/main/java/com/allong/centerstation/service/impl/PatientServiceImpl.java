@@ -27,12 +27,12 @@ public class PatientServiceImpl extends ServiceImpl<PatientMapper, Patient> impl
     }
 
     @Override
-    public List<PatientDetail> listDetail() {
-        return baseMapper.listDetail();
+    public List<PatientDetail> listDetail(Integer status) {
+        return baseMapper.listDetail(status);
     }
 
     @Override
-    public List<PatientDetail> listDetailByHid(Integer hid) {
-        return baseMapper.listDetailByHid(hid);
+    public List<PatientDetail> listDetailByHid(Integer hid,Integer status) {
+        return baseMapper.listDetailByHid(hid,status);
     }
 }

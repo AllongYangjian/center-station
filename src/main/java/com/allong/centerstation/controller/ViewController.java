@@ -54,11 +54,11 @@ public class ViewController {
         return "system/key";
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_PATIENT')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_BED')")
     @RequestMapping("/config/patient")
-    @Log("病人")
-    public String configPatient() {
-        return "config/patient";
+    @Log("床位")
+    public String configBed() {
+        return "config/bed";
     }
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_TEMPLATE')")
@@ -66,6 +66,20 @@ public class ViewController {
     @Log("模板")
     public String configTemplate() {
         return "config/template";
+    }
+
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_PATIENT')")
+    @RequestMapping("/patient/import")
+    @Log("病人信息")
+    public String patientImport() {
+        return "patient/import";
+    }
+
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_PATIENT')")
+    @RequestMapping("/patient/history")
+    @Log("病人记录")
+    public String patientHistory() {
+        return "patient/history";
     }
 
     @RequestMapping("/wave/data")

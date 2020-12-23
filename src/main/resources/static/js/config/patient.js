@@ -91,7 +91,7 @@ const columns = [[
         align: 'center',
         width: 1,
         formatter: (value, row, index) => {
-            if (value) {
+            if (value===1) {
                 return '<span style="color: red">监护中...</span>'
             } else {
                 return '<span>无需监护</span>'
@@ -105,7 +105,7 @@ const columns = [[
         width: 1,
         formatter: (value, row, index) => {
             if (row.status) {
-                return '<input type="button" value="取消查看" onclick="monitorItem(' + index + ')">'
+                return '<input type="button" value="取消监护" onclick="monitorItem(' + index + ')">'
             } else {
                 return '<input type="button" value="查看" onclick="monitorItem(' + index + ')">'
             }
@@ -303,9 +303,9 @@ function initPatientTable() {
 function loadPatientData() {
     let url = '';
     if (currentHospitalId !== undefined) {
-        url = "/api/patient/" + currentHospitalId;
+        url = "/api/patient/status/1" + currentHospitalId;
     } else {
-        url = "/api/patient";
+        url = "/api/patient/status/1";
     }
     $.ajax({
         url: url,

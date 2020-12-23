@@ -19,8 +19,22 @@ var data = [
                 url: '/config/template'
             },
             {
-                text: '病人录入',
+                text: '床位设置',
                 url: '/config/patient'
+            }
+        ]
+    },
+    {
+        text: '患者',
+        iconCls: 'icon-user',
+        children: [
+            {
+                text: '病人录入',
+                url: '/patient/import'
+            },
+            {
+                text: '历史查看',
+                url: '/patient/history'
             }
         ]
     },
