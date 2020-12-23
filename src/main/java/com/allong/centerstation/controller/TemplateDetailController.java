@@ -8,6 +8,7 @@ import com.allong.centerstation.domain.entity.TemplateGroup;
 import com.allong.centerstation.logger.annotation.Log;
 import com.allong.centerstation.service.DeviceKeyService;
 import com.allong.centerstation.service.TemplateDetailService;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -58,6 +59,13 @@ public class TemplateDetailController {
         return new ResponseEntity<>(new Result.Builder<>().setData(detail.insert()).buildSaveSuccess(), HttpStatus.OK);
     }
 
+
+    @PutMapping
+    @Log("更新模板关键字信息")
+    public ResponseEntity<Object> update(@RequestBody TemplateDetail detail) {
+        return new ResponseEntity<>(new Result.Builder<>().setData(templateDetailService.updateById(detail)).buildUpdateSuccess(), HttpStatus.OK);
+    }
+
     @PostMapping("/all")
     @Log("获取所有关键字信息")
     public ResponseEntity<Object> saveAll(@RequestBody List<TemplateDetail> detailList) {
@@ -71,34 +79,37 @@ public class TemplateDetailController {
     @GetMapping("/wave/{tempId}")
     @Log("获取指定模板下的波形关键字列表")
     public ResponseEntity<Object> listWave(@PathVariable("tempId") Integer id) {
-        List<TemplateDetail> templateDetails = templateDetailService.listByTempIdAndType(id, 1);
-        if (templateDetails != null && templateDetails.size() > 0) {
-            List<Integer> ids = new ArrayList<>();
-            templateDetails.forEach(item -> {
-                ids.add(item.getKeyId());
-            });
-            List<DeviceKey> deviceKeys = deviceKeyService.listByIds(ids);
-            Collections.sort(deviceKeys);
-            return new ResponseEntity<>(new Result.Builder<>().setData(deviceKeys).buildQuerySuccess(), HttpStatus.OK);
-        }
-        return new ResponseEntity<>(new Result.Builder<>().buildQuerySuccess(), HttpStatus.OK);
+//        List<TemplateDetail> templateDetails = templateDetailService.listByTempIdAndType(id, 1);
+//        if (templateDetails != null && templateDetails.size() > 0) {
+//            List<Integer> ids = new ArrayList<>();
+//            templateDetails.forEach(item -> {
+//                ids.add(item.getKeyId());
+//            });
+//            List<DeviceKey> deviceKeys = deviceKeyService.listByIds(ids);
+//            Collections.sort(deviceKeys);
+//            return new ResponseEntity<>(new Result.Builder<>().setData(deviceKeys).buildQuerySuccess(), HttpStatus.OK);
+//        }
+//        return new ResponseEntity<>(new Result.Builder<>().buildQuerySuccess(), HttpStatus.OK);
+        return new ResponseEntity<>(new Result.Builder<>().setData(templateDetailService.list(new QueryWrapper<TemplateDetail>()
+                .eq("temp_id",id).eq("type",1))).buildQuerySuccess(), HttpStatus.OK);
     }
 
     @GetMapping("/data/{tempId}")
     @Log("获取指定模板下的数值关键字列表")
     public ResponseEntity<Object> listData(@PathVariable("tempId") Integer id) {
-        List<TemplateDetail> templateDetails = templateDetailService.listByTempIdAndType(id, 2);
-        if (templateDetails != null && templateDetails.size() > 0) {
-            List<Integer> ids = new ArrayList<>();
-            templateDetails.forEach(item -> {
-                ids.add(item.getKeyId());
-            });
-
-            List<DeviceKey> deviceKeys = deviceKeyService.listByIds(ids);
-            Collections.sort(deviceKeys);
-            return new ResponseEntity<>(new Result.Builder<>().setData(deviceKeys).buildQuerySuccess(), HttpStatus.OK);
-        }
-        return new ResponseEntity<>(new Result.Builder<>().buildQuerySuccess(), HttpStatus.OK);
+//        List<TemplateDetail> templateDetails = templateDetailService.listByTempIdAndType(id, 2);
+//        if (templateDetails != null && templateDetails.size() > 0) {
+//            List<Integer> ids = new ArrayList<>();
+//            templateDetails.forEach(item -> {
+//                ids.add(item.getKeyId());
+//            });
+//
+//            List<DeviceKey> deviceKeys = deviceKeyService.listByIds(ids);
+//            Collections.sort(deviceKeys);
+//            return new ResponseEntity<>(new Result.Builder<>().setData(deviceKeys).buildQuerySuccess(), HttpStatus.OK);
+//        }
+        return new ResponseEntity<>(new Result.Builder<>().setData(templateDetailService.list(new QueryWrapper<TemplateDetail>()
+                .eq("temp_id",id).eq("type",2))).buildQuerySuccess(), HttpStatus.OK);
     }
 
 }

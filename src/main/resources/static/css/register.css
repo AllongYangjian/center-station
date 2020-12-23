@@ -17,6 +17,19 @@ header {
     padding-top: 18px;
 }
 
+
+.logo a label{
+    font-size: 32px;
+    text-align: center;
+    vertical-align: middle;
+    margin-left: 16px;
+    font-weight: 700;
+}
+
+.logo a img{
+
+}
+
 .registerarea {
     height: 622px;
     border: 1px solid #ccc;

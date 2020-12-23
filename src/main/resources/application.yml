@@ -6,10 +6,14 @@ spring:
   mvc:
     static-path-pattern: /**
   datasource:
-    url: jdbc:mysql://192.168.10.154:3306/center_station?serverTimezone=UTC
+#    url: jdbc:mysql://192.168.10.154:3306/center_station?serverTimezone=UTC
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    username: root
+#    password: 123456
+    url: jdbc:mysql:///center_station?serverTimezone=UTC
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
-    password: 123456
+    password: allong
 logging:
   level:
     com.allong.centerstation: debug

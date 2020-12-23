@@ -21,7 +21,7 @@ function resortData() {
     $("#name").textbox('setValue', '');
     $("#gender").combobox('setValue', '');
     $("#age").numberspinner('setValue', '');
-    $(".password_error").hide();
+    $(".account_error").hide();
     $(".password_error").hide();
 }
 
@@ -70,7 +70,7 @@ function registerAccount() {
 
 $(function () {
     loadHospitalData();
-    $(".password_error").hide();
+    $(".account_error").hide();
     $(".password_error").hide();
     $("#register").on('click', function () {
         registerAccount();
