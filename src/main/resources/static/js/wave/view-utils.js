@@ -392,11 +392,16 @@ function getKeyData(patient) {
  * @param h 高度
  */
 function getKeyItem(id, key,h) {
-    return '<div class="key" style="color: ' + key.keyColor + ';height: '+h+'px">' +
-        '<label class="key_title">' + key.code + '</label><span class="key_unit">(' + key.unit + ')</span>' +
+    let keyTitleSize =key.keySize/2;
+    let keyThresholdSize = keyTitleSize-2;
+    let keyUnitSize = keyThresholdSize-2;
+    let w = parseInt(itemWidth*0.4/3)-1;
+    return '<div class="key" style="color: ' + key.keyColor + ';height: '+h+'px;width: '+w+'px">' +
+        '<label class="key_title" style="font-size: '+keyTitleSize+'px">' + key.code + '</label>' +
+        '<span class="key_unit"  style="font-size: '+keyUnitSize+'px">(' + key.unit + ')</span>' +
         '<div class="key_content">' +
-        '    <label class="key_threshold key_threshold_max">' + key.max + '</label>' +
-        '    <label class="key_threshold key_threshold_min">' + key.min + '</label>' +
+        '    <label class="key_threshold key_threshold_max"  style="font-size: '+keyThresholdSize+'px">' + key.max + '</label>' +
+        '    <label class="key_threshold key_threshold_min"  style="font-size: '+keyThresholdSize+'px">' + key.min + '</label>' +
         '    <label class="key_value" id="' + id + '" style="font-size: ' + key.keySize + 'px">-</label>' +
         '</div>' +
         '</div>';
@@ -410,17 +415,22 @@ function getKeyItem(id, key,h) {
  * @param h 高度
  */
 function getKeyItemSpecial(id, key,h) {
+    let keyTitleSize =key.keySize/2;
+    let keyThresholdSize = keyTitleSize-2;
+    let keyUnitSize = keyThresholdSize-2;
+    let w = parseInt(itemWidth*0.4/3)-1;
     let szy = key.min.split('-');
     let ssy = key.max.split('-');
-    return '  <div class="key key_nibp" style="color: ' + key.keyColor + ';height: '+h+'px">' +
-        '<label class="key_title">' + key.code + '</label><span class="key_unit">' + key.unit + '</span>' +
+    return '  <div class="key key_nibp" style="color: ' + key.keyColor + ';height: '+h+'px;width: '+(w*2)+'px">' +
+        '<label class="key_title" style="font-size: '+keyTitleSize+'px">' + key.code + '</label>' +
+        '<span class="key_unit" style="font-size: '+keyUnitSize+'px">' + key.unit + '</span>' +
         '<label class="key_send_value">-</label>' +
         '<div class="key_content">' +
-        '    <label class="key_threshold key_threshold_max">' + ssy[0] + '</label>' +
-        '    <label class="key_threshold key_threshold_min">' + ssy[1] + '</label>' +
+        '    <label class="key_threshold key_threshold_max" style="font-size: '+keyThresholdSize+'px">' + ssy[0] + '</label>' +
+        '    <label class="key_threshold key_threshold_min" style="font-size: '+keyThresholdSize+'px">' + ssy[1] + '</label>' +
         '    <label class="key_value2" id="' + id + '" style="font-size: ' + key.keySize + 'px">-</label>' +
-        '    <label class="key_threshold key_threshold_max2">' + szy[0] + '</label>' +
-        '    <label class="key_threshold key_threshold_min2">' + szy[1] + '</label>' +
+        '    <label class="key_threshold key_threshold_max2" style="font-size: '+keyThresholdSize+'px">' + szy[0] + '</label>' +
+        '    <label class="key_threshold key_threshold_min2" style="font-size: '+keyThresholdSize+'px">' + szy[1] + '</label>' +
         '</div>' +
         '</div>'
 }
