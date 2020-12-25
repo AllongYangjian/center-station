@@ -17,6 +17,7 @@
         <result column="record_time" property="recordTime"/>
         <result column="record_user" property="recordUser"/>
         <result column="status" property="status"/>
+        <result column="identity" property="identity"/>
     </resultMap>
     
     <resultMap id="detailMap" extends="BaseResultMap" type="com.allong.centerstation.domain.PatientDetail">
@@ -25,7 +26,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id,hid,dept, bed, pid, zyh, name, gender, age, complaint, record_time, record_user, status
+        id,hid,dept, bed, pid, zyh, name, gender, age,identity, complaint, record_time, record_user, status
     </sql>
     <select id="listDetail" resultType="com.allong.centerstation.domain.PatientDetail">
         select p.*,h.name hospital_name from sys_patient p,sys_hospital h where p.hid = h.id and p.status = #{status}

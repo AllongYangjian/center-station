@@ -68,8 +68,8 @@ const columns = [[
         width: 1
     },
     {
-        title: '主诉',
-        field: 'complaint',
+        title: '身份证号码',
+        field: 'identity',
         align: 'center',
         width: 3
     },
