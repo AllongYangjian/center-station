@@ -2,14 +2,24 @@ package com.allong.centerstation.controller;
 
 
 import com.allong.centerstation.common.Result;
+import com.allong.centerstation.domain.BedDetail;
 import com.allong.centerstation.domain.entity.HospitalBed;
+import com.allong.centerstation.domain.entity.Role;
+import com.allong.centerstation.domain.entity.UserBed;
+import com.allong.centerstation.domain.entity.UserInfo;
 import com.allong.centerstation.logger.annotation.Log;
 import com.allong.centerstation.service.HospitalBedService;
+import com.allong.centerstation.service.UserBedService;
+import com.allong.centerstation.service.UserInfoService;
+import com.allong.centerstation.utils.SecurityUtils;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * <p>
@@ -29,7 +39,8 @@ public class HospitalBedController {
     @GetMapping
     @Log("查询床位列表")
     public ResponseEntity<Object> list(){
-        return new ResponseEntity<>(new Result.Builder<>().setData(bedService.list()).buildQuerySuccess(), HttpStatus.OK);
+        List<BedDetail> bedDetails =  bedService.listBedsWithSelected();
+        return new ResponseEntity<>(new Result.Builder<>().setData(bedDetails).buildQuerySuccess(), HttpStatus.OK);
     }
 
     @GetMapping("/{hid}")

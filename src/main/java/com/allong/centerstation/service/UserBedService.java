@@ -1,20 +1,20 @@
 package com.allong.centerstation.service;
 
 import com.allong.centerstation.domain.BedDetail;
-import com.allong.centerstation.domain.entity.HospitalBed;
+import com.allong.centerstation.domain.entity.UserBed;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.List;
 
 /**
  * <p>
- * 医院床位列表 服务类
+ * 用户床位信息 服务类
  * </p>
  *
  * @author 杨建
- * @since 2020-12-23
+ * @since 2020-12-25
  */
-public interface HospitalBedService extends IService<HospitalBed> {
+public interface UserBedService extends IService<UserBed> {
 
-    List<BedDetail> listBedsWithSelected();
+    boolean saveUserBedList(List<BedDetail> beds);
 }

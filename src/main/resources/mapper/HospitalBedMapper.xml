@@ -14,4 +14,18 @@
         id, hid, bed
     </sql>
 
+    <select id="listBedDetailByHid" resultType="com.allong.centerstation.domain.BedDetail">
+        SELECT
+            s.*,
+            h.NAME hospital_name
+            FROM
+            sys_hospital_bed s
+	    LEFT JOIN sys_hospital h ON s.hid = h.id
+	    <where>
+            <if test="hid!=null">
+                hid = #{hid}
+            </if>
+        </where>
+    </select>
+
 </mapper>

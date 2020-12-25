@@ -2,9 +2,23 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>床位</title>
+    <link rel="stylesheet" href="/static/css/bed.css">
+    <script type="text/javascript" src="/static/js/common/title.js"></script>
+    <script type="text/javascript" src="/static/js/utils/utils.js"></script>
+    <script type="text/javascript" src="/static/js/config/bed.js"></script>
 </head>
 <body>
+<div class="_container">
+    <div class="bed-toolbar">
+        <a class="easyui-linkbutton" id="all" data-options="iconCls:'icon-edit',disabled:false" >全选</a>
+        <a class="easyui-linkbutton" id="reverse" data-options="iconCls:'icon-remove',disabled:false">反选</a>
+        <a class="easyui-linkbutton" id="save" data-options="iconCls:'icon-save',disabled:false">保存</a>
+        <a class="easyui-linkbutton" id="query" data-options="iconCls:'icon-reload'">刷新</a>
+    </div>
+    <div class="bed-container">
 
+    </div>
+</div>
 </body>
 </html>
