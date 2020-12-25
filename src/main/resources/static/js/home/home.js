@@ -19,8 +19,12 @@ var data = [
                 url: '/config/template'
             },
             {
-                text: '床位设置',
-                url: '/config/patient'
+                text: '床位选择',
+                url: '/config/bed'
+            },
+            {
+                text: '床位绑定',
+                url: '/config/bind'
             }
         ]
     },

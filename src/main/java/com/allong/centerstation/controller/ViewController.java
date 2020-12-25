@@ -55,7 +55,7 @@ public class ViewController {
     }
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_BED')")
-    @RequestMapping("/config/patient")
+    @RequestMapping("/config/bed")
     @Log("床位")
     public String configBed() {
         return "config/bed";
@@ -67,6 +67,14 @@ public class ViewController {
     public String configTemplate() {
         return "config/template";
     }
+
+    @PreAuthorize("hasAnyRole('ROLE_BED')")
+    @RequestMapping("/config/bind")
+    @Log("绑定")
+    public String configBind() {
+        return "config/bind";
+    }
+
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_PATIENT')")
     @RequestMapping("/patient/import")

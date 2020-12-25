@@ -1,7 +1,10 @@
 package com.allong.centerstation.service;
 
+import com.allong.centerstation.domain.BedBindInfo;
 import com.allong.centerstation.domain.entity.BedPatient;
 import com.baomidou.mybatisplus.extension.service.IService;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +16,9 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface BedPatientService extends IService<BedPatient> {
 
+    List<BedBindInfo> listBedBindInfoList(Integer hid);
+
+    boolean saveBedBindInfo(BedPatient bedPatient);
+
+    boolean updateBedBindInfo(BedPatient bedPatient);
 }

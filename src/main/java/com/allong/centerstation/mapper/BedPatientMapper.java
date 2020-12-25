@@ -1,7 +1,10 @@
 package com.allong.centerstation.mapper;
 
+import com.allong.centerstation.domain.BedBindInfo;
 import com.allong.centerstation.domain.entity.BedPatient;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +16,5 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  */
 public interface BedPatientMapper extends BaseMapper<BedPatient> {
 
+    List<BedBindInfo> selectBedBindInfoList(Integer hid);
 }
