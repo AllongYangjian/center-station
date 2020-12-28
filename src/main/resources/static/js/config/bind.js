@@ -201,8 +201,8 @@ function loadPatientInfo(hid) {
         success:data=>{
             if(data.code ===200){
                 if(data.data!==null){
-
-                    $("#patientId").combobox({data:data.data});
+                    let arr  =data.data.filter(item=>item.status ===1);
+                    $("#patientId").combobox({data:arr});
                 }
 
             }

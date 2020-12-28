@@ -1,6 +1,8 @@
 package com.allong.centerstation.service;
 
 import com.allong.centerstation.domain.BedDetail;
+import com.allong.centerstation.domain.PatientDetail;
+import com.allong.centerstation.domain.entity.Patient;
 import com.allong.centerstation.domain.entity.UserBed;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -17,4 +19,6 @@ import java.util.List;
 public interface UserBedService extends IService<UserBed> {
 
     boolean saveUserBedList(List<BedDetail> beds);
+
+    List<PatientDetail> queryUserBedPatientList();
 }

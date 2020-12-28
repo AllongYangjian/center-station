@@ -100,7 +100,7 @@ function loadPatientDataAndTempData() {
 function doLoadPatientAndTempDetail(id) {
     let arr = [];
     arr.push($.ajax({
-        url: '/api/patient/status/1',
+        url: '/user/bed/patient',
         type: 'get',
         dataType: 'json'
     }));

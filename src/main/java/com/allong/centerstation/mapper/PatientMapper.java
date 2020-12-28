@@ -20,4 +20,6 @@ public interface PatientMapper extends BaseMapper<Patient> {
     List<PatientDetail> listDetail(Integer status);
 
     List<PatientDetail> listDetailByHid(@Param("hid") Integer hid, @Param("status") Integer status);
+
+    List<PatientDetail> listDetailByIds(List<Integer> ids);
 }

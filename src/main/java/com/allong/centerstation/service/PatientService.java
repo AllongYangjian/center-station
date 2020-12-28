@@ -21,4 +21,6 @@ public interface PatientService extends IService<Patient> {
     List<PatientDetail> listDetail(Integer status);
 
     List<PatientDetail> listDetailByHid(Integer hid,Integer status);
+
+    List<PatientDetail> listDetailByIds(List<Integer> pidList);
 }

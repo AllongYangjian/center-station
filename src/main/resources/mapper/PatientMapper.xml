@@ -36,5 +36,13 @@
         select p.*,h.name hospital_name from sys_patient p,sys_hospital h where p.hid = h.id and p.status = #{status} and p.hid = #{hid}
         order by h.name desc,p.dept desc;
     </select>
+    <select id="listDetailByIds" resultType="com.allong.centerstation.domain.PatientDetail">
+        select p.*,h.name hospital_name from sys_patient p,sys_hospital h where p.hid = h.id
+         and p.id in
+         <foreach collection="ids" separator="," open="(" close=")" item="id">
+             #{id}
+         </foreach>
+        order by h.name desc,p.dept desc;
+    </select>
 
 </mapper>
