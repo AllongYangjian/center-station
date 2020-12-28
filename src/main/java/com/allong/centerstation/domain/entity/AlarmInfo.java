@@ -1,11 +1,9 @@
 package com.allong.centerstation.domain.entity;
 
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.*;
 import com.allong.centerstation.domain.entity.BaseEntity;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import java.util.Date;
-import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -54,6 +52,10 @@ public class AlarmInfo extends BaseEntity<AlarmInfo> {
      */
     private String alarmValue;
 
+    private String min;
+
+    private String max;
+
     /**
      * 报警内容
      */
@@ -64,12 +66,19 @@ public class AlarmInfo extends BaseEntity<AlarmInfo> {
      */
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @TableField(updateStrategy = FieldStrategy.NEVER)
     private Date alarmTime;
 
     /**
      * 1-已处理 0-未处理
      */
     private Boolean handle;
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private Date handleTime;
+
+    private String handleUser;
 
 
     @Override

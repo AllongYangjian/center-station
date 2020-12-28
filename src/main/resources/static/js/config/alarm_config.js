@@ -295,7 +295,7 @@ function doSaveOrUpdateAlarmConfigInfo(data, method) {
 
 function doDeleteAlarmConfigRecord() {
     $.ajax({
-        url: '/api/alarmConfig/' + currentItem.id,
+        url: '/api/bedThreshold/' + currentItem.id,
         type: 'DELETE',
         dataType: 'json',
         contentType: 'application/json',

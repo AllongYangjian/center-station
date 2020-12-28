@@ -85,5 +85,25 @@
         </div>
     </div>
 </div>
+<div id="alarm_dialog" class="easyui-dialog" title="报警信息"
+     data-options="resizable:true,modal:true,closed:true,border:false"
+     style="height: auto">
+        <div class="alarm-container">
+            <div class="alarm alarm-logo">
+                <img src="/static/images/ic_alarm_logo.png">
+            </div>
+            <div class="alarm alarms">
+                <div class="alarm-title">呼吸报警</div>
+                <div class="alarm-content">名称/age/sex/医院/科室/床位</div>
+                <div class="alarm-msg">报警内容</div>
+                <div class="alarm-time">
+                    <label class="alarm-times" style="color: grey">2020-12-28 11:33:11 </label>
+                    <label style="margin-left: 16px">未处理</label></div>
+            </div>
+            <div class="alarm alarm-handle">
+                <span class="iconfont handle" onclick="dealCurrentAlarmInfo()">&#xe7cc;</span>
+            </div>
+        </div>
+</div>
 </body>
 </html>

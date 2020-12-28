@@ -12,6 +12,10 @@ var canvasWidth;
 var row = 3;
 var column = 2;
 var currentPage = 1;
+const mBedAlarmConfigMap = new Map();
+const mBedThresholdMap = new Map();
+var currentAlarmInfo = {};
+const cacheAlarmArray = new Map();
 $(function () {
     // console.log(window.innerWidth,itemWidth, canvasWidth);
     window.onbeforeunload = function (ev) {
@@ -35,7 +39,7 @@ function calculateViewSize() {
     itemWidth = $(".bed-container").width() / parseInt(column);
     itemHeight = $(".bed-container").height() / parseInt(row);
     canvasWidth = Math.round(itemWidth * 0.6);
-    console.log(row, column, itemWidth, itemHeight, canvasWidth);
+    // console.log(row, column, itemWidth, itemHeight, canvasWidth);
 }
 
 /**
@@ -127,6 +131,47 @@ function doLoadPatientAndTempDetail(id) {
             inflateViewByData(); //界面布局
         }
 
+    });
+
+    loadBedAlarmConfig();
+    loadBedAlarmThreshold();
+}
+
+/**
+ * 床架床位报警配置
+ */
+function loadBedAlarmConfig() {
+    $.ajax({
+        url: '/api/bedAlarm',
+        type: 'get',
+        dataType: 'json',
+        success:function (data) {
+            if(data.code ===200 &&data.data!==null){
+                data.data.forEach(item=>{
+                    mBedAlarmConfigMap.set(item.bedId,item);
+                });
+                // console.error(mBedAlarmConfigMap);
+            }
+        }
+    });
+}
+
+/**
+ * 加载床位报警阀值
+ */
+function loadBedAlarmThreshold() {
+    $.ajax({
+        url: "/api/bedThreshold",
+        type: 'get',
+        dataType: 'json',
+        success: data => {
+            if (data.code === 200 && data.data!==null) {
+                data.data.forEach(item=>{
+                    mBedThresholdMap.set(item.patientId+"_"+item.keyCode,item);
+                })
+            }
+        },
+        error:errorHandler
     })
 }
 
@@ -157,7 +202,7 @@ function inflateViewByData() {
     } else {
         pageCount = mData.length % (column * row) === 0 ? mData.length / (column * row) : mData.length / (column * row) + 1;
     }
-    console.log('inflateViewByData', pageCount);
+    // console.log('inflateViewByData', pageCount);
     $(".page").empty();
     for (let x = 1; x <= pageCount; x++) {
         // if (x < mData.length) {
@@ -169,7 +214,7 @@ function inflateViewByData() {
     // for (var x = 0; x < mData.length; x++) {
     //     bedContainView.append($(getItemView(mData[x])));
     // }
-    id1 = setInterval(startTest, 3000);
+    id1 = setInterval(startTest, 20*1000);
     id2 = setInterval(startTest2, 30 * 60 * 1000);
     startTest2();
 }
@@ -232,15 +277,76 @@ function startTest2() {
 
 /**
  * 更新界面数据值
- * @param bed 床位
+ * @param pid 床位
  * @param key 字段
  * @param value 值
  */
-function updateValue(bed, key, value) {
-    // console.log(bed, key, value);
-    var view = document.getElementById(key + "_" + bed);
+function updateValue(pid, key, value) {
+    var view = document.getElementById(key + "_" + pid);
     if (view) {
         view.innerHTML = value;
+    }
+
+    //根据pid 查找bedid
+    let patients = mData.filter(item=>item.pid === pid);
+    if(patients.length>0){
+        let config =  mBedAlarmConfigMap.get(patients[0].bedId);
+        if(config.enable){
+            //从床位报警阀值中获取
+            let threshold = mBedThresholdMap.get(patients[0].id+"_"+key);
+            if(threshold ===undefined ||threshold ===null){
+                //如果没有，则使用模板配置报警阀值
+                let arr = mDataKeys.filter(item=>item.code === key);
+                if(arr.length>0){
+                    judgeIsAlarm(pid,key,value,arr[0].min,arr[0].max,patients[0]);
+                }
+            }else {
+                judgeIsAlarm(pid,key,value,threshold.min,threshold.max,patients[0]);
+            }
+        }
+    }
+}
+
+/**
+ * 判断是否报警
+ * @param pid 病人pid
+ * @param key 报警关键字
+ * @param value 报警值
+ * @param min 最小值
+ * @param max 最大是
+ * @param patient 病人信息
+ */
+function judgeIsAlarm(pid,key,value,min,max,patient) {
+    // console.error('judgeIsAlarm',pid,key,value,min,max);
+    let msg=undefined;
+    if(key === 'NIBP'){
+        let szy = min.split("/");
+        let ssy = max.split("/");
+        let val = value.split("/");
+        if(Number(val[0])<Number(szy[0])){
+            msg = '舒张压过低';
+        }else if(Number(val[0])>Number(szy[1])){
+            msg = '舒张压过高';
+        }
+
+        if(Number(val[1])<Number(ssy[0])){
+            msg = '收缩压过低';
+        }else if(Number(val[1])>Number(ssy[1])){
+            msg = '收缩压过高';
+        }
+    }else {
+        if(Number(value)<Number(min)){
+            msg = key+"过低"
+        }else if(Number(value)>Number(max)){
+            msg = key+"过高"
+        }
+    }
+    if(msg!==undefined && msg.length>0){
+        currentAlarmInfo = {pid:pid,alarmType:'暂未关联类型',alarmKey:key,alarmValue:value,alarmMsg:msg,min:min,max:max
+        ,pat:{...patient}};
+
+        saveOrUpdateAlarmInfo(currentAlarmInfo,'post');
+        showAlarmDialog();
     }
 }
 
@@ -251,7 +357,7 @@ function updateValue(bed, key, value) {
  * @returns {number} 随机值
  */
 function getRandomValue(min, max) {
-    return Math.floor(Math.random() * (max - min)) + min;
+    return Math.floor(Math.random() * (max - min)) + min+2;
 }
 
 /**
@@ -281,6 +387,14 @@ function getBedItemTitle(patient) {
     } else {
         gender = '未知';
     }
+    let config = mBedAlarmConfigMap.get(patient.bedId);
+    // console.error('getBedItemTitle',config);
+    let imageView;
+    if(config ===undefined || config ===null || !config.enable){
+        imageView =   '<img src="/static/images/ic_disable_alarm.png" id="BED_ID_'+patient.bedId+'" style="float: right;" onclick="enableBedAlarm(this)">';
+    }else {
+        imageView =   '<img src="/static/images/ic_alarm.png" id="BED_ID_'+patient.bedId+'" style="float: right;" onclick="enableBedAlarm(this)">';
+    }
     return '<div class="item-title">' +
         '<img src="/static/images/bed.png">' +
         '<label id=' + "BED_" + patient.pid + '>' + patient.bed + ' 床</label>' +
@@ -291,6 +405,7 @@ function getBedItemTitle(patient) {
         '<label id=' + "DEPT_" + patient.pid + '>科室:' + patient.dept + '</label>' +
         '<label id=' + "COMPLAINT_" + patient.pid + ' class="complaint-desc" onclick="showComplaint(this)"><span class="iconfont" style="font-size: 18px">&#xe773;</span>主诉</label>' +
         // '<div class="complaint" style="height: '+(itemHeight-50)+'px;width: '+(itemWidth*0.25)+'px">'+patient.complaint+'</div>'+
+            imageView+
         '</div>'
 }
 
@@ -515,6 +630,98 @@ function showComplaint(e) {
 
 }
 
+function enableBedAlarm(e) {
+    let id = $(e).attr('id');
+    let bedId = id.replace('BED_ID_','');
+    let config = mBedAlarmConfigMap.get(parseInt(bedId));
+    if(config ===undefined || config ===null){
+        config = {bedId:bedId,enable:true};
+    }else{
+        config.enable = !config.enable;
+    }
+    if(config.id){
+        doSaveOrUpdateBedAlarmConfigInfo(config,'put');
+    }else{
+        doSaveOrUpdateBedAlarmConfigInfo(config,'POST');
+    }
+}
 
+
+
+function doSaveOrUpdateBedAlarmConfigInfo(config, method) {
+    $.ajax({
+        url: '/api/bedAlarm',
+        type: method,
+        data: JSON.stringify(config),
+        dataType: 'json',
+        contentType: 'application/json',
+        success: (data) => {
+            showToast('提示', data.message);
+            if (data.code === 200) {
+                loadBedAlarmConfig();
+                if(config.enable){
+                    $("#BED_ID_"+config.bedId).attr('src','/static/images/ic_alarm.png');
+                }else {
+                    $("#BED_ID_"+config.bedId).attr('src','/static/images/ic_disable_alarm.png');
+                }
+            }
+        },
+        error:errorHandler
+    })
+}
+
+function showAlarmDialog() {
+    let patient = currentAlarmInfo.pat;
+    let content = `${patient.name}/${patient.age}岁/${patient.gender===1?'男':'女'}/${patient.hospitalName}/${patient.dept}/${patient.bed}`
+    $(".alarm-title").text(currentAlarmInfo.alarmType);
+    $(".alarm-content").text(content);
+    $(".alarm-msg").text(currentAlarmInfo.alarmMsg);
+    $(".alarm-times").text(getCurrentYMDHMS());
+    // $("#alarm_dialog").dialog({
+    //     onOpen:function () {
+    //
+    //     }
+    // });
+    $("#alarm_dialog").dialog('open');
+}
+
+function saveOrUpdateAlarmInfo(alarm,method) {
+    $.ajax({
+        url:'/api/alarmInfo',
+        method:method,
+        data:JSON.stringify(alarm),
+        contentType:'application/json',
+        success:function (data) {
+            if(data.code === 200){
+                alarm.id = data.data;
+                let item = {...alarm};
+                if(method ==='post'){
+                    cacheAlarmArray.set(data.data,item);
+                }else {
+                    cacheAlarmArray.delete(data.data);
+                    if(cacheAlarmArray.size === 0){
+                        $("#alarm_dialog").dialog('close');
+                    }else {
+                        for(let item of cacheAlarmArray.keys()){
+                            currentAlarmInfo = cacheAlarmArray.get(item);
+                            showAlarmDialog();
+                            break;
+                        }
+                    }
+                }
+            }else {
+                showToast('提示',data.message);
+            }
+        },
+        error:errorHandler
+    })
+}
+
+function dealCurrentAlarmInfo() {
+    if(currentAlarmInfo!==null){
+        currentAlarmInfo.handle = true;
+        saveOrUpdateAlarmInfo(currentAlarmInfo,'put');
+    }
+}
 
 

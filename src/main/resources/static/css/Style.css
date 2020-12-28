@@ -259,3 +259,78 @@ ul.page li.active {
     background-color: white;
     border: solid 1px white;
 }
+
+.alarm-container{
+    width: 600px;
+    height: 150px;
+    /*font-size: 0;*/
+    /*background-color: #00ee00;*/
+}
+
+.alarm{
+    /*display: inline-block;*/
+    float: left;
+}
+
+.alarm-logo{
+    width: 64px;
+    height: 100%;
+    margin-left: 32px;
+}
+
+.alarm-logo img{
+    margin-top: 45px;
+}
+
+.alarms{
+    width: 350px;
+    margin-left: 16px;
+}
+
+.alarm-title{
+    font-size: 20px;
+    font-weight: 700;
+    font-family: \5B8B\4F53, serif;
+    margin-top: 8px;
+}
+
+.alarm-content{
+    font-size: 18px;
+    font-family: '黑体', serif;
+    margin-top: 8px;
+}
+
+.alarm-msg{
+    font-size: 16px;
+    font-family: '黑体', serif;
+    margin-top: 8px;
+}
+
+.alarm-time{
+    font-size: 14px;
+    color: grey;
+    margin-top: 8px;
+}
+
+.alarm-time label{
+    color: #eec309;
+}
+
+.alarm-handle{
+    width: 48px;
+    height: 150px;
+    line-height: 150px;
+    text-align: center;
+    margin-left: 16px;
+    font-size: 32px;
+}
+
+.handle{
+    font-size: 48px  !important;
+    color: #00bbee;
+}
+
+.handle:hover{
+    color: #d51d5a;
+    cursor: pointer;
+}

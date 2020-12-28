@@ -9,14 +9,18 @@
         <result column="alarm_type" property="alarmType" />
         <result column="alarm_key" property="alarmKey" />
         <result column="alarm_value" property="alarmValue" />
+        <result column="min" property="min" />
+        <result column="max" property="max" />
         <result column="alarm_msg" property="alarmMsg" />
         <result column="alarm_time" property="alarmTime" />
         <result column="handle" property="handle" />
+        <result column="handle_time" property="handleTime" />
+        <result column="handle_user" property="handleUser" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, pid, alarm_type, alarm_key, alarm_value, alarm_msg, alarm_time, handle
+        id, pid, alarm_type, alarm_key, alarm_value, alarm_msg, alarm_time, handle,handle_time,handle_user
     </sql>
 
 </mapper>
