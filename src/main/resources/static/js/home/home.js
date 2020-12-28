@@ -25,6 +25,10 @@ var data = [
             {
                 text: '床位绑定',
                 url: '/config/bind'
+            },
+            {
+                text: '报警设置',
+                url: '/config/alarm'
             }
         ]
     },

@@ -70,10 +70,18 @@ public class ViewController {
 
     @PreAuthorize("hasAnyRole('ROLE_BED')")
     @RequestMapping("/config/bind")
-    @Log("绑定")
+    @Log("绑定病人")
     public String configBind() {
         return "config/bind";
     }
+
+//    @PreAuthorize("hasAnyRole('ROLE_BED')")
+    @RequestMapping("/config/alarm")
+    @Log("报警设置")
+    public String configAlarm() {
+        return "config/alarm";
+    }
+
 
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_PATIENT')")

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.allong.centerstation.mapper.AlarmInfoMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.allong.centerstation.domain.entity.AlarmInfo">
+        <id column="id" property="id" />
+        <result column="pid" property="pid" />
+        <result column="alarm_type" property="alarmType" />
+        <result column="alarm_key" property="alarmKey" />
+        <result column="alarm_value" property="alarmValue" />
+        <result column="alarm_msg" property="alarmMsg" />
+        <result column="alarm_time" property="alarmTime" />
+        <result column="handle" property="handle" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, pid, alarm_type, alarm_key, alarm_value, alarm_msg, alarm_time, handle
+    </sql>
+
+</mapper>
