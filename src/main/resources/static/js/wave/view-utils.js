@@ -369,7 +369,8 @@ function getBedContentRightView(patient) {
  * @returns {string}
  */
 function getKeyData(patient) {
-    let rows = mDataKeys.length / 3;
+    let rows = mDataKeys.length % 3 ===0?mDataKeys.length / 3:mDataKeys.length / 3+1;
+    console.log('getKeyData',rows);
     let rowHeight = (itemHeight-32)/rows;
     let view = '';
     for (let x = 0; x < mDataKeys.length; x++) {

@@ -28,7 +28,7 @@ const testMode = true;
 const LINE_START_X = 50;
 const ONE_POINT_PIXEL = 1.0;
 
-const TIME_INTERVAL = 5000;
+const TIME_INTERVAL = 12000;
 
 /**
  * 供界面调用的方法
@@ -164,7 +164,7 @@ function ecg() {
  * </p>
  */
 function initParams() {
-    console.log('initParams', mWaveKeys);
+    // console.log('initParams', mWaveKeys);
     for (let x = 0; x < mPatientList.length; x++) {
         let p = mPatientList[x];
 
@@ -232,13 +232,13 @@ function testData(id, scale) {
     // let data = getOriginData();
     let data = getRandomArray(id);
     if(data ===undefined){
-        console.log(id);
+        // console.log(id);
     }
     for (let y = 0; y < data.length; y += 2) {
         // 将值装换成负数，然后加上上限，这样就可以将数据倒转，不会导致波峰波谷颠倒
         array.push((-parseInt(data.substr(y, 2), 16)+bedLine.height) / scale);
     }
-    console.log(array);
+    // console.log(array);
     let i = setInterval(() => {
         loopData(bedLine, array);
     }, TIME_INTERVAL);
