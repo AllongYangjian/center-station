@@ -12,6 +12,7 @@ var canvasWidth;
 var row = 3;
 var column = 2;
 var currentPage = 1;
+const NUMBER_KEY_COLUMN = 3;
 $(function () {
     // console.log(window.innerWidth,itemWidth, canvasWidth);
     window.onbeforeunload = function (ev) {
@@ -369,7 +370,18 @@ function getBedContentRightView(patient) {
  * @returns {string}
  */
 function getKeyData(patient) {
-    let rows = mDataKeys.length % 3 ===0?mDataKeys.length / 3:mDataKeys.length / 3+1;
+    let container = false;
+    for(let x = 0;x<mDataKeys.length;x++){
+        if(mDataKeys[x].code ==='NIBP'){
+            container = true;
+            break;
+        }
+    }
+    let length = mDataKeys.length;
+    if(container){
+        length+=1;
+    }
+    let rows = length % NUMBER_KEY_COLUMN ===0?length / NUMBER_KEY_COLUMN:length / NUMBER_KEY_COLUMN+1;
     console.log('getKeyData',rows);
     let rowHeight = (itemHeight-32)/rows;
     let view = '';
