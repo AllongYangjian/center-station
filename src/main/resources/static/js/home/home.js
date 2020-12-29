@@ -27,6 +27,10 @@ var data = [
                 url: '/config/bind'
             },
             {
+                text: '阀值设置',
+                url: '/config/threshold'
+            },
+            {
                 text: '报警设置',
                 url: '/config/alarm'
             }

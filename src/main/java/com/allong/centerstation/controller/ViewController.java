@@ -76,13 +76,17 @@ public class ViewController {
     }
 
 //    @PreAuthorize("hasAnyRole('ROLE_BED')")
+    @RequestMapping("/config/threshold")
+    @Log("阀值设置")
+    public String configThreshold() {
+        return "config/threshold";
+    }
+
     @RequestMapping("/config/alarm")
     @Log("报警设置")
     public String configAlarm() {
         return "config/alarm";
     }
-
-
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_PATIENT')")
     @RequestMapping("/patient/import")

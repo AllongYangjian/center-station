@@ -27,5 +27,6 @@ public class BedDetail extends HospitalBed {
      */
     private boolean selected;
 
+    private boolean alarmed;
 
 }

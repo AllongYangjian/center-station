@@ -21,7 +21,11 @@
         id, patient_id, key_id, min, max, enable, create_time, create_user, update_time, update_user
     </sql>
     <select id="listDetails" resultType="com.allong.centerstation.domain.BedThresholdDetail">
-        select * from view_bed_threshold where hid = #{hid} and status = 1;
+        select * from view_bed_threshold
+            where   status = 1
+            <if test="hid!=null">
+                and   hid = #{hid}
+            </if>
     </select>
 
 </mapper>

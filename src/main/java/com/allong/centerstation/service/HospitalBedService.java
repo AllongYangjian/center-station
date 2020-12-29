@@ -17,4 +17,6 @@ import java.util.List;
 public interface HospitalBedService extends IService<HospitalBed> {
 
     List<BedDetail> listBedsWithSelected();
+
+    List<BedDetail> listBedEnableAlarm();
 }

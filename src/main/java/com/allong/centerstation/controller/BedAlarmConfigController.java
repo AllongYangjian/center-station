@@ -3,7 +3,6 @@ package com.allong.centerstation.controller;
 
 import com.allong.centerstation.common.Result;
 import com.allong.centerstation.domain.entity.BedAlarmConfig;
-import com.allong.centerstation.domain.entity.BedThreshold;
 import com.allong.centerstation.logger.annotation.Log;
 import com.allong.centerstation.service.BedAlarmConfigService;
 import com.allong.centerstation.utils.SecurityUtils;
@@ -56,6 +55,17 @@ public class BedAlarmConfigController {
         config.setUpdateTime(new Date());
         config.setUpdateUser(SecurityUtils.getCurrentUsername());
         boolean result = service.updateById(config);
+        if(result){
+            return new ResponseEntity<>(new Result.Builder<>().setData(true).buildUpdateSuccess(), HttpStatus.OK);
+        }else {
+            return new ResponseEntity<>(new Result.Builder<>().setData(false).buildUpdateFailed(), HttpStatus.OK);
+        }
+    }
+
+    @PutMapping("/{id}")
+    @Log("更新床位报警配置")
+    public ResponseEntity<Object> updateByBedId(@PathVariable("id") Integer id) {
+       boolean result = service.updateByBedId(id);
         if(result){
             return new ResponseEntity<>(new Result.Builder<>().setData(true).buildUpdateSuccess(), HttpStatus.OK);
         }else {

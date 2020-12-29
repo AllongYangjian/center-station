@@ -2,110 +2,15 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>报警设置</title>
+    <title>床位</title>
     <script type="text/javascript" src="/static/js/common/title.js"></script>
     <script type="text/javascript" src="/static/js/utils/utils.js"></script>
-    <style>
-
-        form#ff {
-            padding: 8px;
-        }
-
-        .form-item {
-            margin-bottom: 16px;
-        }
-
-        .form-item-title {
-            /*display: inline-block;*/
-            /*width: 100px;*/
-            /*text-align: right;*/
-            font-size: 18px;
-            /*font-weight: 700;*/
-            /*margin-bottom: 8px;*/
-        }
-    </style>
+    <script type="text/javascript" src="/static/js/config/alarmConfig.js"></script>
+    <link rel="stylesheet" href="/static/css/alarmConfig.css">
 </head>
 <body>
+    <div class="bed-container">
 
-<div id="alarm_config_list" class="easyui-datagrid" fit="true" style="width: 70%;height: 100%"
-     toolbar="#alarm_config_list_toolbar">
-
-</div>
-
-<div id="alarm_config_list_toolbar" style="padding: 5px;height: auto">
-    <a class="easyui-linkbutton" id="add" data-options="iconCls:'icon-add'">新增</a>
-    <a class="easyui-linkbutton" id="edit" data-options="iconCls:'icon-edit'">修改</a>
-    <a class="easyui-linkbutton" id="delete" data-options="iconCls:'icon-remove'">删除</a>
-    <a class="easyui-linkbutton" id="query" data-options="iconCls:'icon-reload'">刷新</a>
-</div>
-
-
-<div id="alarm_config_dialog" class="easyui-dialog" title="报警设置"
-     data-options="resizable:true,modal:true,closed:true,border:false"
-     style="width: 600px;height: 400px">
-    <form id="ff" method="post">
-        <table style="width: 100%" cellspacing="10">
-            <tr class="form-item">
-                <td class="form-item-title">ID:</td>
-                <td><input class="easyui-textbox" id="id" name="id" style="width: 100%;height:32px"
-                           data-options="prompt:'该项为系统生成，无需输入',editable:false"></td>
-            </tr>
-            <tr>
-                <td class="form-item-title">
-                    病人:
-                </td>
-                <td>
-                    <input class="easyui-combobox" id="patientId" name="patientId" style="width:100%;height:32px"
-                           data-options="prompt:'请选择病人',required:true,textField:'name',valueField:'id'">
-                </td>
-            </tr>
-            <tr>
-                <td class="form-item-title">
-                    关键字:
-                </td>
-                <td>
-                    <input class="easyui-combobox" id="keyId" name="keyId" style="width:100%;height:32px"
-                           data-options="prompt:'请选择关键字',required:true,textField:'code',valueField:'id'">
-                </td>
-            </tr>
-            <tr>
-                <td class="form-item-title">
-                    下限:
-                </td>
-                <td>
-                    <input class="easyui-textbox" id="min" name="min" style="width:100%;height:32px"
-                           data-options="prompt:'请输入下限',required:true">
-                </td>
-            </tr>
-            <tr>
-                <td class="form-item-title">
-                    上限:
-                </td>
-                <td>
-                    <input class="easyui-textbox" id="max" name="max" style="width:100%;height:32px"
-                           data-options="prompt:'请输入上限',required:true">
-                </td>
-            </tr>
-            <tr>
-                <td class="form-item-title">
-                    是否启用:
-                </td>
-                <td>
-                    <input class="easyui-combobox" id="enable" name="enable" style="width:100%;height:32px"
-                           data-options="prompt:'请输入是否启用',required:true,valueField:'id',textField:'name',data:enableData,editable:false">
-                </td>
-            </tr>
-        </table>
-        <div style="margin-top: 16px">
-            <a href="#" id="alarm_config_save" class="easyui-linkbutton" iconCls="icon-ok"
-               style="width:100%;height:32px">保存</a>
-        </div>
-        <div style="margin-top: 16px">
-            <a href="#" id="alarm_config_close" class="easyui-linkbutton" iconCls="icon-cancel"
-               style="width:100%;height:32px">取消</a>
-        </div>
-    </form>
-</div>
-<script type="text/javascript" src="/static/js/config/alarm_config.js"></script>
+    </div>
 </body>
 </html>

@@ -13,4 +13,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface BedAlarmConfigService extends IService<BedAlarmConfig> {
 
+    boolean updateByBedId(Integer id);
 }

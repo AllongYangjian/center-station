@@ -38,10 +38,18 @@ public class HospitalBedController {
 
     @GetMapping
     @Log("查询床位列表")
-    public ResponseEntity<Object> list(){
+    public ResponseEntity<Object> listSelected(){
         List<BedDetail> bedDetails =  bedService.listBedsWithSelected();
         return new ResponseEntity<>(new Result.Builder<>().setData(bedDetails).buildQuerySuccess(), HttpStatus.OK);
     }
+
+    @GetMapping("/alarm")
+    @Log("查询可报警的床位列表")
+    public ResponseEntity<Object> listBedEnableAlarm(){
+        List<BedDetail> bedDetails =  bedService.listBedEnableAlarm();
+        return new ResponseEntity<>(new Result.Builder<>().setData(bedDetails).buildQuerySuccess(), HttpStatus.OK);
+    }
+
 
     @GetMapping("/{hid}")
     @Log("查询指定医院的床位列表")
