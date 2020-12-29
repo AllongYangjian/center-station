@@ -4,7 +4,7 @@
  * 每秒画多少个点
  * @type {number}
  */
-const one_time_points = 2;
+const one_time_points = 8;
 /**
  * 存放心背景canvas对象的集合
  * @type {Map<id, canvas>}
@@ -240,15 +240,15 @@ function getNewArithmetic(id, scale) {
     bedLine.id = id;
     let waveView;
     if(id.indexOf('SpO2')!==-1){
-        waveView = new WaveView(480,90,0,one_time_points,1,bedLine);
+        waveView = new WaveView(256,160,0,one_time_points,1,bedLine);
     }else if(id.indexOf("ECG")!==-1){
-        waveView = new WaveView(480,160,0,one_time_points,1,bedLine);
-    }else if(id.indexOf("PR")!==-1){
-        waveView = new WaveView(480,140,0,one_time_points,1,bedLine);
+        waveView = new WaveView(512,160,0,one_time_points,1,bedLine);
+    }else if(id.indexOf("ART")!==-1){
+        waveView = new WaveView(128,160,0,one_time_points,1,bedLine);
     }else if(id.indexOf("RESP")!==-1){
-        waveView = new WaveView(480,100,0,one_time_points,1,bedLine);
+        waveView = new WaveView(512,160,0,one_time_points,1,bedLine);
     }else {
-        waveView = new WaveView(480,100,0,one_time_points,1,bedLine);
+        waveView = new WaveView(480,160,0,one_time_points,1,bedLine);
     }
 
     waveView.loop();
@@ -430,11 +430,11 @@ class WaveView {
     constructor(frameSize,yMax,y_offset,step,speedRatio,bedLine) {
         console.log('constructor',bedLine.height,canvasWidth);
         this.frameSize = frameSize;
-        this.yMax  = yMax;
+        this.yMax = yMax;
         this.lastY = bedLine.height/2;
         this.step = step;
         this.speedRatio = speedRatio;
-        this.drawInterval = Math.floor((1 / this.frameSize) * 10000 * this.step); // 绘制时间间隔
+        this.drawInterval = Math.floor((1 / this.frameSize) * 1000 * this.step); // 绘制时间间隔
         this.canvasWidth = canvasWidth;
         this.itemHeight = bedLine.height;
         this.lineCtx = bedLine.ctx;
@@ -470,8 +470,8 @@ class WaveView {
             this.lastX = this.currentX;
             this.lastY = this.currentY;
             // console.log(this.lastX,this.lastY);
-            // this.currentX += (5 * 25 * this.speedRatio) / this.frameSize;
-            this.currentX += 2; //控制显示快慢
+            this.currentX += (5 * 25 * this.speedRatio) / this.frameSize;
+            // this.currentX += 2; //控制显示快慢
             if (this.x_start + this.currentX >= this.canvasWidth - this.x_start) {
                 this.currentX = 0;
                 this.lastX = 0;
@@ -485,9 +485,11 @@ class WaveView {
         setTimeout(this.loop, this.drawInterval);
 
         // TODO for test only 添加测试数据，实际中会从后台取
-        // this.addData(base64ToUint8Array('enp6enp6enp6enp6enp6enp7fX+ChYeJiouMjIuKiIaCf318e3p6enp6enp6enp6enp6enp6enp5d3Rxb4SXq77S5dK+q5eEcHJ1eHp6enp6enp6enp6enp6enp6enp6enp6enp6enp6ent8fH6Ag4WGiIyPkJKVlpiZmZqbnJ2cm5mZmJaVkpGOioeFgX98e3p6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6eg=='));
-        this.addData(this.getData2());
+        // this.addData(this.base64ToUint8Array('enp6enp6enp6enp6enp6enp7fX+ChYeJiouMjIuKiIaCf318e3p6enp6enp6enp6enp6enp6enp5d3Rxb4SXq77S5dK+q5eEcHJ1eHp6enp6enp6enp6enp6enp6enp6enp6enp6enp6ent8fH6Ag4WGiIyPkJKVlpiZmZqbnJ2cm5mZmJaVkpGOioeFgX98e3p6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6eg=='));
+        this.addData(this.getData3());
     }
+
+
 
     getData = ()=>{
         let data = getOriginData();
@@ -498,6 +500,18 @@ class WaveView {
     getData2 = ()=>{
         let data = getRandomArray(this.bedLine.id);
         return this.parseData(data);
+    };
+
+    getData3 = ()=>{
+        if(this.bedLine.id.indexOf('SpO2')!==-1){
+            return this.parseData(CONST_SPO2_DATA[0])
+        }else if(this.bedLine.id.indexOf('RESP')!==-1){
+            return this.parseData(CONST_RESP_DATA[0])
+        }else if(this.bedLine.id.indexOf('ECG')!==-1){
+            return this.parseData(CONST_ECG_DATA[0])
+        }else if(this.bedLine.id.indexOf('ART')!==-1){
+            return this.parseData(CONST_ART_DATA[0])
+        }
     };
 
     addData = (arr) => {
@@ -515,28 +529,34 @@ class WaveView {
             // 将值装换成负数，然后加上上限，这样就可以将数据倒转，不会导致波峰波谷颠倒
             // array.push(-(parseInt(data.substr(y, 2), 16) / this.scale));
             array.push(parseInt(data.substr(y, 2), 16) / this.scale)
+            // array.push(parseInt(data.substr(y, 2), 16))
         }
-        if(this.bedLine.id.indexOf("RESP")!==-1){
-            console.log(array);
+        if(this.bedLine.id.indexOf('RESP')!==-1){
+            console.log('parseData',array);
         }
+
         return array;
 
     }
 
-}
+    base64ToUint8Array=(base64String)=> {
+        const padding = '='.repeat((4 - base64String.length % 4) % 4);
+        const base64 = (base64String + padding)
+            .replace(/\-/g, '+')
+            .replace(/_/g, '/');
 
-function base64ToUint8Array(base64String) {
-    const padding = '='.repeat((4 - base64String.length % 4) % 4);
-    const base64 = (base64String + padding)
-        .replace(/\-/g, '+')
-        .replace(/_/g, '/');
+        const rawData = window.atob(base64);
+        const outputArray = new Uint8Array(rawData.length);
 
-    const rawData = window.atob(base64);
-    const outputArray = new Uint8Array(rawData.length);
-
-    for (let i = 0; i < rawData.length; ++i) {
-        outputArray[i] = rawData.charCodeAt(i);
+        for (let i = 0; i < rawData.length; ++i) {
+            outputArray[i] = rawData.charCodeAt(i);
+        }
+        let sum = 0;
+        outputArray.forEach(item=>sum+=item);
+        this.yMax = sum/outputArray.length;
+        return outputArray;
     }
-    return outputArray;
+
 }
+
 
