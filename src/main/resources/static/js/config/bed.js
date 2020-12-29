@@ -88,7 +88,7 @@ function inflateViewByData() {
 
 
 function getBedItemView(item) {
-    return '<div class="item-bed" id="bed_'+item.id+'" onclick="changeVisible(this)" style="width: '+itemWidth+'px;">' +
+    return '<div class="item-bed" data-tooltip="点击选择床位" id="bed_'+item.id+'" onclick="changeVisible(this)" onmouseover="MouseTip.start(this)" style="width: '+itemWidth+'px;">' +
             '<div class="hospital">'+item.hospitalName+'</div>'+
             '<div class="bed">'+item.bed+'</div>'+
             '<img class="checkbox" src="/static/images/checkbox.png" style="display: '+(item.selected?"block":"none")+'">'+

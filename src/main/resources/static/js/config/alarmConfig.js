@@ -4,6 +4,7 @@ let mCacheBeds;
 let margin = 16;
 let columns = 6;
 
+
 $(function () {
     calculateViewSize();
     window.onresize = ()=>{
@@ -59,12 +60,15 @@ function inflateViewByData() {
 
 function getBedItemView(item) {
     let imageView;
+    let tips;
     if(item.alarmed){
-        imageView =  '<img class="checkbox" src="/static/images/ic_alarm.png">';
+        imageView =  '<img  class="checkbox"  src="/static/images/ic_alarm.png">';
+        tips = "点击关闭床位报警"
     }else {
         imageView =  '<img class="checkbox" src="/static/images/ic_disable_alarm.png">';
+        tips = "点击开启床位报警"
     }
-    return '<div class="item-bed" id="bed_'+item.id+'" onclick="changeAlarmEnabled(this)" style="width: '+itemWidth+'px;">' +
+    return '<div class="item-bed" onmouseover="MouseTip.start(this)" data-tooltip="'+tips+'" id="bed_'+item.id+'" onclick="changeAlarmEnabled(this)" style="width: '+itemWidth+'px;">' +
         '<div class="hospital">'+item.hospitalName+'</div>'+
         '<div class="bed">'+item.bed+'</div>'+
         imageView+

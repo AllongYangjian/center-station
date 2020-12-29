@@ -60,6 +60,10 @@ html, body {
     text-align: center;
 }
 
+.item-title img:hover{
+    cursor: pointer;
+}
+
 .item-title label {
     display: inline-block;
     margin-right: 16px;

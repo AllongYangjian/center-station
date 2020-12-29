@@ -391,9 +391,9 @@ function getBedItemTitle(patient) {
     // console.error('getBedItemTitle',config);
     let imageView;
     if(config ===undefined || config ===null || !config.enable){
-        imageView =   '<img src="/static/images/ic_disable_alarm.png" id="BED_ID_'+patient.bedId+'" style="float: right;" onclick="enableBedAlarm(this)">';
+        imageView =   '<img class="alarm-label" data-tooltip="点击开启报警" onmouseover="MouseTip.start(this)" src="/static/images/ic_disable_alarm.png" id="BED_ID_'+patient.bedId+'" style="float: right;" onclick="enableBedAlarm(this)">';
     }else {
-        imageView =   '<img src="/static/images/ic_alarm.png" id="BED_ID_'+patient.bedId+'" style="float: right;" onclick="enableBedAlarm(this)">';
+        imageView =   '<img class="alarm-label" data-tooltip="点击关闭报警" onmouseover="MouseTip.start(this)" src="/static/images/ic_alarm.png" id="BED_ID_'+patient.bedId+'" style="float: right;" onclick="enableBedAlarm(this)">';
     }
     return '<div class="item-title">' +
         '<img src="/static/images/bed.png">' +
@@ -403,7 +403,7 @@ function getBedItemTitle(patient) {
         '<label id=' + "AGE_" + patient.pid + '>' + patient.age + '岁</label>' +
         '<label id=' + "HOSPITAL_" + patient.pid + '>医院:' + patient.hospitalName + '</label>' +
         '<label id=' + "DEPT_" + patient.pid + '>科室:' + patient.dept + '</label>' +
-        '<label id=' + "COMPLAINT_" + patient.pid + ' class="complaint-desc" onclick="showComplaint(this)"><span class="iconfont" style="font-size: 18px">&#xe773;</span>主诉</label>' +
+        '<label id=' + "COMPLAINT_" + patient.pid + ' class="complaint-desc" data-tooltip="点击查看患者主诉" onmouseover="MouseTip.start(this)"  onclick="showComplaint(this)"><span class="iconfont" style="font-size: 18px">&#xe773;</span>主诉</label>' +
         // '<div class="complaint" style="height: '+(itemHeight-50)+'px;width: '+(itemWidth*0.25)+'px">'+patient.complaint+'</div>'+
             imageView+
         '</div>'
@@ -510,7 +510,7 @@ function getKeyItem(id, key,h) {
     let keyTitleSize =key.keySize/2;
     let keyThresholdSize = keyTitleSize-2;
     let keyUnitSize = keyThresholdSize-2;
-    let w = parseInt(itemWidth*0.4/3)-1;
+    let w = parseInt(itemWidth*0.4/3)-2;
     return '<div class="key" style="color: ' + key.keyColor + ';height: '+h+'px;width: '+w+'px">' +
         '<label class="key_title" style="font-size: '+keyTitleSize+'px">' + key.code + '</label>' +
         '<span class="key_unit"  style="font-size: '+keyUnitSize+'px">(' + key.unit + ')</span>' +
