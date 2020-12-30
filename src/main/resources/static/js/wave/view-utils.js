@@ -4,8 +4,8 @@ var mData;
 var mPatientList;
 var mWaveKeys = [];
 var mDataKeys = [];
-var id1 = -1;
-var id2 = -1;
+var id1 = [];
+var id2 = [];
 var itemWidth;
 var itemHeight;
 var canvasWidth;
@@ -19,9 +19,18 @@ const cacheAlarmArray = new Map();
 $(function () {
     // console.log(window.innerWidth,itemWidth, canvasWidth);
     window.onbeforeunload = function (ev) {
-        clearData();
+        clearData(true);
         restoreData();
         close();
+    };
+
+    window.onresize = ()=>{
+        clearData(true);
+        restoreData();
+        initView();
+        calculateViewSize();
+        loadPatientDataAndTempData();
+        // close();
     };
     initView();
     calculateViewSize();
@@ -36,8 +45,16 @@ $(function () {
 function calculateViewSize() {
     row = getBindData('row', '3');
     column = getBindData('column', '2');
-    itemWidth = $(".bed-container").width() / parseInt(column);
-    itemHeight = $(".bed-container").height() / parseInt(row);
+
+    let body =  (document.compatMode && document.compatMode == 'CSS1Compat') ? document.documentElement : document.body;
+    console.log(body.clientWidth,body.clientHeight);
+    // itemWidth = $(".bed-container").width() / parseInt(column);
+    // itemHeight = $(".bed-container").height() / parseInt(row);
+
+    itemWidth = (body.clientWidth-2) / parseInt(column);
+    itemHeight =( body.clientHeight-48) / parseInt(row);
+
+
     canvasWidth = Math.round(itemWidth * 0.6);
     // console.log(row, column, itemWidth, itemHeight, canvasWidth);
 }
@@ -181,14 +198,21 @@ function filterPatient(h) {
     } else {
         mData = patient.filter(item => item.hospital === h);
     }
-    clearData();
+    clearData(true);
     restoreData();
     inflateViewByData();
 }
 
-function clearData() {
-    clearInterval(id1);
-    clearInterval(id2);
+function clearData(clearAll) {
+    if(clearAll){
+        while (id1.length>0){
+            clearInterval(id1.shift());
+        }
+    }else {
+        while (id1.length>2){
+            clearInterval(id1.shift());
+        }
+    }
 }
 
 /**
@@ -214,10 +238,11 @@ function inflateViewByData() {
     // for (var x = 0; x < mData.length; x++) {
     //     bedContainView.append($(getItemView(mData[x])));
     // }
-    id1 = setInterval(startTest, 20*1000);
-    id2 = setInterval(startTest2, 30 * 60 * 1000);
+    id1.push(setInterval(startTest, 20*1000))
+    id1.push(setInterval(startTest2, 30 * 60 * 1000));
     startTest();
     startTest2();
+    clearData(false);
 }
 
 /**
@@ -595,7 +620,7 @@ function saveViewConfigInfo() {
         showToast('提示', '保存成功');
         //重新加载布局
         //清楚数据
-        clearData();
+        clearData(true);
         restoreData();
         //重新计算大小
         calculateViewSize();
