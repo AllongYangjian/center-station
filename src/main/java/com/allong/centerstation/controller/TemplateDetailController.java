@@ -69,11 +69,13 @@ public class TemplateDetailController {
     @PostMapping("/all")
     @Log("获取所有关键字信息")
     public ResponseEntity<Object> saveAll(@RequestBody List<TemplateDetail> detailList) {
-        if (detailList != null && detailList.size() > 0) {
-            //删除旧的数据
-            templateDetailService.deleteByTempId(detailList.get(0).getTempId());
+       boolean result =  templateDetailService.updateTemplateDetailBeforeSave(detailList);
+        if(result){
+            return new ResponseEntity<>(new Result.Builder<>().setData(true).buildSaveSuccess(), HttpStatus.OK);
+        }else {
+            return new ResponseEntity<>(new Result.Builder<>().setData(false).buildSaveSuccess(), HttpStatus.OK);
         }
-        return new ResponseEntity<>(new Result.Builder<>().setData(templateDetailService.saveBatch(detailList)).buildSaveSuccess(), HttpStatus.OK);
+
     }
 
     @GetMapping("/wave/{tempId}")

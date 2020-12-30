@@ -249,6 +249,12 @@ function initTemplateTable() {
                         width: 1
                     },
                     {
+                        title: '采样率',
+                        field: 'frameSize',
+                        align: 'center',
+                        width: 1
+                    },
+                    {
                         title: '编辑',
                         field: 'edit',
                         align: 'center',

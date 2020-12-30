@@ -19,11 +19,12 @@
         <result column="scale" property="scale" />
         <result column="unit" property="unit" />
         <result column="type" property="type" />
+        <result column="frame_size" property="frameSize"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-       id, temp_id, device_id,key_id, code, name, key_color, key_size, min, max, position, wave, scale, unit, type
+       id, temp_id, device_id,key_id, code, name, key_color, key_size, min, max, position, wave, scale, unit, type,frame_size
     </sql>
 
 </mapper>

@@ -16,16 +16,18 @@
         <result column="wave" property="wave"/>
         <result column="scale" property="scale"/>
         <result column="unit" property="unit"/>
+        <result column="frame_size" property="frameSize"/>
+        <result column="enable" property="enable"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-       device_id, id, code, name, key_color, key_size, min, max, position, wave, scale,unit
+       device_id, id, code, name, key_color, key_size, min, max, position, wave, scale,unit,frame_size,enable
     </sql>
 
     <select id="listKeyDetail" resultType="com.allong.centerstation.domain.KeyDetail">
             select k.id keyId,k.name keyName,d.name deviceName,k.wave from sys_device_key k,sys_device_type d
-            where k.device_id = d.id;
+            where k.device_id = d.id and k.enable = 1;
     </select>
 
 </mapper>

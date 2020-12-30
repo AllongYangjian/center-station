@@ -95,6 +95,11 @@ public class TemplateDetail extends BaseEntity<TemplateDetail> {
     private String unit;
 
     /**
+     * 采样率
+     */
+    private Integer frameSize;
+
+    /**
      * 1-波形字段 2-数值字段
      */
     private Integer type;

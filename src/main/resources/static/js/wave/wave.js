@@ -191,6 +191,7 @@ function initParams() {
                 canvasObj.width = canvasKey.width;
                 canvasObj.height = canvasKey.height;
                 canvasObj.maxHeight = 160;
+                canvasKey.frameSize = key.frameSize;
 
                 bedLineMap.set(id, canvasObj);
                 drawFillText(ctx, key.code);
@@ -240,15 +241,15 @@ function getNewArithmetic(id, scale) {
     bedLine.id = id;
     let waveView;
     if(id.indexOf('SpO2')!==-1){
-        waveView = new WaveView(256,160,0,one_time_points,1,bedLine);
+        waveView = new WaveView(0,one_time_points,1,bedLine);
     }else if(id.indexOf("ECG")!==-1){
-        waveView = new WaveView(512,160,0,one_time_points,1,bedLine);
+        waveView = new WaveView(0,one_time_points,1,bedLine);
     }else if(id.indexOf("ART")!==-1){
-        waveView = new WaveView(128,160,0,one_time_points,1,bedLine);
+        waveView = new WaveView(0,one_time_points,1,bedLine);
     }else if(id.indexOf("RESP")!==-1){
-        waveView = new WaveView(512,160,0,one_time_points,1,bedLine);
+        waveView = new WaveView(0,one_time_points,1,bedLine);
     }else {
-        waveView = new WaveView(480,160,0,one_time_points,1,bedLine);
+        waveView = new WaveView(0,one_time_points,1,bedLine);
     }
 
     waveView.loop();
@@ -408,7 +409,7 @@ class WaveView {
     // 每个波形的高度
     itemHeight;
     // 橡皮檫宽度
-    clearGap = 20;
+    clearGap = 25;
     y_offset = 0;
     // 队列
     queue = [];
@@ -416,6 +417,7 @@ class WaveView {
     lineCtx;
     x_start = 45;
     bedLine;
+    frameSize=256;//默认采样率
 
 
     /**
@@ -427,10 +429,11 @@ class WaveView {
      * @param speedRatio 扫纸速度，默认 25mm/s (1秒25个小格子 每个小格子0.04s)。 0.5表示扫纸速度为 12.5mm/s。2表示扫纸速度为 50mm/s。
      * @param bedLine 画笔
      */
-    constructor(frameSize,yMax,y_offset,step,speedRatio,bedLine) {
-        console.log('constructor',bedLine.height,canvasWidth);
-        this.frameSize = frameSize;
-        this.yMax = yMax;
+    constructor(y_offset,step,speedRatio,bedLine) {
+
+        if( bedLine.frameSize!==undefined && bedLine.frameSize!==null){
+            this.frameSize =bedLine.frameSize;
+        }
         this.lastY = bedLine.height/2;
         this.step = step;
         this.speedRatio = speedRatio;
@@ -447,9 +450,9 @@ class WaveView {
         this.lineCtx.beginPath();
         // this.lineCtx.strokeStyle = this.strokeStyle;
         if (this.lastX === 0) {
-            this.lineCtx.clearRect(this.x_start - 10, -1000, this.clearGap, 10000);
+            this.lineCtx.clearRect(this.x_start - 10, this.y_offset, this.clearGap, this.itemHeight);
         } else {
-            this.lineCtx.clearRect(this.x_start + this.lastX, -1000, this.clearGap,10000);
+            this.lineCtx.clearRect(this.x_start + this.lastX, this.y_offset, this.clearGap,this.itemHeight);
         }
 
         for(let i = 0;i<this.step;i++){
@@ -472,21 +475,22 @@ class WaveView {
             // console.log(this.lastX,this.lastY);
             this.currentX += (5 * 25 * this.speedRatio) / this.frameSize;
             // this.currentX += 2; //控制显示快慢
-            if (this.x_start + this.currentX >= this.canvasWidth - this.x_start) {
+            if (this.x_start + this.currentX >= this.canvasWidth ) {
                 this.currentX = 0;
                 this.lastX = 0;
             }
         }
         this.lineCtx.stroke();
-    }
+    };
 
     loop = () => {
         this.draw();
         setTimeout(this.loop, this.drawInterval);
-
+        if(this.queue.length<=this.step*2){
+            this.addData(this.getData3());
+        }
         // TODO for test only 添加测试数据，实际中会从后台取
         // this.addData(this.base64ToUint8Array('enp6enp6enp6enp6enp6enp7fX+ChYeJiouMjIuKiIaCf318e3p6enp6enp6enp6enp6enp6enp5d3Rxb4SXq77S5dK+q5eEcHJ1eHp6enp6enp6enp6enp6enp6enp6enp6enp6enp6ent8fH6Ag4WGiIyPkJKVlpiZmZqbnJ2cm5mZmJaVkpGOioeFgX98e3p6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6eg=='));
-        this.addData(this.getData3());
     }
 
 
@@ -531,9 +535,9 @@ class WaveView {
             array.push(parseInt(data.substr(y, 2), 16) / this.scale)
             // array.push(parseInt(data.substr(y, 2), 16))
         }
-        if(this.bedLine.id.indexOf('RESP')!==-1){
-            console.log('parseData',array);
-        }
+        // if(this.bedLine.id.indexOf('RESP')!==-1){
+            // console.log('parseData',array);
+        // }
 
         return array;
 

@@ -17,7 +17,7 @@
 
         .form-item-title {
             /*display: inline-block;*/
-            /*width: 100px;*/
+            width: 200px;
             /*text-align: right;*/
             font-size: 18px;
             /*font-weight: 700;*/
@@ -52,7 +52,7 @@
      style="width: 600px;height: 650px">
     <form id="ff" method="post">
         <table style="width: 100%" cellspacing="10">
-            <tr class="form-item">
+            <tr class="form-item" hidden>
                 <td class="form-item-title">ID:</td>
                 <td><input class="easyui-textbox" id="id" name="id" style="width: 100%;height:32px"
                            data-options="prompt:'该项为系统生成，无需输入',editable:false"></td>
@@ -157,7 +157,15 @@
                            data-options="prompt:'请输入缩放系数',required:true,min:1">
                 </td>
             </tr>
-
+            <tr>
+                <td class="form-item-title">
+                    采样率:
+                </td>
+                <td>
+                    <input class="easyui-numberspinner" id="frameSize" name="frameSize" style="width:100%;height:32px"
+                           data-options="prompt:'请输入采样率',required:true,min:128">
+                </td>
+            </tr>
         </table>
         <div style="margin-top: 16px">
             <a href="#" id="key_save" class="easyui-linkbutton" iconCls="icon-ok"

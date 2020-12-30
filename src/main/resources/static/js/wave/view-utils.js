@@ -216,6 +216,7 @@ function inflateViewByData() {
     // }
     id1 = setInterval(startTest, 20*1000);
     id2 = setInterval(startTest2, 30 * 60 * 1000);
+    startTest();
     startTest2();
 }
 
@@ -291,7 +292,7 @@ function updateValue(pid, key, value) {
     let patients = mData.filter(item=>item.pid === pid);
     if(patients.length>0){
         let config =  mBedAlarmConfigMap.get(patients[0].bedId);
-        if(config.enable){
+        if(config!==undefined && config.enable){
             //从床位报警阀值中获取
             let threshold = mBedThresholdMap.get(patients[0].id+"_"+key);
             if(threshold ===undefined ||threshold ===null){

@@ -17,7 +17,7 @@
 
         .form-item-title {
             /*display: inline-block;*/
-            /*width: 100px;*/
+            width: 200px;
             /*text-align: right;*/
             font-size: 18px;
             /*font-weight: 700;*/
@@ -38,7 +38,7 @@
 
 <div id="template_dialog" class="easyui-dialog" title="模板详情"
      data-options="resizable:true,modal:true,closed:true,border:false"
-     style="width: 600px;height: 450px">
+     style="width: 700px;height: 500px">
     <form id="ff" method="post">
         <table style="width: 100%" cellspacing="10">
             <tr class="form-item">
@@ -98,7 +98,7 @@
 
 <div id="template_detail_dialog" class="easyui-dialog" title="模板项目"
      data-options="resizable:true,modal:true,closed:true,border:false"
-     style="width: 400px;height: 250px">
+     style="width: 400px;height: 300px">
     <form id="ff_deital" method="post">
         <table style="width: 100%" cellspacing="10">
             <tr>
@@ -119,6 +119,16 @@
                            data-options="prompt:'请输入缩放系数',required:true,min:1">
                 </td>
             </tr>
+<!--             <tr>-->
+<!--                <td class="form-item-title">-->
+<!--                    采样率:-->
+<!--                </td>-->
+<!--                <td>-->
+<!--                    <input class="easyui-numberspinner" id="frameSize" name="frameSize" style="width:100%;height:32px"-->
+<!--                           data-options="prompt:'请输入缩放系数',required:true,min:1">-->
+<!--                </td>-->
+<!--            </tr>-->
+
         </table>
         <div style="margin-top: 16px">
             <a href="#" id="template_item_save" class="easyui-linkbutton" iconCls="icon-ok"

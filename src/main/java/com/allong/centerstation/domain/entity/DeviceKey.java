@@ -1,8 +1,6 @@
 package com.allong.centerstation.domain.entity;
 
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.*;
 
 import java.io.Serializable;
 
@@ -85,6 +83,9 @@ public class DeviceKey extends BaseEntity<DeviceKey> implements Comparable<Devic
      */
     private String unit;
 
+    private Integer frameSize;
+    
+    private Boolean enable;
 
     @Override
     protected Serializable pkVal() {
