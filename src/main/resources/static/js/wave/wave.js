@@ -191,7 +191,8 @@ function initParams() {
                 canvasObj.width = canvasKey.width;
                 canvasObj.height = canvasKey.height;
                 canvasObj.maxHeight = 160;
-                canvasKey.frameSize = key.frameSize;
+                canvasObj.frameSize = key.frameSize;
+                canvasObj.bed= p.bed;
 
                 bedLineMap.set(id, canvasObj);
                 drawFillText(ctx, key.code);
@@ -450,6 +451,7 @@ class WaveView {
         this.lineCtx.beginPath();
         // this.lineCtx.strokeStyle = this.strokeStyle;
         if (this.lastX === 0) {
+            console.log('----');
             this.lineCtx.clearRect(this.x_start - 10, this.y_offset, this.clearGap, this.itemHeight);
         } else {
             this.lineCtx.clearRect(this.x_start + this.lastX, this.y_offset, this.clearGap,this.itemHeight);
@@ -475,7 +477,8 @@ class WaveView {
             // console.log(this.lastX,this.lastY);
             this.currentX += (5 * 25 * this.speedRatio) / this.frameSize;
             // this.currentX += 2; //控制显示快慢
-            if (this.x_start + this.currentX >= this.canvasWidth ) {
+            if (this.x_start + this.currentX >= this.canvasWidth -25) {
+                console.log('ssss');
                 this.currentX = 0;
                 this.lastX = 0;
             }
@@ -507,14 +510,28 @@ class WaveView {
     };
 
     getData3 = ()=>{
+        let bed = this.bedLine.bed;
+        console.log('getData3',bed);
+        let index = 0;
+        if(bed.indexOf("1")!==-1){
+            index = 1;
+        }else if(bed.indexOf("2")!==-1){
+            index = 2;
+        }else if(bed.indexOf("3")!==-1){
+            index = 3;
+        }else if(bed.indexOf("4")!==-1){
+            index = 0;
+        }else {
+            index = 0;
+        }
         if(this.bedLine.id.indexOf('SpO2')!==-1){
-            return this.parseData(CONST_SPO2_DATA[0])
+            return this.parseData(CONST_SPO2_DATA[index])
         }else if(this.bedLine.id.indexOf('RESP')!==-1){
-            return this.parseData(CONST_RESP_DATA[0])
+            return this.parseData(CONST_RESP_DATA[index])
         }else if(this.bedLine.id.indexOf('ECG')!==-1){
-            return this.parseData(CONST_ECG_DATA[0])
+            return this.parseData(CONST_ECG_DATA[index])
         }else if(this.bedLine.id.indexOf('ART')!==-1){
-            return this.parseData(CONST_ART_DATA[0])
+            return this.parseData(CONST_ART_DATA[index])
         }
     };
 
