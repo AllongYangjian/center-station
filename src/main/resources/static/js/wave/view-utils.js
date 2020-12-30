@@ -485,7 +485,19 @@ function getBedContentRightView(patient) {
  * @returns {string}
  */
 function getKeyData(patient) {
-    let rows = mDataKeys.length / 3;
+    let container =false;
+    for(let x =0;x<mDataKeys.length;x++){
+        if(mDataKeys[x].code === 'NIBP'){
+            container = true;
+            break;
+        }
+    }
+    let length = mDataKeys.length;
+    if(container){
+        length+=1;
+    }
+
+    let rows =length % 3 === 0? length/3:length/3+1;
     let rowHeight = (itemHeight-32)/rows;
     let view = '';
     for (let x = 0; x < mDataKeys.length; x++) {
@@ -578,6 +590,7 @@ function saveViewConfigInfo() {
         let data = form.serializeObject();
         for (let key in data) {
             localStorage.setItem(key, data[key]);
+            // saveKey(key,data[key]);
         }
         showToast('提示', '保存成功');
         //重新加载布局
@@ -722,6 +735,19 @@ function dealCurrentAlarmInfo() {
     if(currentAlarmInfo!==null){
         currentAlarmInfo.handle = true;
         saveOrUpdateAlarmInfo(currentAlarmInfo,'put');
+    }
+}
+
+
+function isDrawBg(e) {
+    let state = $(e).is(":checked");
+    localStorage.setItem("showBg",state);
+    if(state){
+        drawEcgBg();
+    }else {
+        bedBackgroundCanvasMap.forEach((value, key, map) => {
+            value.canvasCtx.clearRect(0,0,value.width,value.height);
+        })
     }
 }
 
