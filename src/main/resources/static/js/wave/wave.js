@@ -150,12 +150,13 @@ function ecg() {
     initParams();
     //测试逻辑
     if (testMode) {
+        console.log('ect',mPatientList.length)
         for (let x = 0; x < mPatientList.length; x++) {
             let p = mPatientList[x];
             for (let y = 0; y < mWaveKeys.length; y++) {
                 let key = mWaveKeys[y];
                 let id = `line_${key.code}_${p.pid}`;
-                setTimeout(testData, 10 + x * 10 + y * 10, id, key.scale);
+                setTimeout(testData, 10 + x * 10 + y * 10, id, key.scale,x);
                 // testData(id);
                 // sleep(100);
             }
@@ -240,10 +241,10 @@ var flagIndex = 0;
  * @param id
  * @param scale
  */
-function testData(id, scale) {
+function testData(id, scale,index) {
     // getOldArithmetic(id,scale);
     if(IS_NEW_VERSION){
-        getNewArithmetic2(id,scale);
+        getNewArithmetic2(id,scale,index);
     }else{
         getNewArithmetic(id,scale);
     }
@@ -273,14 +274,14 @@ function getNewArithmetic(id, scale) {
     waveView.loop();
 }
 
-function getNewArithmetic2(id,scale) {
+function getNewArithmetic2(id,scale,index) {
     let bedLine = bedLineMap.get(id);
     if (bedLine === null || bedLine === undefined) {
         return;
     }
     bedLine.scale = scale;
     bedLine.id = id;
-    let waveView = new WaveView2(0,one_time_points,1,bedLine);
+    let waveView = new WaveView2(0,one_time_points,1,bedLine,index);
     waveView.loop()
 }
 
@@ -623,6 +624,7 @@ class WaveView2 {
     bedLine;
     x_start = 45;
     grid_width = 5;
+    dataIndex;//模拟数据
 
     /**
      * @param frameSize 1秒多少个点
@@ -632,7 +634,7 @@ class WaveView2 {
      * @param speedRatio 扫纸速度，默认 25mm/s (1秒25个小格子 每个小格子0.04s)。 0.5表示扫纸速度为 12.5mm/s。2表示扫纸速度为 50mm/s。
      * @param bedLine canvas对象
      */
-    constructor(y_offset, step, speedRatio,bedLine) {
+    constructor(y_offset, step, speedRatio,bedLine,index) {
         this.lineCtx = bedLine.ctx;
         this.bedLine = bedLine;
         this.itemHeight = bedLine.height;
@@ -645,6 +647,7 @@ class WaveView2 {
         this.speedRatio = speedRatio;
         this.frameSize = bedLine.frameSize;
         this.drawInterval = Math.floor((1 / this.frameSize) * 1000 * this.step); // 绘制时间间隔
+        this.dataIndex = index;
     }
 
     draw = () => {
@@ -685,7 +688,7 @@ class WaveView2 {
     loop = () => {
         this.draw();
         if(this.queue.length<this.step*2){
-            let data = this.getData4();
+            let data = this.getData5();
             // this.frameSize = data.frameSize;
             this.yMax = data.max;
             // this.drawInterval = Math.floor((1 / this.frameSize) * 1000 * this.step); // 绘制时间间隔
@@ -695,38 +698,66 @@ class WaveView2 {
     }
 
     index = 0;
-    getData4=()=>{
 
-        let bed = this.bedLine.bed;
+    getData5 = ()=>{
+        console.log(this.bedLine.id,this.index,this.dataIndex)
+        let originData = USER_1_DATA[this.dataIndex]; //二位数组
         let flag = 0;
-        if(bed.indexOf("1")!==-1){
-            flag = 1;
-        }else if(bed.indexOf("2")!==-1){
-            flag = 2;
-        }else if(bed.indexOf("3")!==-1){
-            flag = 3;
-        }else if(bed.indexOf("4")!==-1){
+        if(this.bedLine.id.indexOf('SpO2')!==-1){
             flag = 0;
+        }else if(this.bedLine.id.indexOf('RESP')!==-1){
+            flag = 1;
+        }else if(this.bedLine.id.indexOf('ECG')!==-1){
+            flag = 2;
+        }else if(this.bedLine.id.indexOf('ART')!==-1){
+            flag = 3;
         }else {
             flag = 0;
         }
-
-        if(this.bedLine.id.indexOf('SpO2')!==-1){
-            return parseOriginData(CONST_SPO2_DATA_ORIGIN[flag])
-        }else if(this.bedLine.id.indexOf('RESP')!==-1){
-            let data =parseOriginData(CONST_RESP_DATA_ORIGIN[this.index]);
+         let data = originData[flag];//获取元素是数据
+        let d = data[this.index];
+        if(d ===undefined || this.index>=d.length){
+            this.index = 0;
+            d = data[this.index];
+        }else {
             this.index++;
-            if(this.index>=CONST_RESP_DATA_ORIGIN.length){
-                this.index = 0;
-            }
-            return data;
-
-        }else if(this.bedLine.id.indexOf('ECG')!==-1){
-            return parseOriginData(CONST_ECG_DATA_ORIGIN[flag])
-        }else if(this.bedLine.id.indexOf('ART')!==-1){
-            return parseOriginData(CONST_ART_DATA_ORIGIN[flag])
         }
+        return parseOriginData(d);
     };
+
+    // index = 0;
+    // getData4=()=>{
+    //
+    //     let bed = this.bedLine.bed;
+    //     let flag = 0;
+    //     if(bed.indexOf("1")!==-1){
+    //         flag = 1;
+    //     }else if(bed.indexOf("2")!==-1){
+    //         flag = 2;
+    //     }else if(bed.indexOf("3")!==-1){
+    //         flag = 3;
+    //     }else if(bed.indexOf("4")!==-1){
+    //         flag = 0;
+    //     }else {
+    //         flag = 0;
+    //     }
+    //
+    //     if(this.bedLine.id.indexOf('SpO2')!==-1){
+    //         return parseOriginData(CONST_SPO2_DATA_ORIGIN[flag])
+    //     }else if(this.bedLine.id.indexOf('RESP')!==-1){
+    //         let data =parseOriginData(CONST_RESP_DATA_ORIGIN[this.index]);
+    //         this.index++;
+    //         if(this.index>=CONST_RESP_DATA_ORIGIN.length){
+    //             this.index = 0;
+    //         }
+    //         return data;
+    //
+    //     }else if(this.bedLine.id.indexOf('ECG')!==-1){
+    //         return parseOriginData(CONST_ECG_DATA_ORIGIN[flag])
+    //     }else if(this.bedLine.id.indexOf('ART')!==-1){
+    //         return parseOriginData(CONST_ART_DATA_ORIGIN[flag])
+    //     }
+    // };
 
     addData = (id,arr) => {
         //console.log('addData',arr.length);
