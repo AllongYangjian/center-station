@@ -51,6 +51,7 @@ function doLogin() {
         data: $("#loginForm").serialize(),
         dataType: "JSON",
         success: function (data) {
+            // localStorage.setItem("sess",JSON.stringify(data));
             if (data.code === "500") {
                 $(".login_error").text(data.message);
                 $(".login_error").show();
@@ -59,7 +60,7 @@ function doLogin() {
             }
 
         },
-        error:errorHandler
+        error: errorHandler
     });
 }
 
