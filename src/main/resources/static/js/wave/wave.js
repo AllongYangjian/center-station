@@ -201,7 +201,7 @@ function initParams() {
                 canvasObj.ctx = ctx;
                 canvasObj.width = canvasKey.width;
                 canvasObj.height = canvasKey.height;
-                canvasObj.maxHeight = 160;
+                canvasObj.maxHeight = 100;
                 canvasObj.frameSize = key.frameSize;
                 canvasObj.bed= p.bed;
 
@@ -637,7 +637,11 @@ class WaveView2 {
     constructor(y_offset, step, speedRatio,bedLine,index) {
         this.lineCtx = bedLine.ctx;
         this.bedLine = bedLine;
-        this.itemHeight = bedLine.height;
+        if(bedLine.height>=bedLine.maxHeight){
+            this.itemHeight = bedLine.maxHeight;
+        }else {
+           this.itemHeight = bedLine.height;
+        }
         this.itemWidth = bedLine.width;
         // this.frameSize = frameSize;
         // this.yMax = yMax;
