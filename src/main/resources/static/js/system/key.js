@@ -79,7 +79,33 @@ const columns = [[
         field: 'scale',
         align: 'center',
         width: 1
+    },
+    {
+        title: '采样率',
+        field: 'frameSize',
+        align: 'center',
+        width: 1
+    },
+    {
+        title: '是否启用',
+        field: 'enable',
+        align: 'center',
+        width: 1
+    },
+    {
+        title: '操作',
+        field: 'edit',
+        align: 'center',
+        width: 1,
+        formatter:(value,row,index)=>{
+            if(row.enable){
+                return '<input type="button" value="禁用" style="color: red" onclick="updateKeyItem('+index+')">'
+            }else {
+                return '<input type="button" value="启用" style="color: green" onclick="updateKeyItem('+index+')">'
+            }
+        }
     }
+
 ]];
 
 const enableData = [
@@ -203,6 +229,7 @@ function bindKeyFormData() {
         $("#position").numberspinner('setValue', currentItem.position);
         $("#wave").combobox('setValue', currentItem.wave);
         $("#scale").numberspinner('setValue', currentItem.scale);
+        $("#frameSize").numberspinner('setValue', currentItem.frameSize);
     }
 }
 
@@ -223,6 +250,7 @@ function resortKeyFormData() {
     $("#position").numberspinner('setValue', '');
     $("#wave").combobox('setValue', '');
     $("#scale").numberspinner('setValue', '');
+    $("#frameSize").numberspinner('setValue', '');
 }
 
 /**
@@ -352,5 +380,12 @@ function doDeleteKeyRecord() {
         },
         error: errorHandler
     })
+}
+
+function updateKeyItem(index) {
+    $keyTable.datagrid('selectRow',index);
+    let rows = $keyTable.datagrid('getChecked');
+    rows[0].enable = !rows[0].enable
+    doSaveOrUpdateKeyInfo(rows[0],'put');
 }
 

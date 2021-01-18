@@ -4,14 +4,27 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.allong.centerstation.domain.entity.TemplateDetail">
+        <id column="id" property="id"/>
         <result column="temp_id" property="tempId" />
+        <result column="device_id" property="deviceId"/>
         <result column="key_id" property="keyId" />
+        <result column="code" property="code" />
+        <result column="name" property="name" />
+        <result column="key_color" property="keyColor" />
+        <result column="key_size" property="keySize" />
+        <result column="min" property="min" />
+        <result column="max" property="max" />
+        <result column="position" property="position" />
+        <result column="wave" property="wave" />
+        <result column="scale" property="scale" />
+        <result column="unit" property="unit" />
         <result column="type" property="type" />
+        <result column="frame_size" property="frameSize"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        temp_id, key_id,type
+       id, temp_id, device_id,key_id, code, name, key_color, key_size, min, max, position, wave, scale, unit, type,frame_size
     </sql>
 
 </mapper>

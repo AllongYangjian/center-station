@@ -23,16 +23,21 @@ public class PatientServiceImpl extends ServiceImpl<PatientMapper, Patient> impl
 
     @Override
     public List<Patient> listByHid(Integer hid) {
-        return baseMapper.selectList(new QueryWrapper<Patient>().eq("hid", hid));
+        return baseMapper.selectList(new QueryWrapper<Patient>().eq("hid", hid).eq("status",1));
     }
 
     @Override
-    public List<PatientDetail> listDetail() {
-        return baseMapper.listDetail();
+    public List<PatientDetail> listDetail(Integer status) {
+        return baseMapper.listDetail(status);
     }
 
     @Override
-    public List<PatientDetail> listDetailByHid(Integer hid) {
-        return baseMapper.listDetailByHid(hid);
+    public List<PatientDetail> listDetailByHid(Integer hid,Integer status) {
+        return baseMapper.listDetailByHid(hid,status);
+    }
+
+    @Override
+    public List<PatientDetail> listDetailByIds(List<Integer> pidList) {
+        return baseMapper.listDetailByIds(pidList);
     }
 }

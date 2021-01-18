@@ -49,6 +49,7 @@ public class DeviceKeyController {
     @PostMapping
     @Log("保存设备关键字")
     public ResponseEntity<Object> save(@RequestBody DeviceKey deviceKey) {
+        deviceKey.setEnable(true);
         return new ResponseEntity<>(new Result.Builder<>().setData(deviceKey.insert()).buildSaveSuccess(), HttpStatus.OK);
     }
 

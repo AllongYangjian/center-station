@@ -19,8 +19,34 @@ var data = [
                 url: '/config/template'
             },
             {
+                text: '床位选择',
+                url: '/config/bed'
+            },
+            {
+                text: '床位绑定',
+                url: '/config/bind'
+            },
+            {
+                text: '阀值设置',
+                url: '/config/threshold'
+            },
+            {
+                text: '报警设置',
+                url: '/config/alarm'
+            }
+        ]
+    },
+    {
+        text: '患者',
+        iconCls: 'icon-user',
+        children: [
+            {
                 text: '病人录入',
-                url: '/config/patient'
+                url: '/patient/import'
+            },
+            {
+                text: '历史查看',
+                url: '/patient/history'
             }
         ]
     },

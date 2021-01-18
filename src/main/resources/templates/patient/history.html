@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>病人</title>
+    <script type="text/javascript" src="/static/js/common/title.js"></script>
+    <script type="text/javascript" src="/static/js/utils/utils.js"></script>
+    <style>
+
+        form#ff {
+            padding: 8px;
+        }
+
+        .form-item {
+            margin-bottom: 16px;
+        }
+
+        .form-item-title {
+            /*display: inline-block;*/
+            /*width: 100px;*/
+            /*text-align: right;*/
+            font-size: 18px;
+            /*font-weight: 700;*/
+            /*margin-bottom: 8px;*/
+        }
+    </style>
+</head>
+<body>
+
+<div id="patient_list" class="easyui-datagrid" fit="true" style="width: 70%;height: 100%"
+     toolbar="#patient_list_toolbar">
+
+</div>
+
+<div id="patient_list_toolbar" style="width: 100%;height: auto;padding: 5px">
+    <label>所在医院:</label>
+    <input class="easyui-combobox" id="hospital_criteria" style="width:200px;height:32px"
+           data-options="valueField:'id',textField:'name'">
+    <a class="easyui-linkbutton" id="query" data-options="iconCls:'icon-reload'">刷新</a>
+    <a class="easyui-linkbutton" id="reset" data-options="iconCls:'icon-redo'">重置</a>
+    <a class="easyui-linkbutton" id="record" data-options="iconCls:'icon-redo'">历史回顾</a>
+    <label style="float: right">
+        <input id="zyh" class="easyui-textbox" style="width: 200px" data-options="prompt:'请输入住院号'">
+        或
+        <input id="identity" class="easyui-textbox" style="width: 200px" data-options="prompt:'请输入身份证号码'">
+        <a class="easyui-linkbutton" id="find" style="margin-left: 16px" data-options="iconCls:'icon-search'">查找</a></label>
+</div>
+
+<script type="text/javascript" src="/static/js/patient/history.js"></script>
+</body>
+</html>

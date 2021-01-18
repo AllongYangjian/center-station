@@ -54,11 +54,11 @@ public class ViewController {
         return "system/key";
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_PATIENT')")
-    @RequestMapping("/config/patient")
-    @Log("病人")
-    public String configPatient() {
-        return "config/patient";
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_BED')")
+    @RequestMapping("/config/bed")
+    @Log("床位")
+    public String configBed() {
+        return "config/bed";
     }
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_TEMPLATE')")
@@ -66,6 +66,40 @@ public class ViewController {
     @Log("模板")
     public String configTemplate() {
         return "config/template";
+    }
+
+    @PreAuthorize("hasAnyRole('ROLE_BED')")
+    @RequestMapping("/config/bind")
+    @Log("绑定病人")
+    public String configBind() {
+        return "config/bind";
+    }
+
+//    @PreAuthorize("hasAnyRole('ROLE_BED')")
+    @RequestMapping("/config/threshold")
+    @Log("阀值设置")
+    public String configThreshold() {
+        return "config/threshold";
+    }
+
+    @RequestMapping("/config/alarm")
+    @Log("报警设置")
+    public String configAlarm() {
+        return "config/alarm";
+    }
+
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_PATIENT')")
+    @RequestMapping("/patient/import")
+    @Log("病人信息")
+    public String patientImport() {
+        return "patient/import";
+    }
+
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_PATIENT')")
+    @RequestMapping("/patient/history")
+    @Log("病人记录")
+    public String patientHistory() {
+        return "patient/history";
     }
 
     @RequestMapping("/wave/data")

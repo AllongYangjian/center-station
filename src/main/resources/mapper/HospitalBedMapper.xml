@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.allong.centerstation.mapper.HospitalBedMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.allong.centerstation.domain.entity.HospitalBed">
+        <id column="id" property="id" />
+        <result column="hid" property="hid" />
+        <result column="bed" property="bed" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, hid, bed
+    </sql>
+
+    <select id="listBedDetailByHid" resultType="com.allong.centerstation.domain.BedDetail">
+        SELECT
+            s.*,
+            h.NAME hospital_name
+            FROM
+            sys_hospital_bed s
+	    LEFT JOIN sys_hospital h ON s.hid = h.id
+	    <where>
+            <if test="hid!=null">
+                hid = #{hid}
+            </if>
+        </where>
+    </select>
+
+</mapper>

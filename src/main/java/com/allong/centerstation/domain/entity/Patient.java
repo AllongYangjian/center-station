@@ -73,6 +73,10 @@ public class Patient extends BaseEntity<Patient> {
      * 年龄
      */
     private Integer age;
+    /**
+     * 身份证号码
+     */
+    private String identity;
 
     /**
      * 主述

@@ -63,7 +63,7 @@ public class TestGenerator {
 
         PackageConfig packageConfig = new PackageConfig();
         packageConfig.setParent("com.allong.centerstation")
-                .setEntity("domain")
+                .setEntity("domain.entity")
                 .setMapper("mapper")
                 .setController("controller")
                 .setService("service")

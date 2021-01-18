@@ -1,0 +1,74 @@
+._container .bed-container{
+    width: 100%;
+    height: 100%;
+    position: relative;
+    /*background: grey;*/
+}
+.item-bed{
+    position: relative;
+    display: inline-block;
+    font-size: 16px;
+    background: white;
+    border-radius: 4px;
+    border:1px solid grey;
+    margin-left: 16px;
+    margin-bottom: 16px;
+    padding: 8px;
+    border-top: 2px solid #5395ff;
+}
+
+.item-bed:nth-child(-n+5){
+    margin-top: 16px;
+}
+
+.item-bed:hover{
+    cursor: pointer;
+    box-shadow: 5px 5px lightgray;
+}
+
+.item-bed .hospital{
+    font-size: 18px;
+    margin-bottom: 6px;
+    font-weight: bold;
+    color: #40485b;
+    text-overflow: ellipsis;
+    overflow: hidden;
+   white-space: nowrap;
+}
+
+.item-bed .bed{
+    color: #8c92a4;
+}
+
+.item-bed .checkbox{
+    position: absolute;
+    width: 32px;
+    height: 32px;
+    right: 16px;
+    bottom: 16px;
+    border: 0;
+}
+
+.item-bed:hover:before{
+    /*position: absolute;*/
+    /*content:attr(data-tooltip);*/
+    /*background:#d9444a;*/
+    /*color:#fff;*/
+    /*padding:.8em 1em;*/
+    /*left:0;*/
+    /*top:0;*/
+    /*margin-left:14px;*/
+    /*white-spack:pre;*/
+    /*z-index: 100;*/
+}
+/*.item-bed:hover:after{*/
+/*    content:" ";*/
+/*    position:absolute;*/
+/*    left:80%;*/
+/*    width:0;*/
+/*    height:0;*/
+/*    border-right:8px solid #d9444a;*/
+/*    border-top:8px solid transparent;*/
+/*    border-bottom:8px solid transparent;*/
+/*}*/
+

@@ -30,11 +30,21 @@ const ONE_POINT_PIXEL = 1.0;
 
 const TIME_INTERVAL = 12000;
 
+const IS_NEW_VERSION = true;
+
 /**
  * 供界面调用的方法
  */
 function bindViewData() {
     // drawEcgBg();
+    let showBg = localStorage.getItem("showBg");
+    if(showBg ==="true"){
+        drawEcgBg();
+        $("#showBg").attr("checked", true);
+    }else {
+        $("#showBg").attr("checked", false);
+    }
+
     ecg();
 }
 
@@ -140,12 +150,13 @@ function ecg() {
     initParams();
     //测试逻辑
     if (testMode) {
+        console.log('ect',mPatientList.length)
         for (let x = 0; x < mPatientList.length; x++) {
             let p = mPatientList[x];
             for (let y = 0; y < mWaveKeys.length; y++) {
                 let key = mWaveKeys[y];
                 let id = `line_${key.code}_${p.pid}`;
-                setTimeout(testData, 10 + x * 10 + y * 10, id, key.scale);
+                setTimeout(testData, 10 + x * 10 + y * 10, id, key.scale,x);
                 // testData(id);
                 // sleep(100);
             }
@@ -190,13 +201,20 @@ function initParams() {
                 canvasObj.ctx = ctx;
                 canvasObj.width = canvasKey.width;
                 canvasObj.height = canvasKey.height;
-                canvasObj.maxHeight = 160;
+                canvasObj.maxHeight = 100;
+                canvasObj.frameSize = key.frameSize;
+                canvasObj.bed= p.bed;
 
                 bedLineMap.set(id, canvasObj);
                 drawFillText(ctx, key.code);
 
-                if(key.code.indexOf('RESP')!==-1){
-                    ctx.translate(0, canvasKey.height/2);//平移坐标
+                if(IS_NEW_VERSION){
+                    //恢复坐标轴
+                    ctx.translate(0, -canvasKey.height / 2);//平移坐标
+                }else {
+                    //倒转Y轴
+                    ctx.translate(0, canvasKey.height / 2);//平移坐标
+                    ctx.scale(1,-1);
                 }
             }
 
@@ -217,12 +235,57 @@ function drawFillText(ctx, keyText) {
 var flag = 1;
 var flagIndex = 0;
 
+
 /**
  * 测试方法
  * @param id
  * @param scale
  */
-function testData(id, scale) {
+function testData(id, scale,index) {
+    // getOldArithmetic(id,scale);
+    if(IS_NEW_VERSION){
+        getNewArithmetic2(id,scale,index);
+    }else{
+        getNewArithmetic(id,scale);
+    }
+}
+
+
+function getNewArithmetic(id, scale) {
+    let bedLine = bedLineMap.get(id);
+    if (bedLine === null || bedLine === undefined) {
+        return;
+    }
+    bedLine.scale = scale;
+    bedLine.id = id;
+    let waveView;
+    if(id.indexOf('SpO2')!==-1){
+        waveView = new WaveView(0,one_time_points,1,bedLine);
+    }else if(id.indexOf("ECG")!==-1){
+        waveView = new WaveView(0,one_time_points,1,bedLine);
+    }else if(id.indexOf("ART")!==-1){
+        waveView = new WaveView(0,one_time_points,1,bedLine);
+    }else if(id.indexOf("RESP")!==-1){
+        waveView = new WaveView(0,one_time_points,1,bedLine);
+    }else {
+        waveView = new WaveView(0,one_time_points,1,bedLine);
+    }
+
+    waveView.loop();
+}
+
+function getNewArithmetic2(id,scale,index) {
+    let bedLine = bedLineMap.get(id);
+    if (bedLine === null || bedLine === undefined) {
+        return;
+    }
+    bedLine.scale = scale;
+    bedLine.id = id;
+    let waveView = new WaveView2(0,one_time_points,1,bedLine,index);
+    waveView.loop()
+}
+
+function getOldArithmetic(id,scale) {
     let bedLine = bedLineMap.get(id);
     if (bedLine === null || bedLine === undefined) {
         return;
@@ -284,7 +347,7 @@ function getOriginData() {
     if (flagIndex >= waveData.length) {
         flagIndex = 0;
     }
-    let data = waveData[flag];
+    let data = waveData[flagIndex];
     flagIndex++;
     return data;
 }
@@ -361,8 +424,360 @@ function loopData(bedLine, array) {
         ctx.clearRect(startX - 10, -1000, 20, 10000);
     }
     ctx.stroke();
-
     bedLine.lineTimes = (++lineTimes);
     setTimeout(loopData, time, bedLine, array);
 }
+class WaveView {
+    currentX = 0;
+    currentY = 0;
+    lastX = 0;
+    lastY = 0;
+    // 每次画几个点
+    step = 8;
+    // Y值最大值
+    yMax = 300;
+    // 每个波形的高度
+    itemHeight;
+    // 橡皮檫宽度
+    clearGap = 25;
+    y_offset = 0;
+    // 队列
+    queue = [];
+    strokeStyle = "#0f0";
+    lineCtx;
+    x_start = 45;
+    bedLine;
+    frameSize=256;//默认采样率
+
+
+    /**
+     * 构造方法
+     * @param frameSize 采样率
+     * @param yMax Y最大值
+     * @param y_offset  y偏移
+     * @param step 每次画几个点
+     * @param speedRatio 扫纸速度，默认 25mm/s (1秒25个小格子 每个小格子0.04s)。 0.5表示扫纸速度为 12.5mm/s。2表示扫纸速度为 50mm/s。
+     * @param bedLine 画笔
+     */
+    constructor(y_offset,step,speedRatio,bedLine) {
+
+        if( bedLine.frameSize!==undefined && bedLine.frameSize!==null){
+            this.frameSize =bedLine.frameSize;
+        }
+        this.lastY = bedLine.height/2;
+        this.step = step;
+        this.speedRatio = speedRatio;
+        this.drawInterval = Math.floor((1 / this.frameSize) * 1000 * this.step); // 绘制时间间隔
+        this.canvasWidth = canvasWidth;
+        this.itemHeight = bedLine.height;
+        this.lineCtx = bedLine.ctx;
+        // this.y_offset = -bedLine.height/2;
+        this.scale = bedLine.scale;
+        this.bedLine =bedLine;
+    }
+
+    draw = () => {
+        this.lineCtx.beginPath();
+        // this.lineCtx.strokeStyle = this.strokeStyle;
+        if (this.lastX === 0) {
+            console.log('----');
+            this.lineCtx.clearRect(this.x_start - 10, this.y_offset, this.clearGap, this.itemHeight);
+        } else {
+            this.lineCtx.clearRect(this.x_start + this.lastX, this.y_offset, this.clearGap,this.itemHeight);
+        }
+
+        for(let i = 0;i<this.step;i++){
+            if (this.queue.length === 0) {
+                this.currentY = this.itemHeight / 2;
+            } else {
+                // this.currentY = (-1.0 * this.queue.shift()) / this.yMax * this.itemHeight + this.itemHeight;
+                this.currentY = this.queue.shift(); //控制Y轴显示
+            }
+
+            if (this.currentY > this.itemHeight) {
+                this.currentY = this.itemHeight;
+            }
+
+            this.lineCtx.moveTo(this.x_start + this.lastX, this.y_offset + this.lastY);
+            this.lineCtx.lineTo(this.x_start + this.currentX, this.y_offset + this.currentY);
+
+            this.lastX = this.currentX;
+            this.lastY = this.currentY;
+            // console.log(this.lastX,this.lastY);
+            this.currentX += (5 * 25 * this.speedRatio) / this.frameSize;
+            // this.currentX += 2; //控制显示快慢
+            if (this.x_start + this.currentX >= this.canvasWidth -25) {
+                console.log('ssss');
+                this.currentX = 0;
+                this.lastX = 0;
+            }
+        }
+        this.lineCtx.stroke();
+    };
+
+    loop = () => {
+        this.draw();
+        setTimeout(this.loop, this.drawInterval);
+        if(this.queue.length<=this.step*2){
+            this.addData(this.getData3());
+        }
+        // TODO for test only 添加测试数据，实际中会从后台取
+        // this.addData(this.base64ToUint8Array('enp6enp6enp6enp6enp6enp7fX+ChYeJiouMjIuKiIaCf318e3p6enp6enp6enp6enp6enp6enp5d3Rxb4SXq77S5dK+q5eEcHJ1eHp6enp6enp6enp6enp6enp6enp6enp6enp6enp6ent8fH6Ag4WGiIyPkJKVlpiZmZqbnJ2cm5mZmJaVkpGOioeFgX98e3p6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6eg=='));
+    }
+
+
+
+    getData = ()=>{
+        let data = getOriginData();
+        // console.log('getData',data);
+        return this.parseData(data);
+    };
+
+    getData2 = ()=>{
+        let data = getRandomArray(this.bedLine.id);
+        return this.parseData(data);
+    };
+
+    getData3 = ()=>{
+        let bed = this.bedLine.bed;
+        console.log('getData3',bed);
+        let index = 0;
+        if(bed.indexOf("1")!==-1){
+            index = 1;
+        }else if(bed.indexOf("2")!==-1){
+            index = 2;
+        }else if(bed.indexOf("3")!==-1){
+            index = 3;
+        }else if(bed.indexOf("4")!==-1){
+            index = 0;
+        }else {
+            index = 0;
+        }
+        if(this.bedLine.id.indexOf('SpO2')!==-1){
+            return this.parseData(CONST_SPO2_DATA[index])
+        }else if(this.bedLine.id.indexOf('RESP')!==-1){
+            return this.parseData(CONST_RESP_DATA[index])
+        }else if(this.bedLine.id.indexOf('ECG')!==-1){
+            return this.parseData(CONST_ECG_DATA[index])
+        }else if(this.bedLine.id.indexOf('ART')!==-1){
+            return this.parseData(CONST_ART_DATA[index])
+        }
+    };
+
+
+
+    addData = (arr) => {
+        for (let i = 0; i < arr.length; i++) {
+            this.queue.push(arr[i]);
+        }
+    };
+
+    parseData  =(data)=>{
+        let array = new Array();
+        let max = 0;
+        for (let y = 0; y < data.length; y += 2) {
+            // 将值装换成负数，然后加上上限，这样就可以将数据倒转，不会导致波峰波谷颠倒
+            // array.push(-(parseInt(data.substr(y, 2), 16) / this.scale));
+            array.push(parseInt(data.substr(y, 2), 16) / this.scale)
+        }
+        return array;
+    }
+
+    base64ToUint8Array=(base64String)=> {
+        const padding = '='.repeat((4 - base64String.length % 4) % 4);
+        const base64 = (base64String + padding)
+            .replace(/\-/g, '+')
+            .replace(/_/g, '/');
+
+        const rawData = window.atob(base64);
+        const outputArray = new Uint8Array(rawData.length);
+
+        for (let i = 0; i < rawData.length; ++i) {
+            outputArray[i] = rawData.charCodeAt(i);
+        }
+        let sum = 0;
+        outputArray.forEach(item=>sum+=item);
+        this.yMax = sum/outputArray.length;
+        return outputArray;
+    }
+
+}
+
+class WaveView2 {
+    currentX = 0;
+    currentY = 0;
+    lastX = 0;
+    lastY = 0;
+    // 每次画几个点
+    step = 10;
+    // Y值最大值
+    yMax = 300;
+    // 每个波形的高度
+    itemHeight = 100;
+    itemWidth = 500;
+    frameSize = 256;//默认采样率
+    // 橡皮檫宽度
+    clearGap = 20;
+    y_offset = 0;
+    // 队列
+    queue = [];
+    bedLine;
+    x_start = 45;
+    grid_width = 5;
+    dataIndex;//模拟数据
+
+    /**
+     * @param frameSize 1秒多少个点
+     * @param yMax
+     * @param y_offset y偏移
+     * @param step 每次画几个点
+     * @param speedRatio 扫纸速度，默认 25mm/s (1秒25个小格子 每个小格子0.04s)。 0.5表示扫纸速度为 12.5mm/s。2表示扫纸速度为 50mm/s。
+     * @param bedLine canvas对象
+     */
+    constructor(y_offset, step, speedRatio,bedLine,index) {
+        this.lineCtx = bedLine.ctx;
+        this.bedLine = bedLine;
+        if(bedLine.height>=bedLine.maxHeight){
+            this.itemHeight = bedLine.maxHeight;
+        }else {
+           this.itemHeight = bedLine.height;
+        }
+        this.itemWidth = bedLine.width;
+        // this.frameSize = frameSize;
+        // this.yMax = yMax;
+        this.lastY = this.itemHeight / 2;
+        this.y_offset = y_offset;
+        this.step = step;
+        this.speedRatio = speedRatio;
+        this.frameSize = bedLine.frameSize;
+        this.drawInterval = Math.floor((1 / this.frameSize) * 1000 * this.step); // 绘制时间间隔
+        this.dataIndex = index;
+    }
+
+    draw = () => {
+        this.lineCtx.beginPath();
+        if (this.lastX === 0) {
+            this.lineCtx.clearRect(this.x_start - 2, this.y_offset, this.clearGap, this.itemHeight);
+        } else {
+            this.lineCtx.clearRect(this.x_start + this.lastX, this.y_offset, this.clearGap, this.itemHeight);
+        }
+
+        for (let i = 0; i < this.step; i++) {
+            if (this.queue.length === 0) {
+                this.currentY = this.itemHeight / 2;
+            } else {
+                this.currentY = (-1.0 * this.queue.shift()) / this.yMax * this.itemHeight + this.itemHeight;
+            }
+
+            if (this.currentY > this.itemHeight) {
+                this.currentY = this.itemHeight;
+            }
+
+            this.lineCtx.moveTo(this.x_start + this.lastX, this.y_offset + this.lastY);
+            this.lineCtx.lineTo(this.x_start + this.currentX, this.y_offset + this.currentY);
+
+            this.lastX = this.currentX;
+            this.lastY = this.currentY;
+
+            this.currentX += (this.grid_width * 25 * this.speedRatio) / this.frameSize;
+            if (this.x_start + this.currentX >= this.itemWidth - 25) {
+                this.currentX = 0;
+                this.lastX = 0;
+            }
+        }
+
+        this.lineCtx.stroke();
+    }
+
+    loop = () => {
+        this.draw();
+        if(this.queue.length<this.step*2){
+            let data = this.getData5();
+            // this.frameSize = data.frameSize;
+            this.yMax = data.max;
+            // this.drawInterval = Math.floor((1 / this.frameSize) * 1000 * this.step); // 绘制时间间隔
+            this.addData(data.waveId,data.data);
+        }
+        setTimeout(this.loop, this.drawInterval);
+    }
+
+    index = 0;
+
+    getData5 = ()=>{
+        console.log(this.bedLine.id,this.index,this.dataIndex)
+        let originData = USER_1_DATA[this.dataIndex]; //二位数组
+        let flag = 0;
+        if(this.bedLine.id.indexOf('SpO2')!==-1){
+            flag = 0;
+        }else if(this.bedLine.id.indexOf('RESP')!==-1){
+            flag = 1;
+        }else if(this.bedLine.id.indexOf('ECG')!==-1){
+            flag = 2;
+        }else if(this.bedLine.id.indexOf('ART')!==-1){
+            flag = 3;
+        }else {
+            flag = 0;
+        }
+         let data = originData[flag];//获取元素是数据
+        let d = data[this.index];
+        if(d ===undefined || this.index>=d.length){
+            this.index = 0;
+            d = data[this.index];
+        }else {
+            this.index++;
+        }
+        return parseOriginData(d);
+    };
+
+    // index = 0;
+    // getData4=()=>{
+    //
+    //     let bed = this.bedLine.bed;
+    //     let flag = 0;
+    //     if(bed.indexOf("1")!==-1){
+    //         flag = 1;
+    //     }else if(bed.indexOf("2")!==-1){
+    //         flag = 2;
+    //     }else if(bed.indexOf("3")!==-1){
+    //         flag = 3;
+    //     }else if(bed.indexOf("4")!==-1){
+    //         flag = 0;
+    //     }else {
+    //         flag = 0;
+    //     }
+    //
+    //     if(this.bedLine.id.indexOf('SpO2')!==-1){
+    //         return parseOriginData(CONST_SPO2_DATA_ORIGIN[flag])
+    //     }else if(this.bedLine.id.indexOf('RESP')!==-1){
+    //         let data =parseOriginData(CONST_RESP_DATA_ORIGIN[this.index]);
+    //         this.index++;
+    //         if(this.index>=CONST_RESP_DATA_ORIGIN.length){
+    //             this.index = 0;
+    //         }
+    //         return data;
+    //
+    //     }else if(this.bedLine.id.indexOf('ECG')!==-1){
+    //         return parseOriginData(CONST_ECG_DATA_ORIGIN[flag])
+    //     }else if(this.bedLine.id.indexOf('ART')!==-1){
+    //         return parseOriginData(CONST_ART_DATA_ORIGIN[flag])
+    //     }
+    // };
+
+    addData = (id,arr) => {
+        //console.log('addData',arr.length);
+        let array = [];
+        for (let i = 0; i < arr.length; i++) {
+            let val = (-1.0 * arr[i]) / this.yMax * this.itemHeight + this.itemHeight;
+            array.push(val);
+            this.queue.push(arr[i]);
+        }
+        if(id === '1151'){
+            // console.log(array);
+        }
+
+    }
+}
+
+
+
 

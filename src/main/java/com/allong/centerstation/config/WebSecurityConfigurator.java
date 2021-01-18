@@ -3,8 +3,6 @@ package com.allong.centerstation.config;
 import com.allong.centerstation.handler.LoginFailureHandler;
 import com.allong.centerstation.handler.LoginSuccessHandler;
 import com.allong.centerstation.handler.LogoutSuccessHandler;
-import com.allong.centerstation.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;

@@ -52,6 +52,9 @@ const enableData = [
 
 var $templateTable;
 var currentItem;
+var cacheTempDetailData ;//用来缓存模板详情
+var currentTempDetailItem; //集体模板条目
+var cacheKeyDetailData;
 
 $(function () {
     initTemplateTable();
@@ -94,9 +97,19 @@ $(function () {
         $("#template_dialog").dialog('close');
     });
 
+    $("#template_item_save").on('click', () => {
+        updateTempDetailItemInfo();
+    });
+
+    $("#template_item_close").on('click', () => {
+        $("#template_detail_dialog").dialog('close');
+    });
+
     loadTemplateData();
 
     loadKeyDetail();
+    loadKeys();
+
 });
 
 function bindTemplateFormData() {
@@ -234,6 +247,21 @@ function initTemplateTable() {
                         field: 'scale',
                         align: 'center',
                         width: 1
+                    },
+                    {
+                        title: '采样率',
+                        field: 'frameSize',
+                        align: 'center',
+                        width: 1
+                    },
+                    {
+                        title: '编辑',
+                        field: 'edit',
+                        align: 'center',
+                        width: 1,
+                        formatter:(value,row,index)=>{
+                            return '<input type="button" onclick="editTempDetailItem('+row.id+')" value="编辑">';
+                        }
                     }
                 ]],
                 onResize: function () {
@@ -251,6 +279,8 @@ function initTemplateTable() {
         }
     });
 }
+
+
 
 function loadTempDetailData(row, table) {
     // $.ajax({
@@ -288,12 +318,13 @@ function loadTempDetailData(row, table) {
                 arr.push({...item, enable: false});
             })
         }
+        cacheTempDetailData = arr;
         table.datagrid({data: arr});
     });
 }
 
 /**
- * 夹杂波形数据
+ * 加载波形数据
  */
 function loadWaveKey() {
     $.ajax({
@@ -301,8 +332,8 @@ function loadWaveKey() {
         type: 'get',
         dataType: 'json',
         success: data => {
-            if (data.code === 200 && data.data.length > 0) {
-                let arr = data.data.map(item => item.id);
+            if (data.code === 200 && data.data!==null) {
+                let arr = data.data.map(item => item.keyId);
                 $("#waves").tagbox('setValues', arr);
             }
         },
@@ -319,8 +350,8 @@ function loadDataKey() {
         type: 'get',
         dataType: 'json',
         success: data => {
-            if (data.code === 200 && data.data.length > 0) {
-                let arr = data.data.map(item => item.id);
+            if (data.code === 200 && data.data!==null) {
+                let arr = data.data.map(item => item.keyId);
                 $("#data").tagbox('setValues', arr);
             }
         },
@@ -345,6 +376,59 @@ function loadTemplateData() {
     })
 }
 
+/**
+ * 编辑模板详情
+ */
+function editTempDetailItem(id) {
+    if(cacheTempDetailData!==null){
+        for(let x = 0;x<cacheTempDetailData.length;x++){
+            if(id === cacheTempDetailData[x].id){
+                currentTempDetailItem = cacheTempDetailData[x];
+                break;
+            }
+        }
+    }
+    if(cacheTempDetailData!==undefined){
+        //显示对话框
+        $("#template_detail_dialog").dialog({
+            onOpen:function () {
+                $("#keySize").numberspinner('setValue',currentTempDetailItem.keySize);
+                $("#scale").numberspinner('setValue',currentTempDetailItem.scale);
+            }
+        });
+        $("#template_detail_dialog").dialog('open');
+
+    }
+}
+
+/**
+ * 更新模板项目信息
+ */
+function updateTempDetailItemInfo() {
+    let form = $("#ff_deital");
+    if (form.form('validate')) {
+        let formData = form.serializeObject();
+        let data = {...currentTempDetailItem,...formData};
+
+        $.ajax({
+            url:'/api/template/detail',
+            type:'put',
+            data:JSON.stringify(data),
+            dataType:'json',
+            contentType:'application/json',
+            success:res=>{
+                showToast('提示',res.message);
+                if(res.code ===200){
+                    loadTemplateData();
+                }
+            },
+            error:errorHandler
+        })
+    } else {
+        showToast('警告', '存在校验未通过项目');
+    }
+}
+
 
 /**
  * 获取关键字详情
@@ -366,6 +450,20 @@ function loadKeyDetail() {
             }
         },
         error:errorHandler
+    })
+}
+
+function loadKeys() {
+    $.ajax({
+        url: "/api/key",
+        type: 'get',
+        dataType: 'json',
+        success: data => {
+            if (data.code === 200) {
+                cacheKeyDetailData =data.data;
+            }
+        },
+        error: errorHandler
     })
 }
 
@@ -407,19 +505,37 @@ function doSaveOrUpdateTemplateInfo(formData, method) {
             if (data.code === 200) {
                 let id = data.data;
                 let array = [];
+                let array1 = [];
+                let array2 = [];
 
                 let arr1 = $("#waves").tagbox('getValues');
+
+                for(let x = 0;x<cacheKeyDetailData.length;x++){
+                    for(let  y = 0;y<arr1.length;y++){
+                        if(cacheKeyDetailData[x].id.toString() === arr1[y]){
+                            array1.push(cacheKeyDetailData[x]);
+                            break;
+                        }
+                    }
+                }
+                array1.forEach(item => {
+                    array.push({ tempId: id,...item, type: 1,keyId:item.id})
+                });
+
                 let arr2 = $("#data").tagbox('getValues');
-
-                arr1.forEach(item => {
-                    array.push({keyId: item, tempId: id, type: 1})
+                for(let x = 0;x<cacheKeyDetailData.length;x++){
+                    for(let  y = 0;y<arr2.length;y++){
+                        if(cacheKeyDetailData[x].id.toString() === arr2[y]){
+                            array2.push(cacheKeyDetailData[x]);
+                            break;
+                        }
+                    }
+                }
+                array2.forEach(item => {
+                    array.push({tempId: id,...item, type: 2,keyId:item.id})
                 });
 
-                arr2.forEach(item => {
-                    array.push({keyId: item, tempId: id, type: 2})
-                });
-
-                console.log('doSaveOrUpdateTemplateInfo', data, arr1, arr2);
+                console.log('doSaveOrUpdateTemplateInfo', cacheKeyDetailData,array,arr1,arr2);
                 saveTempDetailInfo(array);
 
             }

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.allong.centerstation.mapper.BedThresholdMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.allong.centerstation.domain.entity.BedThreshold">
+        <id column="id" property="id" />
+        <result column="patient_id" property="patientId" />
+        <result column="key_id" property="keyId" />
+        <result column="min" property="min" />
+        <result column="max" property="max" />
+        <result column="enable" property="enable" />
+        <result column="create_time" property="createTime" />
+        <result column="create_user" property="createUser" />
+        <result column="update_time" property="updateTime" />
+        <result column="update_user" property="updateUser" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, patient_id, key_id, min, max, enable, create_time, create_user, update_time, update_user
+    </sql>
+    <select id="listDetails" resultType="com.allong.centerstation.domain.BedThresholdDetail">
+        select * from view_bed_threshold
+            where   status = 1
+            <if test="hid!=null">
+                and   hid = #{hid}
+            </if>
+    </select>
+
+</mapper>

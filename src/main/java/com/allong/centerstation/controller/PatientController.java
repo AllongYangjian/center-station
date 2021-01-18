@@ -38,9 +38,9 @@ public class PatientController {
     @Autowired
     private UserInfoService infoService;
 
-    @GetMapping
+    @GetMapping("/status/{status}")
     @Log("查询病人列表")
-    public ResponseEntity<Object> list() {
+    public ResponseEntity<Object> listByType(@PathVariable("status")Integer status) {
         //管理员，获取所有病人， 其他人，获取自己病人的病人
         List<Role> roles = SecurityUtils.getRoles();//如果是管理员
         boolean contain = false;
@@ -53,10 +53,10 @@ public class PatientController {
             }
         }
         if (contain) {
-            return new ResponseEntity<>(new Result.Builder<>().setData(patientService.listDetail()).buildQuerySuccess(), HttpStatus.OK);
+            return new ResponseEntity<>(new Result.Builder<>().setData(patientService.listDetail(status)).buildQuerySuccess(), HttpStatus.OK);
         } else {
             UserInfo userInfo = infoService.loadUserByUserId(SecurityUtils.getCurrentUsername());
-            return new ResponseEntity<>(new Result.Builder<>().setData(patientService.listDetailByHid(userInfo.getHid())).buildQuerySuccess(), HttpStatus.OK);
+            return new ResponseEntity<>(new Result.Builder<>().setData(patientService.listDetailByHid(userInfo.getHid(),status)).buildQuerySuccess(), HttpStatus.OK);
         }
     }
 
