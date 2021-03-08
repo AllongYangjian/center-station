@@ -2,13 +2,13 @@ var socket;
 
 function connectServer() {
     if ('WebSocket' in window) {
-        let url = 'ws://192.168.10.105:8001/ws/wave';
+        let url = 'ws://192.168.10.154:12392/ws/wave';
         socket = new WebSocket(url);
         socket.onopen = () => {
             console.log("open");
         };
         socket.onmessage = (e) => {
-            console.log(e.data);
+            // console.log('connectServer', new Date().getTime());
             parseWaveDataFromServer(e.data);
         };
         socket.onclose = ev => {
@@ -38,7 +38,6 @@ function parseWaveDataFromServer(data) {
         bedDatas.forEach(item => {
             let patient = parsePatientInfo(item);
             parseWaveData(item.Wave, patient);
-
         })
 
     }
@@ -51,7 +50,7 @@ function parsePatientInfo(json) {
             patient[key] = json[key];
         }
     }
-    console.log('parsePatientInfo', patient);
+    // console.log('parsePatientInfo', patient);
     return patient;
 }
 
@@ -63,15 +62,21 @@ function parseWaveData(waveArray, patient) {
             let bed = patient.BedLabel;
             let key = item.Name;
             let arr = item.Data;
-
+            let cyl = item.Samplerate;
             if (key === 'ECG I') {
-                bed = '1';
-                key = 'key1';
-                updateWaveData(bed, key, arr, 20);
-            } else if (key === 'TThor Imped') {
-                bed = '1';
-                key = 'key2';
+                console.log(item.Name, new Date().getTime());
+                key = 'ECG';
+                bed = '123456';
                 updateWaveData(bed, key, arr, 2);
+            }else if(key === 'Pleth'){
+                bed = '123456';
+                key = 'SpO2';
+                updateWaveData(bed, key, arr, 1);
+            }
+            else if (key === 'ABP') {
+                bed = '123456';
+                key = 'RESP';
+                updateWaveData(bed, key, arr, 1);
             }
         })
 

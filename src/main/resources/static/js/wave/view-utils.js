@@ -22,6 +22,7 @@ $(function () {
         clearData(true);
         restoreData();
         close();
+        closeSocket();
     };
 
     window.onresize = ()=>{
@@ -31,11 +32,12 @@ $(function () {
         calculateViewSize();
         loadPatientDataAndTempData();
         // close();
+        // closeSocket();
     };
     initView();
     calculateViewSize();
     loadPatientDataAndTempData();
-    // connectServer();
+    connectServer();
 
 });
 
@@ -238,10 +240,10 @@ function inflateViewByData() {
     // for (var x = 0; x < mData.length; x++) {
     //     bedContainView.append($(getItemView(mData[x])));
     // }
-    id1.push(setInterval(startTest, 20*1000))
-    id1.push(setInterval(startTest2, 30 * 60 * 1000));
-    startTest();
-    startTest2();
+    // id1.push(setInterval(startTest, 20*1000));
+    // id1.push(setInterval(startTest2, 30 * 60 * 1000));
+    // startTest();
+    // startTest2();
     clearData(false);
 }
 
