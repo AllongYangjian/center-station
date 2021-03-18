@@ -1,5 +1,6 @@
 package com.allong.centerstation.service;
 
+import com.allong.centerstation.domain.BedCriteria;
 import com.allong.centerstation.domain.entity.DeptBed;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -20,4 +21,7 @@ public interface DeptBedService extends IService<DeptBed> {
     DeptBed getByDeptIdAndBed(Integer deptId, String bedNo);
 
     boolean removeAllByDeptId(Integer deptId);
+
+    boolean saveListByDeptId(Integer hid,Integer deptId, BedCriteria criteria);
+
 }

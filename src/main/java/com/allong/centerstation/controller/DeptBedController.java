@@ -2,6 +2,7 @@ package com.allong.centerstation.controller;
 
 
 import com.allong.centerstation.common.Result;
+import com.allong.centerstation.domain.BedCriteria;
 import com.allong.centerstation.domain.entity.DeptBed;
 import com.allong.centerstation.logger.annotation.Log;
 import com.allong.centerstation.service.DeptBedService;
@@ -107,6 +108,18 @@ public class DeptBedController {
             return new ResponseEntity<>(new Result.Builder<>().buildDeleteSuccess(), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(new Result.Builder<>().buildDeleteFailed(), HttpStatus.OK);
+        }
+    }
+
+    @PostMapping("/{hid}/{deptId}")
+    public ResponseEntity<Object> saveList(@PathVariable("hid")Integer hid,
+                                           @PathVariable("deptId")Integer deptId,
+                                           @RequestBody BedCriteria criteria){
+        boolean result = deptBedService.saveListByDeptId(hid,deptId,criteria);
+        if (result) {
+            return new ResponseEntity<>(new Result.Builder<>().buildSaveSuccess(), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(new Result.Builder<>().buildSaveFailed(), HttpStatus.OK);
         }
     }
 
