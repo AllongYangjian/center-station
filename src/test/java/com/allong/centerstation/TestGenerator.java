@@ -33,10 +33,10 @@ public class TestGenerator {
 
         //配置全局
         GlobalConfig gc = new GlobalConfig();
-        gc.setOutputDir("E:\\SourceCode\\CenterStation\\center-station\\test")
+        gc.setOutputDir("E:\\SourceCode\\CenterStation\\center-station\\app\\src\\main\\java")
                 .setAuthor("杨建")
                 .setOpen(true)
-                .setFileOverride(true)
+                .setFileOverride(false)
                 .setActiveRecord(true)
                 .setDateType(DateType.ONLY_DATE)
                 .setServiceName("%sService")
@@ -46,7 +46,7 @@ public class TestGenerator {
                 .setBaseColumnList(true);
         //配置数据源
         DataSourceConfig dataSourceConfig = new DataSourceConfig();
-        dataSourceConfig.setUrl("jdbc:mysql:///center_station?serverTimezone=UTC")
+        dataSourceConfig.setUrl("jdbc:mysql://192.168.10.232/center_station?serverTimezone=Asia/Shanghai")
                 .setDriverName("com.mysql.cj.jdbc.Driver")
                 .setUsername("root")
                 .setPassword("allong")
@@ -59,7 +59,8 @@ public class TestGenerator {
                 .setTablePrefix("sys_")
                 .setEntityLombokModel(true)
                 .setSuperEntityClass(BaseEntity.class)
-                .setRestControllerStyle(true);
+                .setRestControllerStyle(true)
+                .setInclude("sys_dept","sys_dept_bed");
 
         PackageConfig packageConfig = new PackageConfig();
         packageConfig.setParent("com.allong.centerstation")

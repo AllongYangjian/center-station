@@ -27,10 +27,13 @@
 </head>
 <body>
 <div class="easyui-layout" fit="true">
-    <div id="hospital_list" class="easyui-datagrid" data-options="region:'west'" style="width: 60%;height: 100%" toolbar="#hospital_list_toolbar">
+    <div id="hospital_list" class="easyui-datagrid" data-options="region:'west'" style="width: 30%;height: 100%" toolbar="#hospital_list_toolbar">
 
     </div>
-    <div id="bed_list" class="easyui-datagrid" data-options="region:'east'" style="width: 40%;height: 100%" toolbar="#bed_list_toolbar">
+    <div id="dept_list" class="easyui-datagrid" data-options="region:'center'" style="width: 40%;height: 100%" toolbar="#dept_list_toolbar">
+
+    </div>
+    <div id="bed_list" class="easyui-datagrid" data-options="region:'east'" style="width: 30%;height: 100%" toolbar="#bed_list_toolbar">
 
     </div>
 </div>
@@ -41,6 +44,13 @@
     <a class="easyui-linkbutton" id="edit" data-options="iconCls:'icon-edit'">修改</a>
     <a class="easyui-linkbutton" id="delete" data-options="iconCls:'icon-remove'">删除</a>
     <a class="easyui-linkbutton" id="query" data-options="iconCls:'icon-reload'">刷新</a>
+</div>
+
+<div id="dept_list_toolbar" style="padding: 5px;height: auto">
+    <a class="easyui-linkbutton" id="dept_add" data-options="iconCls:'icon-add'">新增</a>
+    <a class="easyui-linkbutton" id="dept_edit" data-options="iconCls:'icon-edit'">修改</a>
+    <a class="easyui-linkbutton" id="dept_delete" data-options="iconCls:'icon-remove'">删除</a>
+    <a class="easyui-linkbutton" id="dept_query" data-options="iconCls:'icon-reload'">刷新</a>
 </div>
 
 <div id="bed_list_toolbar" style="padding: 5px;height: auto">
@@ -98,6 +108,56 @@
         </div>
     </form>
 </div>
+
+<div id="dept_dialog" class="easyui-dialog" title="科室信息"
+     data-options="resizable:true,modal:true,closed:true,border:false"
+     style="width: 400px;height: 400px">
+    <form id="dept_ff" method="post">
+        <table style="width: 100%" cellspacing="10">
+            <tr class="form-item">
+                <td class="form-item-title">ID:</td>
+                <td><input class="easyui-textbox" id="dept_id" name="id" style="width: 100%;height:32px"
+                           data-options="prompt:'该项为系统生成，无需输入',editable:false"></td>
+            </tr>
+            <tr>
+                <td class="form-item-title">
+                    科室代码:
+                </td>
+                <td>
+                    <input class="easyui-textbox" id="dept_code" name="deptCode" style="width:100%;height:32px"
+                           data-options="prompt:'请输入科室代码',required:true">
+                </td>
+            </tr>
+            <tr>
+                <td class="form-item-title">
+                    科室名称:
+                </td>
+                <td>
+                    <input class="easyui-textbox" id="dept_name" name="deptName" style="width:100%;height:32px"
+                           data-options="prompt:'请输入科室名称',required:true">
+                </td>
+            </tr>
+            <tr>
+                <td class="form-item-title">
+                    WebSocket Url:
+                </td>
+                <td>
+                    <input class="easyui-textbox" id="dept_url" name="wsUrl" style="width:100%;height:32px"
+                           data-options="prompt:'请输入地址',required:true">
+                </td>
+            </tr>
+        </table>
+        <div style="margin-top: 16px">
+            <a href="#" id="dept_save" class="easyui-linkbutton" iconCls="icon-ok"
+               style="width:100%;height:32px">保存</a>
+        </div>
+        <div style="margin-top: 16px">
+            <a href="#" id="dept_close" class="easyui-linkbutton" iconCls="icon-cancel"
+               style="width:100%;height:32px">取消</a>
+        </div>
+    </form>
+</div>
+
 <div id="bed_dialog" class="easyui-dialog" title="床位信息"
      data-options="resizable:true,modal:true,closed:true,border:false"
      style="width: 400px;height: 250px">

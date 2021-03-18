@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.allong.centerstation.mapper.DeptMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.allong.centerstation.domain.entity.Dept">
+        <id column="id" property="id" />
+        <result column="hospital_id" property="hospitalId" />
+        <result column="dept_code" property="deptCode" />
+        <result column="dept_name" property="deptName" />
+        <result column="remark" property="remark" />
+        <result column="ws_url" property="wsUrl" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, hospital_id, dept_code, dept_name, remark, ws_url
+    </sql>
+
+</mapper>

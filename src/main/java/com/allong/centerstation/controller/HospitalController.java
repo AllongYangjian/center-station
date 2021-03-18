@@ -86,7 +86,7 @@ public class HospitalController {
     @Log("删除指定医院信息")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public ResponseEntity<Object> delete(@PathVariable("hospitalId") Integer hospitalId) {
-        return new ResponseEntity<>(new Result.Builder<>().setData(hospitalService.removeById(hospitalId)).buildDeleteSuccess(), HttpStatus.OK);
+        return new ResponseEntity<>(new Result.Builder<>().setData(hospitalService.cascadeDelete(hospitalId)).buildDeleteSuccess(), HttpStatus.OK);
     }
 
     @DeleteMapping

@@ -5,6 +5,7 @@ document.write('<script src="/static/easyui/datagrid-filter.js"></script>');
 document.write('<link rel="stylesheet" type="text/css" href="/static/css/base.css"/>');
 // document.write('<script src="/static/js/common/common-utils.js"></script>');
 document.write('<script src="/static/js/utils/utils.js"></script>');
+document.write('<script src="/static/js/utils/api-utils.js"></script>');
 document.write('<link rel="stylesheet" type="text/css" href="/static/easyui/themes/icon.css"/>');
 document.write('<link rel="stylesheet" type="text/css" href="/static/easyui/themes/default/easyui.css"/>');
 document.write('<script type="text/javascript" src="/static/easyui/locale/easyui-lang-zh_CN.js"></script>');
@@ -35,7 +36,16 @@ function showDeleteToast(callback) {
     })
 }
 
+function showLoading() {
+    $.messager.progress({title: '正在操作', msg: '操作中...'});
+}
+
+function closeLoading() {
+    $.messager.progress('close');
+}
+
 function errorHandler(xhr, status, error) {
+    closeLoading();
     if (xhr.status === 403) {
         showToast('提示', '权限不足，无法访问');
     } else if (xhr.status === 500) {

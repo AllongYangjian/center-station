@@ -13,4 +13,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface HospitalService extends IService<Hospital> {
 
+    boolean cascadeDelete(Integer hospitalId);
 }

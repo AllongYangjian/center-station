@@ -29,13 +29,48 @@ var columns = [[
     }
 ]];
 
+var deptColumns = [[
+    {
+        title: 'ID',
+        field: 'id',
+        align: 'center',
+        width: 1,
+        hidden: true
+    },
+    {
+        title: '代码',
+        field: 'deptCode',
+        align: 'center',
+        width: 1
+    },
+    {
+        title: '名称',
+        field: 'deptName',
+        align: 'center',
+        width: 1
+    },
+    {
+        title: '说明',
+        field: 'remark',
+        align: 'center',
+        width: 1
+    },
+    {
+        title: '地址',
+        field: 'wsUrl',
+        align: 'center',
+        width: 2
+    },
+
+]];
+
 var bedColumns = [[
     {
         title: 'ID',
         field: 'id',
         align: 'center',
         width: 1,
-        hidden:true
+        hidden: true
     },
     {
         title: '医院',
@@ -53,12 +88,16 @@ var bedColumns = [[
 
 var $hospitalTable;
 var $bedTable;
-var currentItem,currentBedItem;
+var $deptTable;
+var currentItem, currentBedItem, currentDeptItem;
 
 $(function () {
     initHospitalTable();
     initHospitalToolbar();
     loadHospitalData();
+
+    initDeptToolbar();
+    initDeptTable();
 
     initBedListTable();
     initBedListTableToolbar();
@@ -131,7 +170,6 @@ function showHospitalDialog() {
 }
 
 
-
 function initHospitalTable() {
     $hospitalTable = $("#hospital_list");
     $hospitalTable.datagrid({
@@ -148,7 +186,7 @@ function initHospitalTable() {
         onCheck: (index, data) => {
             currentItem = data;
             //查找医院床位信息
-            queryHospitalBedByHid();
+            loadDeptListByHid(data.id);
         },
         onUncheck: (index, data) => {
             currentItem = undefined;
@@ -163,20 +201,162 @@ function initHospitalTable() {
  */
 function queryHospitalBedByHid() {
     let url;
-    if(currentItem){
-        url = '/api/bed/'+currentItem.id;
-    }else {
+    if (currentItem) {
+        url = '/api/bed/' + currentItem.id;
+    } else {
         url = '/api/bed';
     }
     $.ajax({
-        url:url,
-        type:'get',
-        dataType:'json',
-        success:data=>{
-            $bedTable.datagrid({data:data.data});
+        url: url,
+        type: 'get',
+        dataType: 'json',
+        success: data => {
+            $bedTable.datagrid({data: data.data});
         },
-        error:errorHandler
+        error: errorHandler
     })
+}
+
+function loadDeptListByHid(hid) {
+
+    queryDeptListByHid(hid, function (data) {
+        showToast('提示', data.message);
+        if (data.code === 200) {
+            $deptTable.datagrid({data: data.data});
+        } else {
+            $deptTable.datagrid({data: []});
+        }
+    });
+}
+
+
+function initDeptToolbar() {
+    $("#dept_save").on('click', function () {
+        saveOrUpdateDeptInfo();
+    });
+
+    $("#dept_close").on('click', function () {
+        $("#dept_dialog").dialog('close');
+    });
+
+    $("#dept_query").on('click', function () {
+        if (currentItem === undefined || currentItem === null) {
+            showToast('提示', '请先选择医院');
+            return;
+        }
+        loadDeptListByHid(currentItem.id);
+    });
+
+    $("#dept_add").on('click', function () {
+        currentDeptItem = undefined;
+        if (currentItem === undefined || currentItem === null) {
+            showToast('提示', '请先选择医院');
+            return;
+        }
+        $("#dept_dialog").dialog('open');
+    });
+
+    $("#dept_edit").on('click', function () {
+        if (currentDeptItem === undefined || currentDeptItem === null) {
+            showToast('提示', '请先选择科室');
+            return;
+        }
+        $("#dept_dialog").dialog('open');
+    });
+
+    $("#dept_delete").on('click', function () {
+        if (currentDeptItem === undefined || currentDeptItem === null) {
+            showToast('提示', '请先选择科室');
+            return;
+        }
+        showDeleteToast(deleteDeptInfo);
+    });
+
+
+    $("#dept_dialog").dialog({
+        onOpen: function () {
+            if (currentDeptItem) {
+                $("#dept_id").textbox('setValue', currentDeptItem.id);
+                $("#dept_code").textbox('setValue', currentDeptItem.deptCode);
+                $("#dept_name").textbox('setValue', currentDeptItem.deptName);
+                $("#dept_url").textbox('setValue', currentDeptItem.wsUrl);
+            } else {
+                $("#dept_id").textbox('setValue', '');
+                $("#dept_code").textbox('setValue', '');
+                $("#dept_name").textbox('setValue', '');
+                $("#dept_url").textbox('setValue', '');
+            }
+        },
+        onClose: function () {
+            $("#dept_id").textbox('setValue', '');
+            $("#dept_code").textbox('setValue', '');
+            $("#dept_name").textbox('setValue', '');
+            $("#dept_url").textbox('setValue', '');
+        }
+    });
+}
+
+function initDeptTable() {
+    $deptTable = $("#dept_list");
+    $deptTable.datagrid({
+        rownumbers: true,
+        showFooter: true,
+        fitColumns: true,
+        pagination: true,
+        remoteSort: false,
+        singleSelect: true,
+        pagePosition: 'bottom',
+        pageNumber: 1,
+        pageSize: 20,
+        columns: deptColumns,
+        onCheck: (index, data) => {
+            currentDeptItem = data;
+            //查找医院床位信息
+            // queryHospitalBedByHid();
+        },
+        onUncheck: (index, data) => {
+            currentItem = undefined;
+        },
+        loadFilter: pagerFilter
+    });
+}
+
+function saveOrUpdateDeptInfo() {
+    let form = $("#dept_ff");
+    if (form.form('validate')) {
+        let data = {};
+        data.id = $("#dept_id").textbox('getValue');
+        data.hospitalId = currentItem.id;
+        data.deptCode = $("#dept_code").textbox('getValue');
+        data.deptName = $("#dept_name").textbox('getValue');
+        data.wsUrl = $("#dept_url").textbox('getValue');
+
+        if (data.id) {
+            doSaveOrUpdateDeptInfo(data, 'put');
+        } else {
+            doSaveOrUpdateDeptInfo(data, 'post');
+        }
+    } else {
+        showToast('警告', '存在校验未通过项目');
+    }
+}
+
+function doSaveOrUpdateDeptInfo(data, method) {
+    saveOrUpdateDept(data, method, function (data) {
+        showToast('提示', data.message);
+        if (data.code === 200) {
+            loadDeptListByHid(currentItem.id);
+        }
+    });
+}
+
+function deleteDeptInfo() {
+    deleteDeptById(currentDeptItem.id, function (data) {
+        showToast('提示', data.message);
+        if (data.code === 200) {
+            loadDeptListByHid(currentItem.id);
+        }
+    });
 }
 
 function initBedListTable() {
@@ -204,8 +384,8 @@ function initBedListTable() {
 
 function initBedListTableToolbar() {
     $("#bed_add").on('click', () => {
-        if(currentItem ===undefined){
-            showToast('提示','请先选择医院');
+        if (currentItem === undefined) {
+            showToast('提示', '请先选择医院');
             return;
         }
         currentBedItem = undefined;
@@ -232,27 +412,27 @@ function initBedListTableToolbar() {
         queryHospitalBedByHid();
     });
 
-    $("#bed_save").on('click',function () {
+    $("#bed_save").on('click', function () {
         saveOrUpdateBedInfo();
     });
 
-    $("#bed_close").on('click',function () {
+    $("#bed_close").on('click', function () {
         $("#bed_ff").dialog('close');
     });
 }
 
 function showBedDialog() {
     $("#bed_ff").dialog({
-        title:'床位信息',
-        onOpen:function () {
-            if(currentBedItem){
-                $("#bed_id").textbox('setValue',currentBedItem.id);
-                $("#bed_name").textbox('setValue',currentBedItem.bed);
+        title: '床位信息',
+        onOpen: function () {
+            if (currentBedItem) {
+                $("#bed_id").textbox('setValue', currentBedItem.id);
+                $("#bed_name").textbox('setValue', currentBedItem.bed);
             }
         },
-        onClose:function () {
-            $("#bed_id").textbox('setValue','');
-            $("#bed_name").textbox('setValue','');
+        onClose: function () {
+            $("#bed_id").textbox('setValue', '');
+            $("#bed_name").textbox('setValue', '');
         }
     });
     $("#bed_ff").dialog('open');
@@ -269,7 +449,7 @@ function loadHospitalData() {
                 $hospitalTable.datagrid({data: data.data});
             }
         },
-        error:errorHandler
+        error: errorHandler
     })
 }
 
@@ -303,7 +483,7 @@ function doSaveOrUpdateHospitalInfo(data, method) {
                 resortHospitalFormData();
             }
         },
-        error:errorHandler
+        error: errorHandler
     })
 }
 
@@ -319,7 +499,7 @@ function doDeleteHospitalRecord() {
                 loadHospitalData();
             }
         },
-        error:errorHandler
+        error: errorHandler
     })
 }
 
@@ -339,29 +519,29 @@ function saveOrUpdateBedInfo() {
     }
 }
 
-function doSaveOrUpdateBedInfo(data,method) {
+function doSaveOrUpdateBedInfo(data, method) {
     data.hid = currentItem.id;
     $.ajax({
         url: '/api/bed',
         type: method,
-        data:JSON.stringify(data),
+        data: JSON.stringify(data),
         dataType: 'json',
         contentType: 'application/json',
         success: (data) => {
             showToast('提示', data.message);
             if (data.code === 200) {
                 queryHospitalBedByHid();
-                $("#bed_id").textbox('setValue','');
-                $("#bed_name").textbox('setValue','');
+                $("#bed_id").textbox('setValue', '');
+                $("#bed_name").textbox('setValue', '');
             }
         },
-        error:errorHandler
+        error: errorHandler
     })
 }
 
 function deleteBedItem() {
     $.ajax({
-        url: '/api/bed/'+currentBedItem.id,
+        url: '/api/bed/' + currentBedItem.id,
         type: 'delete',
         dataType: 'json',
         contentType: 'application/json',
@@ -371,6 +551,6 @@ function deleteBedItem() {
                 queryHospitalBedByHid();
             }
         },
-        error:errorHandler
+        error: errorHandler
     })
 }

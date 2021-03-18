@@ -13,8 +13,8 @@
     <header>
         <div class="logo">
             <a>
-                <img src="../static/images/logo.png" alt="logo" width="48px" height="48px">
-                <label>上海十院神外联盟</label>
+                <img src="../static/images/logo_2.png" alt="logo" width="48px" height="48px">
+                <label>中央站波形展示平台</label>
             </a>
         </div>
     </header>
@@ -27,16 +27,18 @@
             <form id="register-form" action="">
                 <ul>
                     <li><label for="username">账号:</label>
-                        <input class="inp easyui-textbox" id="username" name="username" data-options="required:true,prompt:'请输入账号'">
+                        <input class="inp easyui-textbox" id="username" name="username"
+                               data-options="required:true,prompt:'请输入账号'">
                         <span class="error account_error"><i class="error_icon"></i>账号已存在</span>
                     </li>
                     <li><label for="password">密码:</label>
                         <input class="inp easyui-passwordbox" id="password" name="password"
                                data-options="required:true,prompt:'请输入密码'">
-<!--                        <span class="success"><i class="success_icon"></i> </span>-->
+                        <!--                        <span class="success"><i class="success_icon"></i> </span>-->
                     </li>
                     <li><label for="pwd">确认密码:</label>
-                        <input class="inp easyui-passwordbox" id="pwd" name="pwd" data-options="required:true,prompt:'请确认密码'">
+                        <input class="inp easyui-passwordbox" id="pwd" name="pwd"
+                               data-options="required:true,prompt:'请确认密码'">
                         <span class="error password_error"><i class="error_icon "></i>两次密码不一致</span>
                     </li>
                     <!--                    <li class="safe">安全程度&nbsp;&nbsp;<em class="ruo">弱</em> <em class="zhong">中</em> <em-->
@@ -44,23 +46,29 @@
                     <li><label for="hid">所属医院:</label>
                         <input class="inp easyui-combobox" id="hid" name="hid"
                                data-options="required:true,prompt:'请输入所属医院',editable:false,textField:'name',valueField:'id'">
-<!--                        <span class="error"><i class="error_icon"></i></span>-->
+                        <!--                        <span class="error"><i class="error_icon"></i></span>-->
+                    </li>
+                    <li><label for="hid">所属科室:</label>
+                        <input class="inp easyui-combobox" id="deptId" name="deptId"
+                               data-options="required:true,prompt:'请选择科室',editable:false,textField:'deptName',valueField:'deptId'">
+                        <!--                        <span class="error"><i class="error_icon"></i></span>-->
                     </li>
                     <!--                    <li class="agree"><input type="checkbox">同意协议并注册<a href="">《知晓用户协议》</a></li>-->
                     <li><label for="name">姓名:</label>
-                        <input class="inp easyui-textbox" id="name" name="name" data-options="required:true,prompt:'请输入姓名'">
-<!--                        <span class="error"><i class="error_icon"></i></span>-->
+                        <input class="inp easyui-textbox" id="name" name="name"
+                               data-options="required:true,prompt:'请输入姓名'">
+                        <!--                        <span class="error"><i class="error_icon"></i></span>-->
                     </li>
                     <li><label for="gender">性别:</label>
                         <input class="inp easyui-combobox" id="gender" name="gender"
                                data-options="required:true,prompt:'请输入性别',editable:false,valueField:'id',textField:'name',
                                data:genderData,">
-<!--                        <span class="error"><i class="error_icon"></i></span>-->
+                        <!--                        <span class="error"><i class="error_icon"></i></span>-->
                     </li>
                     <li><label for="age">年龄:</label>
                         <input class="inp easyui-numberspinner" id="age" name="age"
                                data-options="min:0,required:true,prompt:'请输入年龄'">
-<!--                        <span class="error"><i class="error_icon"></i></span>-->
+                        <!--                        <span class="error"><i class="error_icon"></i></span>-->
                     </li>
                     <li><input class="btn" type="button" id="register" value="提交注册"></li>
                 </ul>
