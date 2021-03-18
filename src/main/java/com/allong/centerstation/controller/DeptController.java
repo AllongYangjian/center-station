@@ -60,10 +60,10 @@ public class DeptController {
     @Log("更新科室信息")
 //    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_HOSPITAL','ROLE_PATIENT')")
     public ResponseEntity<Object> update(@RequestBody Dept dept) {
-        Dept cache = deptService.getByDeptCode(dept.getDeptCode());
-        if (cache != null) {
-            return new ResponseEntity<>(new Result.Builder<>().setMessage("该科室已存在").buildUpdateFailed(), HttpStatus.OK);
-        }
+//        Dept cache = deptService.getByDeptCode(dept.getDeptCode());
+//        if (cache != null) {
+//            return new ResponseEntity<>(new Result.Builder<>().setMessage("该科室已存在").buildUpdateFailed(), HttpStatus.OK);
+//        }
         boolean result = dept.updateById();
         if (result) {
             return new ResponseEntity<>(new Result.Builder<>().buildUpdateSuccess(), HttpStatus.OK);

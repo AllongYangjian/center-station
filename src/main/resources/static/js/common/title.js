@@ -50,7 +50,7 @@ function errorHandler(xhr, status, error) {
         showToast('提示', '权限不足，无法访问');
     } else if (xhr.status === 500) {
         showToast('提示', '服务器出错，获取数据失败');
-    }else {
+    } else {
         showToast('提示', status);
     }
 
@@ -58,31 +58,37 @@ function errorHandler(xhr, status, error) {
 
 
 const MouseTip = {
-    $:function(ele){
-        if(typeof(ele)=="object")
+    $: function (ele) {
+        if (typeof (ele) == "object")
             return ele;
-        else if(typeof(ele)=="string"||typeof(ele)=="number")
+        else if (typeof (ele) == "string" || typeof (ele) == "number")
             return document.getElementById(ele.toString());
         return null;
     },
-    mousePos:function(e){
-        var x,y;
-        var e = e||window.event;
-        return{ x:e.clientX+document.body.scrollLeft+document.documentElement.scrollLeft,
-            y:e.clientY+document.body.scrollTop+document.documentElement.scrollTop};
+    mousePos: function (e) {
+        var x, y;
+        var e = e || window.event;
+        return {
+            x: e.clientX + document.body.scrollLeft + document.documentElement.scrollLeft,
+            y: e.clientY + document.body.scrollTop + document.documentElement.scrollTop
+        };
     },
-    start:function(obj){
+    start: function (obj) {
         var self = this;
         var t = self.$("mjs:tip");
-        obj.onmousemove=function(e){
+        obj.onmousemove = function (e) {
             var mouse = self.mousePos(e);
             t.style.left = mouse.x + 10 + 'px';
             t.style.top = mouse.y + 10 + 'px';
             t.innerHTML = obj.getAttribute("data-tooltip");
             t.style.display = '';
         };
-        obj.onmouseout=function(){
+        obj.onmouseout = function () {
             t.style.display = 'none';
         };
     }
 };
+
+function isEmpty(val) {
+    return val === undefined || val === null || val.length === 0;
+}

@@ -1,3 +1,17 @@
+
+function queryHospitalList(callback) {
+    $.ajax({
+        url: "/api/hospital",
+        type: 'get',
+        dataType: 'json',
+        success: data => {
+            if (callback) {
+                callback(data);
+            }
+        },
+        error: errorHandler
+    })
+}
 /**
  * 根据医院id查询科室列表
  * @param hid
@@ -50,6 +64,56 @@ function deleteDeptById(id, callback) {
         type: 'delete',
         dataType: 'json',
         success: function (data) {
+            if (callback) {
+                callback(data);
+            }
+        },
+        error: errorHandler
+    })
+}
+
+/**
+ * 根据科室id获取科室床位列表
+ * @param deptId
+ * @param callback
+ */
+function queryDeptBedListByDeptId(deptId, callback) {
+    $.ajax({
+        url: '/api/deptBed/list/' + deptId,
+        type: 'get',
+        dataType: 'json',
+        success: function (data) {
+            if (callback) {
+                callback(data);
+            }
+        },
+        error: errorHandler
+    })
+}
+
+function saveOrUpdateDeptBedInfo(data,method,callback) {
+    $.ajax({
+        url: '/api/deptBed',
+        type: method,
+        data: JSON.stringify(data),
+        dataType: 'json',
+        contentType: 'application/json',
+        success: (data) => {
+            if (callback) {
+                callback(data);
+            }
+        },
+        error: errorHandler
+    })
+}
+
+function deleteDeptBedById(id,callback) {
+    $.ajax({
+        url: '/api/deptBed/' + id,
+        type: 'delete',
+        dataType: 'json',
+        contentType: 'application/json',
+        success: (data) => {
             if (callback) {
                 callback(data);
             }
