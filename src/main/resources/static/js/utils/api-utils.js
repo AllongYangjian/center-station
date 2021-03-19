@@ -91,6 +91,12 @@ function queryDeptBedListByDeptId(deptId, callback) {
     })
 }
 
+/**
+ * 保存或更新科室床位信息
+ * @param data
+ * @param method
+ * @param callback
+ */
 function saveOrUpdateDeptBedInfo(data,method,callback) {
     $.ajax({
         url: '/api/deptBed',
@@ -107,6 +113,11 @@ function saveOrUpdateDeptBedInfo(data,method,callback) {
     })
 }
 
+/**
+ * 删除科室床位信息
+ * @param id
+ * @param callback
+ */
 function deleteDeptBedById(id,callback) {
     $.ajax({
         url: '/api/deptBed/' + id,
@@ -119,5 +130,22 @@ function deleteDeptBedById(id,callback) {
             }
         },
         error: errorHandler
+    })
+}
+
+function generatorDeptBedList(data,callback) {
+    $.ajax({
+        url: '/api/deptBed/'+data.hid+"/"+data.deptId,
+        type: 'post',
+        data:JSON.stringify(data),
+        dataType: 'json',
+        contentType: 'application/json',
+        success: (data) => {
+            showToast('提示', data.message);
+            if (callback) {
+                callback(data);
+            }
+        },
+        error:errorHandler
     })
 }

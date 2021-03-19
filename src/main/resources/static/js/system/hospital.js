@@ -226,7 +226,7 @@ function loadDeptListByHid(hid) {
         } else {
             $deptTable.datagrid({data: []});
         }
-        $bedTable.datagrid({data:[]});
+        $bedTable.datagrid({data: []});
     });
 }
 
@@ -440,6 +440,23 @@ function initBedListTableToolbar() {
     $("#bed_close").on('click', function () {
         $("#bed_ff").dialog('close');
     });
+
+    $("#bed_generator").on('click', () => {
+        if (currentDeptItem === undefined) {
+            showToast('提示', '请先选择科室');
+            return;
+        }
+        showBedGeneratorDialog();
+    });
+
+
+    $("#bed_generator_save").on('click', function () {
+        generatorBedList();
+    });
+
+    $("#bed_generator_close").on('click', function () {
+        $("#bed_generator_dialog").dialog('close');
+    });
 }
 
 function showBedDialog() {
@@ -470,11 +487,11 @@ function loadHospitalData() {
     queryHospitalList(function (data) {
         if (data.code === 200) {
             $hospitalTable.datagrid({data: data.data});
-        }else {
+        } else {
             $hospitalTable.datagrid({data: []});
         }
-        $deptTable.datagrid({data:[]});
-        $bedTable.datagrid({data:[]});
+        $deptTable.datagrid({data: []});
+        $bedTable.datagrid({data: []});
     });
 }
 
@@ -564,4 +581,45 @@ function deleteBedItem() {
             loadDeptBedListByDeptId();
         }
     });
+}
+
+function showBedGeneratorDialog() {
+    $("#bed_generator_dialog").dialog({
+        title: '床位信息',
+        onOpen: function () {
+
+        },
+        onClose: function () {
+            $("#bed_start").numberspinner('setValue', '');
+            $("#bed_end").numberspinner('setValue', '');
+            $("#bed_prefix").textbox('setValue', '');
+            $("#bed_suffix").textbox('setValue', '');
+            $("#bed_length").numberspinner('setValue', '');
+            $("#bed_filter").textbox('setValue', '');
+        }
+    });
+    $("#bed_generator_dialog").dialog('open');
+}
+
+function generatorBedList() {
+    let form = $("#bed_generator_ff");
+    if (form.form('validate')) {
+        let data = {};
+        // console.log(data);
+        data.deptId = currentDeptItem.id;
+        data.hid = currentItem.id;
+        data.start = $("#bed_start").numberspinner('getValue');
+        data.end = $("#bed_end").numberspinner('getValue');
+        data.prefix = $("#bed_prefix").textbox('getValue');
+        data.suffix = $("#bed_suffix").textbox('getValue');
+        data.length = $("#bed_length").numberspinner('getValue');
+        data.filter = $("#bed_filter").textbox('getValue');
+        generatorDeptBedList(data, function (_data) {
+            if (_data.code === 200) {
+                loadDeptBedListByDeptId();
+            }
+        })
+    } else {
+        showToast('警告', '存在校验未通过项目');
+    }
 }

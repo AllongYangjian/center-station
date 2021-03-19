@@ -16,6 +16,7 @@ import java.io.Serializable;
  */
 @Data
 public class BedCriteria implements Serializable {
+
     /**
      * 开始
      */

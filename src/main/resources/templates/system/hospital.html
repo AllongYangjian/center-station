@@ -58,6 +58,7 @@
     <a class="easyui-linkbutton" id="bed_edit" data-options="iconCls:'icon-edit'">修改</a>
     <a class="easyui-linkbutton" id="bed_delete" data-options="iconCls:'icon-remove'">删除</a>
     <a class="easyui-linkbutton" id="bed_query" data-options="iconCls:'icon-reload'">刷新</a>
+    <a class="easyui-linkbutton" id="bed_generator" style="float: right" data-options="iconCls:'icon-edit'">一键生成</a>
 </div>
 
 <div id="hospital_dialog" class="easyui-dialog" title="医院信息"
@@ -193,6 +194,81 @@
         </div>
         <div style="margin-top: 16px">
             <a href="#" id="bed_close" class="easyui-linkbutton" iconCls="icon-cancel"
+               style="width:100%;height:32px">取消</a>
+        </div>
+    </form>
+</div>
+
+
+<div id="bed_generator_dialog" class="easyui-dialog" title="床位信息"
+     data-options="resizable:true,modal:true,closed:true,border:false"
+     style="width: 600px;height: 450px">
+    <form id="bed_generator_ff" method="post">
+        <table style="width: 100%" cellspacing="10">
+            <tr>
+                <td class="form-item-title">
+                    开始床号:
+                </td>
+                <td>
+                    <input class="easyui-numberspinner" id="bed_start" name="start" style="width:100%;height:32px"
+                           data-options="prompt:'请输入开始床号',required:true">
+                </td>
+            </tr>
+
+            <tr>
+                <td class="form-item-title">
+                    结束床号:
+                </td>
+                <td>
+                    <input class="easyui-numberspinner" id="bed_end" name="end" style="width:100%;height:32px"
+                           data-options="prompt:'请输入结束床号',required:true">
+                </td>
+            </tr>
+
+            <tr>
+                <td class="form-item-title">
+                    床号前缀:
+                </td>
+                <td>
+                    <input class="easyui-textbox" id="bed_prefix" name="prefix" style="width:100%;height:32px"
+                           data-options="prompt:'请输入床号前缀',required:false">
+                </td>
+            </tr>
+
+            <tr>
+                <td class="form-item-title">
+                    床号后缀:
+                </td>
+                <td>
+                    <input class="easyui-textbox" id="bed_suffix" name="suffix" style="width:100%;height:32px"
+                           data-options="prompt:'请输入床号后缀',required:false">
+                </td>
+            </tr>
+            <tr>
+                <td class="form-item-title">
+                    床号长度:
+                </td>
+                <td>
+                    <input class="easyui-numberspinner" id="bed_length" name="length" style="width:100%;height:32px"
+                           data-options="prompt:'请输入床号长度',required:true">
+                </td>
+            </tr>
+            <tr>
+                <td class="form-item-title">
+                    过滤床号(用英文逗号分隔):
+                </td>
+                <td>
+                    <input class="easyui-textbox" id="bed_filter" name="filter" style="width:100%;height:32px"
+                           data-options="prompt:'请输入过滤床号',required:false">
+                </td>
+            </tr>
+        </table>
+        <div style="margin-top: 16px">
+            <a href="#" id="bed_generator_save" class="easyui-linkbutton" iconCls="icon-ok"
+               style="width:100%;height:32px">生成</a>
+        </div>
+        <div style="margin-top: 16px">
+            <a href="#" id="bed_generator_close" class="easyui-linkbutton" iconCls="icon-cancel"
                style="width:100%;height:32px">取消</a>
         </div>
     </form>
