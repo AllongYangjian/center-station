@@ -1,8 +1,7 @@
 var socket;
 
-function connectServer() {
+function connectServer(url) {
     if ('WebSocket' in window) {
-        let url = 'ws://192.168.10.154:12392/ws/wave';
         socket = new WebSocket(url);
         socket.onopen = () => {
             console.log("open");
@@ -17,7 +16,7 @@ function connectServer() {
         };
         socket.onerror = ev => {
             console.error(ev, '3s后自动重连');
-            setTimeout(connectServer, 3000);
+            setTimeout(connectServer, 3000,url);
         };
     } else {
         alert('当前浏览器不支持WebSocket')

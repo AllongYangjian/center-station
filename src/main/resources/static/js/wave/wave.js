@@ -200,7 +200,7 @@ function initParams() {
 
         }
     }
-    console.log('ssssssssssssss', bedLineMap);
+    // console.log('ssssssssssssss', bedLineMap);
 }
 
 /**

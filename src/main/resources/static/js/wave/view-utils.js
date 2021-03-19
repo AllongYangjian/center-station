@@ -37,7 +37,7 @@ $(function () {
     initView();
     calculateViewSize();
     loadPatientDataAndTempData();
-    connectServer();
+    connectServer(getCurrentDeptUrl());
 
 });
 

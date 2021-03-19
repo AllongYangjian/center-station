@@ -1,4 +1,5 @@
 var KEY_USER = "KEY_USER";
+var KEY_DEPT= "KEY_DEPT";
 
 /**
  * 缓存数据到本地

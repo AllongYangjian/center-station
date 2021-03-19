@@ -1,4 +1,34 @@
+/**
+ * 获取当前用户信息
+ * @param callback
+ */
+function fetchCurrentUser(callback) {
+    $.ajax({
+        url: '/api/user/fetchCurrent',
+        type: 'GET',
+        dataType: 'json',
+        success: data => {
+            saveKey(KEY_USER, data.data);
+            if(callback){
+                callback(data);
+            }
+        },
+        error:errorHandler
+    })
+}
 
+function fetchCurrentDeptInfo(code) {
+   queryDeptInfoByDeptCode(code,function (data) {
+       if(data.code ===200){
+           saveKey(KEY_DEPT, data.data);
+       }
+   });
+}
+
+/**
+ * 查询医院列表
+ * @param callback
+ */
 function queryHospitalList(callback) {
     $.ajax({
         url: "/api/hospital",
@@ -20,6 +50,26 @@ function queryHospitalList(callback) {
 function queryDeptListByHid(hid, callback) {
     $.ajax({
         url: '/api/dept/list/' + hid,
+        type: 'get',
+        dataType: 'json',
+        success: function (data) {
+            if (callback) {
+                callback(data);
+            }
+        },
+        error: errorHandler
+    })
+}
+
+
+/**
+ * 根据科室代码查询科室信息
+ * @param code
+ * @param callback
+ */
+function queryDeptInfoByDeptCode(code, callback) {
+    $.ajax({
+        url: '/api/dept/' + code,
         type: 'get',
         dataType: 'json',
         success: function (data) {

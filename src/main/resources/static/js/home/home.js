@@ -104,17 +104,11 @@ $(function () {
  * 记载用户信息
  */
 function loadUserInfo() {
-    $.ajax({
-        url: '/api/user/fetchCurrent',
-        type: 'GET',
-        dataType: 'json',
-        success: data => {
-            if (data.code === 200) {
-                saveKey(KEY_USER, data.data);
-                $("#username").text(data.data.name);
-            }
-        },
-        error:errorHandler
+    fetchCurrentUser(function (data) {
+        if (data.code === 200) {
+            $("#username").text(data.data.name);
+            fetchCurrentDeptInfo(data.data.deptCode);
+        }
     })
 }
 
