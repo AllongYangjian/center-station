@@ -8,6 +8,9 @@ function connectServer(url) {
         };
         socket.onmessage = (e) => {
             // console.log('connectServer', new Date().getTime());
+            // if(e.data.indexOf('"BedLabel":"03"')!==-1){
+            //     console.info(e.data);
+            // }
             parseWaveDataFromServer(e.data);
         };
         socket.onclose = ev => {
@@ -59,10 +62,11 @@ function parseWaveData(waveArray, patient) {
         waveArray.forEach(item => {
             //todo 需要将床位改成pid
             let bed = patient.BedLabel;
+            let invalidValue = item.InvalidValue;
             let key = item.Name;
-            let arr = item.Data;
+            let arr = getItemArray(item.Data,invalidValue);
             let cyl = item.Samplerate;
-            updateWaveData(bed,key,arr);
+            updateWaveData(bed,key,arr,cyl);
             // if (key === 'ECG I') {
             //     console.log(item.Name, new Date().getTime());
             //     key = 'ECG';
@@ -83,4 +87,17 @@ function parseWaveData(waveArray, patient) {
     } catch (e) {
         console.error(e);
     }
+}
+
+function getItemArray(arr,value) {
+    if(isEmpty(value)){
+        return arr;
+    }
+    arr.forEach((item,index)=>{
+        if(item === value){
+            arr[index] = 0;
+        }
+    });
+    return  arr;
+    // console.error(arr);
 }

@@ -25,7 +25,7 @@ const timeIntervalIdsMap = new Map();
 
 const LINE_START_X = 50;
 
-const IS_NEW_VERSION = true;
+const IS_NEW_VERSION = false;
 
 /**
  * 供界面调用的方法
@@ -184,6 +184,7 @@ function initParams() {
                 canvasObj.frameSize = key.frameSize;
                 canvasObj.bed = p.bedNo;
                 canvasObj.yMax = key.maxValue;
+                canvasObj.scale = key.scale;
 
                 bedLineMap.set(id, canvasObj);
                 drawFillText(ctx, key.code);
@@ -193,11 +194,13 @@ function initParams() {
                     ctx.translate(0, -canvasKey.height / 2);//平移坐标
                 } else {
                     //倒转Y轴
-                    ctx.translate(0, canvasKey.height / 2);//平移坐标
+                    // ctx.translate(0, canvasKey.height / 2);//平移坐标 //平移到左下
                     ctx.scale(1, -1);
+                    // ctx.moveTo(0,0);
+                    // ctx.lineTo(100,100);
+                    // ctx.stroke();
                 }
             }
-
         }
     }
     // console.log('ssssssssssssss', bedLineMap);
@@ -219,15 +222,17 @@ function drawFillText(ctx, keyText) {
  * @param key 关键字
  * @param data 数据
  */
-function updateWaveData(bed, key, data) {
+function updateWaveData(bed, key, data,cyl) {
     let id = `line_${key}_${bed}`;
     let bedLine = bedLineMap.get(id);
     if (bedLine === null || bedLine === undefined) {
-        console.error('updateWaveData', id);
+        // console.error('updateWaveData', id);
         return;
     } else {
-
         let waveView = bedLine.waveView;
+        if(cyl){
+            bedLine.frameSize = cyl;
+        }
         if (waveView === null || waveView === undefined) {
             waveView = new WaveView2(0, one_time_points, 1, bedLine);
             waveView.waveData = data;
@@ -273,13 +278,12 @@ class WaveView2 {
     constructor(y_offset, step, speedRatio, bedLine) {
         this.lineCtx = bedLine.ctx;
         this.bedLine = bedLine;
-        if (bedLine.height >= bedLine.maxHeight) {
-            this.itemHeight = bedLine.maxHeight;
-        } else {
+        // if (bedLine.height >= bedLine.maxHeight) {
+        //     this.itemHeight = bedLine.maxHeight;
+        // } else {
             this.itemHeight = bedLine.height;
-        }
+        // }
         this.itemWidth = bedLine.width;
-        // this.frameSize = frameSize;
         this.yMax = bedLine.yMax;
         this.lastY = this.itemHeight / 2;
         this.y_offset = y_offset;
@@ -293,21 +297,28 @@ class WaveView2 {
     draw = () => {
         this.lineCtx.beginPath();
         if (this.lastX === 0) {
-            this.lineCtx.clearRect(this.x_start - 2, this.y_offset, this.clearGap, 1000);
+            this.lineCtx.clearRect(this.x_start - 2, -10000, this.clearGap, 20000);
         } else {
-            this.lineCtx.clearRect(this.x_start + this.lastX, this.y_offset, this.clearGap, 1000);
+            this.lineCtx.clearRect(this.x_start + this.lastX, -10000, this.clearGap,20000);
         }
 
         for (let i = 0; i < this.step; i++) {
             if (this.queue.length === 0) {
-                this.currentY = this.itemHeight / 2;
+                this.currentY = 0;
             } else {
-                this.currentY = (-1.0 * this.queue.shift()) / this.yMax * this.itemHeight + this.itemHeight;
+                if(IS_NEW_VERSION){
+                    this.currentY = (-1.0 * this.queue.shift()) / this.yMax * this.itemHeight + this.itemHeight;
+                }else {
+                    // this.currentY = this.queue.shift()/(this.yMax/this.itemHeight);//方式一
+                    this.currentY = this.queue.shift()/this.bedLine.scale;
+                    // console.error('ss',this.currentY);
+                }
+
             }
 
-            if (this.currentY > this.itemHeight) {
-                this.currentY = this.itemHeight;
-            }
+            // if (this.currentY > this.itemHeight) {
+            //     this.currentY = this.itemHeight;
+            // }
 
             this.lineCtx.moveTo(this.x_start + this.lastX, this.y_offset + this.lastY);
             this.lineCtx.lineTo(this.x_start + this.currentX, this.y_offset + this.currentY);
