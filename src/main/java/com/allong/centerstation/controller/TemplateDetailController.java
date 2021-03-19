@@ -29,7 +29,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/api/template/detail")
-@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_TEMPLATE')")
+//@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_TEMPLATE')")
 public class TemplateDetailController {
 
     @Autowired

@@ -83,8 +83,18 @@ public class DeviceKey extends BaseEntity<DeviceKey> implements Comparable<Devic
      */
     private String unit;
 
+    /**
+     * 采样率
+     */
     private Integer frameSize;
-    
+
+    /**
+     * 最大值
+     */
+    private Integer maxValue;
+    /**
+     * 是否启用
+     */
     private Boolean enable;
 
     @Override

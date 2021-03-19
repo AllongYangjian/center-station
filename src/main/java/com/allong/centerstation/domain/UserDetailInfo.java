@@ -1,5 +1,6 @@
 package com.allong.centerstation.domain;
 
+import com.allong.centerstation.domain.entity.UserInfo;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -15,17 +16,16 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode
-public class UserDetailInfo {
+public class UserDetailInfo extends UserInfo {
 
-    private String username;
+//    private String username;
 
     private String password;
 
-    private Integer hid;
+    private String hospitalName;
 
-    private String name;
+    private String deptCode;
 
-    private Integer gender;
+    private String deptName;
 
-    private Integer age;
 }

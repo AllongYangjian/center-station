@@ -69,23 +69,6 @@ function calculateViewSize() {
  */
 function initView() {
     bedContainView = $(".bed-container");
-    $hospitalSelect = $("#hospital_select");
-    $hospitalSelect.combobox({
-        onSelect: data => {
-            // filterPatient(data.name);
-        }
-    });
-    $.ajax({
-        url: "/api/hospital",
-        type: 'get',
-        dataType: 'json',
-        success: data => {
-            if (data.code === 200) {
-                $hospitalSelect.combobox({data: data.data});
-            }
-        },
-        error: errorHandler
-    });
     $("#view_config_save").on('click', () => {
         saveViewConfigInfo();
     });
@@ -121,9 +104,10 @@ function loadPatientDataAndTempData() {
  * @param id 模板id
  */
 function doLoadPatientAndTempDetail(id) {
+
     let arr = [];
     arr.push($.ajax({
-        url: '/user/bed/patient',
+        url: '/api/deptBed/list/'+getCurrentUserDeptId(),
         type: 'get',
         dataType: 'json'
     }));
@@ -425,13 +409,13 @@ function getBedItemTitle(patient) {
     }
     return '<div class="item-title">' +
         '<img src="/static/images/bed.png">' +
-        '<label id=' + "BED_" + patient.pid + '>' + patient.bed + ' 床</label>' +
-        '<label id=' + "NAME_" + patient.pid + '>' + patient.name + '</label>' +
-        '<label id=' + "GENDER_" + patient.pid + '>' + gender + '</label>' +
-        '<label id=' + "AGE_" + patient.pid + '>' + patient.age + '岁</label>' +
-        '<label id=' + "HOSPITAL_" + patient.pid + '>医院:' + patient.hospitalName + '</label>' +
-        '<label id=' + "DEPT_" + patient.pid + '>科室:' + patient.dept + '</label>' +
-        '<label id=' + "COMPLAINT_" + patient.pid + ' class="complaint-desc" data-tooltip="点击查看患者主诉" onmouseover="MouseTip.start(this)"  onclick="showComplaint(this)"><span class="iconfont" style="font-size: 18px">&#xe773;</span>主诉</label>' +
+        '<label id=' + "BED_" + patient.bedNo + '>' + patient.bedNo + ' 床</label>' +
+        '<label id=' + "NAME_" + patient.bedNo + '>--</label>' +
+        '<label id=' + "GENDER_" + patient.bedNo + '>--</label>' +
+        '<label id=' + "AGE_" + patient.bedNo + '>--</label>' +
+        // '<label id=' + "HOSPITAL_" + patient.pid + '>医院:' + patient.hospitalName + '</label>' +
+        // '<label id=' + "DEPT_" + patient.pid + '>科室:' + patient.dept + '</label>' +
+        // '<label id=' + "COMPLAINT_" + patient.pid + ' class="complaint-desc" data-tooltip="点击查看患者主诉" onmouseover="MouseTip.start(this)"  onclick="showComplaint(this)"><span class="iconfont" style="font-size: 18px">&#xe773;</span>主诉</label>' +
         // '<div class="complaint" style="height: '+(itemHeight-50)+'px;width: '+(itemWidth*0.25)+'px">'+patient.complaint+'</div>'+
             imageView+
         '</div>'
@@ -463,7 +447,7 @@ function getBedContentLeftView(patient) {
     let canvasKeyHeight = canvasBgHeight / mWaveKeys.length;
     return '<div class="item-container-left" id="size-of-chart">' +
         '    <div class="boack">' +
-        '        <canvas id="background_' + patient.pid + '" width="' + canvasWidth + 'px" height="' + canvasBgHeight + 'px">' +
+        '        <canvas id="background_' + patient.bedNo + '" width="' + canvasWidth + 'px" height="' + canvasBgHeight + 'px">' +
         '        </canvas>' +
         '    </div>' +
         '    <div class="boack">' +
@@ -486,7 +470,7 @@ function getBedContentLeftView(patient) {
 function getKeyCanvas(patient, canvasKeyHeight) {
     let view = '';
     for (let x = 0; x < mWaveKeys.length; x++) {
-        let id = `line_${mWaveKeys[x].code}_${patient.pid}`;
+        let id = `line_${mWaveKeys[x].code}_${patient.bedNo}`;
         view += '<canvas id="' + id + '" width="' + canvasWidth + 'px" height="' + canvasKeyHeight + 'px"></canvas>'
     }
     return view;
@@ -529,7 +513,7 @@ function getKeyData(patient) {
     let view = '';
     for (let x = 0; x < mDataKeys.length; x++) {
         let item = mDataKeys[x];
-        let id = item.code + "_" + patient.pid;
+        let id = item.code + "_" + patient.bedNo;
         if (item.code === 'NIBP') {
             view += getKeyItemSpecial(id, item,rowHeight);
         } else {

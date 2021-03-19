@@ -1,5 +1,6 @@
 package com.allong.centerstation.service;
 
+import com.allong.centerstation.domain.UserDetailInfo;
 import com.allong.centerstation.domain.entity.User;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -15,4 +16,5 @@ import org.springframework.transaction.annotation.Transactional;
  */
 public interface UserService extends IService<User> , UserDetailsService {
 
+    UserDetailInfo queryUserDetailInfo(String username);
 }

@@ -1,11 +1,14 @@
 package com.allong.centerstation.handler;
 
 import com.alibaba.fastjson.JSONObject;
+import com.allong.centerstation.domain.UserDetailInfo;
 import com.allong.centerstation.domain.entity.Log;
 import com.allong.centerstation.domain.entity.User;
 import com.allong.centerstation.service.LogService;
+import com.allong.centerstation.service.UserService;
 import com.allong.centerstation.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
@@ -33,11 +36,19 @@ public class LoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessH
     @Autowired
     private LogService logService;
 
+    @Autowired
+    private UserService userService;
+
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws ServletException, IOException {
 
         User user = (User) authentication.getPrincipal();
         user.setPassword(null);
+
+        UsernamePasswordAuthenticationToken authenticationToken = (UsernamePasswordAuthenticationToken) authentication;
+        UserDetailInfo detailInfo = userService.queryUserDetailInfo(user.getUsername());
+        authenticationToken.setDetails(detailInfo);
+
         Log log = new Log("INFO", 0l);
         log.setDescription("登录成功");
         log.setMethod("login");

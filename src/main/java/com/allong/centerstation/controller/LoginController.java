@@ -43,22 +43,23 @@ public class LoginController {
     @ResponseBody
     @Log("用户注册")
     public ResponseEntity<Object> register(@RequestBody UserDetailInfo userDetailInfo) {
-        User cacheUser = (User) userService.loadUserByUsername(userDetailInfo.getUsername());
+        User cacheUser = (User) userService.loadUserByUsername(userDetailInfo.getUserId());
         if (cacheUser != null) {
             return new ResponseEntity<>(new Result.Builder<>().setData("用户名已存在").buildSaveFailed(), HttpStatus.OK);
         }
         User user = new User();
-        user.setUsername(userDetailInfo.getUsername());
+        user.setUsername(userDetailInfo.getUserId());
         user.setPassword(encoder.encode(userDetailInfo.getPassword()));
         user.setStatus(UserStatus.Enable.getCode());
         boolean result = userService.save(user);
         //保存用户信息
         UserInfo userInfo = new UserInfo();
-        userInfo.setUserId(userDetailInfo.getUsername());
+        userInfo.setUserId(userDetailInfo.getUserId());
         userInfo.setName(userDetailInfo.getName());
         userInfo.setGender(userDetailInfo.getGender());
         userInfo.setAge(userDetailInfo.getAge());
         userInfo.setHid(userDetailInfo.getHid());
+        userInfo.setDeptId(userDetailInfo.getDeptId());
         userInfoService.save(userInfo);
         if (result) {
             return new ResponseEntity<>(new Result.Builder<>().buildSaveSuccess(), HttpStatus.OK);

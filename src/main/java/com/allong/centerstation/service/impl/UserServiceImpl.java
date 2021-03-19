@@ -1,5 +1,6 @@
 package com.allong.centerstation.service.impl;
 
+import com.allong.centerstation.domain.UserDetailInfo;
 import com.allong.centerstation.domain.entity.User;
 import com.allong.centerstation.mapper.UserMapper;
 import com.allong.centerstation.service.RoleService;
@@ -31,5 +32,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             user.setRoles(roleService.selectAllByUserId(user.getId()));
         }
         return user;
+    }
+
+    @Override
+    public UserDetailInfo queryUserDetailInfo(String username) {
+        return baseMapper.queryUserDetailInfo(username);
     }
 }

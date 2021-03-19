@@ -56,7 +56,7 @@ function restoreData() {
 function drawEcgBg() {
     for (let x = 0; x < mPatientList.length; x++) {
         let p = mPatientList[x];
-        const canvas = document.getElementById("background_" + p.pid);
+        const canvas = document.getElementById("background_" + p.bedNo);
         if (canvas) {
             let canvasObj = new Object(); //创建一个对象用来缓存数据
             const ctx = canvas.getContext("2d");
@@ -65,7 +65,7 @@ function drawEcgBg() {
             canvasObj.width = canvas.width;
             canvasObj.height = canvas.height;
             drawGrid(canvasObj);
-            bedBackgroundCanvasMap.set(p.pid, canvasObj);//缓存背景canvas对象
+            bedBackgroundCanvasMap.set(p.bedNo, canvasObj);//缓存背景canvas对象
         }
     }
 }
@@ -160,7 +160,7 @@ function initParams() {
 
         for (let y = 0; y < mWaveKeys.length; y++) {
             let key = mWaveKeys[y];
-            let id = `line_${key.code}_${p.pid}`;
+            let id = `line_${key.code}_${p.bedNo}`;
             let canvasKey = document.getElementById(id);
             if (canvasKey) {
                 let canvasObj = new Object(); //创建一个对象用来缓存数据
@@ -182,8 +182,8 @@ function initParams() {
                 canvasObj.height = canvasKey.height;
                 canvasObj.maxHeight = 100;
                 canvasObj.frameSize = key.frameSize;
-                canvasObj.bed = p.bed;
-                canvasObj.yMax = key.yMax;
+                canvasObj.bed = p.bedNo;
+                canvasObj.yMax = key.maxValue;
 
                 bedLineMap.set(id, canvasObj);
                 drawFillText(ctx, key.code);
@@ -218,22 +218,14 @@ function drawFillText(ctx, keyText) {
  * @param bed 床位
  * @param key 关键字
  * @param data 数据
- * @param scale 缩放系数
  */
-function updateWaveData(bed, key, data, scale) {
+function updateWaveData(bed, key, data) {
     let id = `line_${key}_${bed}`;
     let bedLine = bedLineMap.get(id);
     if (bedLine === null || bedLine === undefined) {
         console.error('updateWaveData', id);
         return;
     } else {
-        if (key === 'ECG') {
-            bedLine.yMax = 256;
-        } else if (key === 'SpO2') {
-            bedLine.yMax = 128;
-        } else {
-            bedLine.yMax = 216;
-        }
 
         let waveView = bedLine.waveView;
         if (waveView === null || waveView === undefined) {

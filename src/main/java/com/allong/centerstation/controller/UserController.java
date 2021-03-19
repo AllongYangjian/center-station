@@ -2,6 +2,7 @@ package com.allong.centerstation.controller;
 
 
 import com.allong.centerstation.common.Result;
+import com.allong.centerstation.domain.UserDetailInfo;
 import com.allong.centerstation.domain.entity.User;
 import com.allong.centerstation.domain.entity.UserInfo;
 import com.allong.centerstation.logger.annotation.Log;
@@ -50,7 +51,7 @@ public class UserController {
     @Log("获取当前用户信息")
     public ResponseEntity<Object> queryCurrentUser() {
         String username = SecurityUtils.getCurrentUsername();
-        UserInfo user = userInfoService.loadUserByUserId(username);
+        UserDetailInfo user = userService.queryUserDetailInfo(username);
         return new ResponseEntity<>(new Result.Builder<>().setData(user).buildQuerySuccess(), HttpStatus.OK);
     }
 

@@ -23,5 +23,8 @@
     <select id="queryByUsername" resultMap="BaseResultMap">
         select * from sys_user where username = #{username};
     </select>
+    <select id="queryUserDetailInfo" resultType="com.allong.centerstation.domain.UserDetailInfo">
+        select * from view_user_info where user_id = #{username}
+    </select>
 
 </mapper>

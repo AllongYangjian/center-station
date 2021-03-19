@@ -1,5 +1,6 @@
 package com.allong.centerstation.mapper;
 
+import com.allong.centerstation.domain.UserDetailInfo;
 import com.allong.centerstation.domain.entity.User;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
@@ -14,5 +15,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 public interface UserMapper extends BaseMapper<User> {
 
     User queryByUsername(String username);
+
+    UserDetailInfo queryUserDetailInfo(String username);
 
 }

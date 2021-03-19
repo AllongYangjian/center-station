@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @RequestMapping("/api/template")
-@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_TEMPLATE')")
+//@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_TEMPLATE')")
 public class TemplateGroupController {
 
     @Autowired

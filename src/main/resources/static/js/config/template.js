@@ -232,7 +232,7 @@ function initTemplateTable() {
                     },
                     {
                         field: 'enable',
-                        title: '',
+                        title: '显示类型',
                         width: 1,
                         formatter: (value, row, index) => {
                             if (value) {
@@ -251,6 +251,12 @@ function initTemplateTable() {
                     {
                         title: '采样率',
                         field: 'frameSize',
+                        align: 'center',
+                        width: 1
+                    },
+                    {
+                        title: '最大值',
+                        field: 'maxValue',
                         align: 'center',
                         width: 1
                     },
@@ -394,6 +400,8 @@ function editTempDetailItem(id) {
             onOpen:function () {
                 $("#keySize").numberspinner('setValue',currentTempDetailItem.keySize);
                 $("#scale").numberspinner('setValue',currentTempDetailItem.scale);
+                $("#frameSize").numberspinner('setValue',currentTempDetailItem.frameSize);
+                $("#maxValue").numberspinner('setValue',currentTempDetailItem.maxValue);
             }
         });
         $("#template_detail_dialog").dialog('open');

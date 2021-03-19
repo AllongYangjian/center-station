@@ -63,21 +63,22 @@ function parseWaveData(waveArray, patient) {
             let key = item.Name;
             let arr = item.Data;
             let cyl = item.Samplerate;
-            if (key === 'ECG I') {
-                console.log(item.Name, new Date().getTime());
-                key = 'ECG';
-                bed = '123456';
-                updateWaveData(bed, key, arr, 2);
-            }else if(key === 'Pleth'){
-                bed = '123456';
-                key = 'SpO2';
-                updateWaveData(bed, key, arr, 1);
-            }
-            else if (key === 'ABP') {
-                bed = '123456';
-                key = 'RESP';
-                updateWaveData(bed, key, arr, 1);
-            }
+            updateWaveData(bed,key,arr);
+            // if (key === 'ECG I') {
+            //     console.log(item.Name, new Date().getTime());
+            //     key = 'ECG';
+            //     bed = '123456';
+            //     updateWaveData(bed, key, arr, 2);
+            // }else if(key === 'Pleth'){
+            //     bed = '123456';
+            //     key = 'SpO2';
+            //     updateWaveData(bed, key, arr, 1);
+            // }
+            // else if (key === 'ABP') {
+            //     bed = '123456';
+            //     key = 'RESP';
+            //     updateWaveData(bed, key, arr, 1);
+            // }
         })
 
     } catch (e) {

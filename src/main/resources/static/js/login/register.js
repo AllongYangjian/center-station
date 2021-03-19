@@ -75,6 +75,13 @@ $(function () {
     $("#register").on('click', function () {
         registerAccount();
     });
+    $("#hid").combobox({
+        onSelect:function (data) {
+            queryDeptListByHid(data.id,function (_data) {
+               $("#deptId").combobox({data:_data.data});
+            });
+        }
+    })
 });
 
 function loadHospitalData() {

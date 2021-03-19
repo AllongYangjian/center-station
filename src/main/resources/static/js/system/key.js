@@ -87,6 +87,13 @@ const columns = [[
         width: 1
     },
     {
+        title: '最大值',
+        field: 'maxValue',
+        align: 'center',
+        width: 1
+    },
+    {
+
         title: '是否启用',
         field: 'enable',
         align: 'center',
@@ -230,6 +237,7 @@ function bindKeyFormData() {
         $("#wave").combobox('setValue', currentItem.wave);
         $("#scale").numberspinner('setValue', currentItem.scale);
         $("#frameSize").numberspinner('setValue', currentItem.frameSize);
+        $("#maxValue").numberspinner('setValue', currentItem.maxValue);
     }
 }
 
@@ -251,6 +259,7 @@ function resortKeyFormData() {
     $("#wave").combobox('setValue', '');
     $("#scale").numberspinner('setValue', '');
     $("#frameSize").numberspinner('setValue', '');
+    $("#maxValue").numberspinner('setValue', '');
 }
 
 /**

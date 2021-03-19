@@ -103,6 +103,10 @@ public class TemplateDetail extends BaseEntity<TemplateDetail> {
      * 1-波形字段 2-数值字段
      */
     private Integer type;
+    /**
+     * 最大值
+     */
+    private Integer maxValue;
 
 
     @Override
