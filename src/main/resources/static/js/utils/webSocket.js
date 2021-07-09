@@ -1,6 +1,8 @@
 var socket;
+var isEGateWSay = false;
 
 function connectServer(url) {
+    console.log(url)
     if ('WebSocket' in window) {
         socket = new WebSocket(url);
         socket.onopen = () => {
@@ -11,7 +13,13 @@ function connectServer(url) {
             // if(e.data.indexOf('"BedLabel":"03"')!==-1){
             //     console.info(e.data);
             // }
-            parseWaveDataFromServer(e.data);
+            console.log(e.data)
+            if (isEGateWSay) {
+                parseWaveDataFromServer(e.data);
+            } else {
+                parseDataFromServerByItem(e.data)
+            }
+
         };
         socket.onclose = ev => {
             console.log('socket close,3s后自动重连');
@@ -19,7 +27,7 @@ function connectServer(url) {
         };
         socket.onerror = ev => {
             console.error(ev, '3s后自动重连');
-            setTimeout(connectServer, 3000,url);
+            setTimeout(connectServer, 3000, url);
         };
     } else {
         alert('当前浏览器不支持WebSocket')
@@ -45,6 +53,16 @@ function parseWaveDataFromServer(data) {
     }
 }
 
+function parseDataFromServerByItem(data) {
+    let jsonData = JSON.parse(data);
+    let waveData = parseOriginData(jsonData);
+    //todo
+    //由于发过来的数据只有内码，因此需要去后台关联床位信息
+    if (waveData.waveCode === 'A171E8AE') {
+        updateWaveData('1', waveData.waveName, waveData.data, waveData.frameSize)
+    }
+}
+
 function parsePatientInfo(json) {
     let patient = {};
     for (var key in json) {
@@ -64,9 +82,9 @@ function parseWaveData(waveArray, patient) {
             let bed = patient.BedLabel;
             let invalidValue = item.InvalidValue;
             let key = item.Name;
-            let arr = getItemArray(item.Data,invalidValue);
+            let arr = getItemArray(item.Data, invalidValue);
             let cyl = item.Samplerate;
-            updateWaveData(bed,key,arr,cyl);
+            updateWaveData(bed, key, arr, cyl);
             // if (key === 'ECG I') {
             //     console.log(item.Name, new Date().getTime());
             //     key = 'ECG';
@@ -89,15 +107,15 @@ function parseWaveData(waveArray, patient) {
     }
 }
 
-function getItemArray(arr,value) {
-    if(isEmpty(value)){
+function getItemArray(arr, value) {
+    if (isEmpty(value)) {
         return arr;
     }
-    arr.forEach((item,index)=>{
-        if(item === value){
+    arr.forEach((item, index) => {
+        if (item === value) {
             arr[index] = 0;
         }
     });
-    return  arr;
+    return arr;
     // console.error(arr);
 }

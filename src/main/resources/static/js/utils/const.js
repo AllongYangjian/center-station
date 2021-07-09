@@ -539,6 +539,7 @@ function parseOriginDataWithString(str){
 function parseOriginData(data) {
     let obj = new Object();
     obj.waveId = data.wave_id;
+    obj.waveCode = data.dev_code;
     let content = data.wave_property.split("^");
     obj.waveName = content[1]; //
      let dp_unit= content[2].split("&");
