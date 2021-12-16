@@ -99,6 +99,8 @@ public class Patient extends BaseEntity<Patient> {
      */
     private Integer status;
 
+    private Integer sort;
+
 
     @Override
     protected Serializable pkVal() {

@@ -105,6 +105,12 @@ const columns = [[
         }
     },
     {
+        title: '排序',
+        field: 'sort',
+        align: 'sort',
+        width: 1,
+    },
+    {
         title: '操作',
         field: 'edit',
         align: 'center',
@@ -241,6 +247,7 @@ function bindPatientFormData() {
         $("#age").numberspinner('setValue', currentItem.age);
         $("#complaint").textbox('setValue', currentItem.complaint);
         $("#status").combobox('setValue', currentItem.status);
+        $("#sort").numberspinner('setValue', currentItem.sort);
     }
 }
 
@@ -260,6 +267,7 @@ function resortPatientFormData() {
     $("#age").numberspinner('setValue', '');
     $("#complaint").textbox('setValue', '');
     $("#status").combobox('setValue', '');
+    $("#sort").numberspinner('setValue', '');
 }
 
 /**
