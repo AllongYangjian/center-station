@@ -21,9 +21,28 @@ $(function () {
         if (validateLogin()) {
             doLogin();
         }
-
     });
+
+    var username = getQueryVariable('username')
+    if (username) {
+        $("#username").val(username);
+        $("#password").val('123456');
+        doLogin()
+    }
+
 });
+
+function getQueryVariable(variable) {
+    var query = window.location.search.substring(1);
+    var vars = query.split("&");
+    for (var i = 0; i < vars.length; i++) {
+        var pair = vars[i].split("=");
+        if (pair[0] == variable) {
+            return pair[1];
+        }
+    }
+    return '';
+}
 
 function validateLogin() {
     let u = $("#username").val();
